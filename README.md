@@ -1,7 +1,7 @@
 moovie.js - Movie focused HTML5 Player 
 --
 <p align="center">
-<img width="300" src="https://bmsvieira.github.io/moovie.js/demo-template/images/moovie_black.png">
+<img width="250" src="https://bmsvieira.github.io/moovie.js/demo-template/images/moovie_black.png">
 </p>
 
 ◼️ Features:
