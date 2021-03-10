@@ -14,6 +14,12 @@ moovie.js - Movie focused HTML5 Player
 - ⌨️ Standardized Shortcuts
 - 🛠 Standardized Events
 
+◼️ Coming soon:
+-
+- 🔥 Full support for .str captions
+- 🔥 Add tracks dinamically
+- 🔥 Caption customization
+
 ◼️ Demo:
 -
 https://bmsvieira.github.io/moovie.js/
