@@ -1,5 +1,5 @@
-# moovie.js
-
+moovie.js - Movie focused HTML5 Player 
+--
 <p align="center">
 <img width="300" src="https://bmsvieira.github.io/moovie.js/demo-template/images/moovie_black.png">
 </p>
@@ -7,12 +7,18 @@
 ◼️ Features:
 -
 - 🔧 Fully Customizable
-- 💎 Built-in Caption Offset Adjust
+- 💎 Built-in Caption Offset Adjust on the fly
 - 💪 No Dependencies, built with VanillaJS
 - 🌎 Tested in All Modern Browsers
 - 💻 Responsive
 - ⌨️ Standardized Shortcuts
 - 🛠 Standardized Events
+
+◼️ Coming soon:
+-
+- 🔥 Full support for .str captions
+- 🔥 Add tracks dinamically
+- 🔥 Caption customization
 
 ◼️ Demo:
 -
@@ -41,7 +47,7 @@ https://bmsvieira.github.io/moovie.js/
 3 - Initilize.
 ```javascript
 document.addEventListener("DOMContentLoaded", function() {
-   var demo1 = new moovie({
+   var demo1 = new Moovie({
      selector: "#example",
      dimensions: {
           width: "100%"
@@ -55,6 +61,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 Currently it has full support for WebVTT (.vtt). To add a track use the standard html as the example above shows.
 
+◼️ Caption Offset Ajust:
+-
+
+It is possible to adjust the offset by a total of `10 seconds` (-5 / +5) on the fly.<br><br>
+<img width="500" src="https://bmsvieira.github.io/moovie.js/demo-template/images/captionadjust.png">
+
 ◼️ Shortcuts:
 -
 
@@ -66,3 +78,33 @@ Currently it has full support for WebVTT (.vtt). To add a track use the standard
 | `->`  | Forward 5 seconds  |
 | `<-` | Backward 5 seconds |
 | `M`  | Toggle Mute  |
+
+Methods:
+-
+<b>GetPlayerElement:</b>
+Get generated player element, so it can be added eventListeners.
+
+```javascript
+demo1.GetPlayerElement();
+```
+
+<b>TogglePlay:</b>
+Play/Pause video
+
+```javascript
+demo1.TogglePlay();
+```
+
+<b>ToogleSubtitles:</b>
+Enable/Disable subtitles
+
+```javascript
+demo1.ToogleSubtitles();
+```
+
+<b>ToogleFullscreen:</b>
+Enable/Disable fullscreen
+
+```javascript
+demo1.ToogleFullscreen();
+```
