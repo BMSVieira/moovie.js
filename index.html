@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Moovie.js | Movie Focused HTML5 Player</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="demo-template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Easyplay CSS Style -->
+  <link rel="stylesheet" type="text/css" href="css/moovie.css">
+
+  <!-- GFonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet"> 
+
+</head>
+
+<body style="background: linear-gradient(to bottom, rgba(0, 10, 33, 0.72) 40%,rgb(0, 0, 0) 80%), url(https://cdn.wallpapersafari.com/20/88/Ebrfqu.jpg) no-repeat;
+        background-position-x: 0%, 0%;
+        background-position-y: 0%, 0%;
+        background-size: auto, auto;
+    background-position-x: 0%, 0%;
+    background-position-y: 0%, 0%;
+    background-size: auto, auto;
+    background-position-x: 0%, 0%;
+    background-position-y: 0%, 0%;
+    background-size: auto auto, auto auto;
+    background-position-x: 0%, 0%;
+    background-position-y: 0%, 0%;
+    background-size: auto auto, auto auto;
+    background-position-x: 0%, 0%;
+    background-position-y: 0%, 0%;
+    background-size: auto auto, auto auto;
+    background-position-x: 0%, 0%;
+    background-position-y: 0%, 0%;
+    background-size: auto auto, auto auto;
+    background-size: cover;
+    background-position: 0px 0px;
+    min-height: 100vh;">
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+           <div style='max-width: 900px; position: relative; margin: 0 auto; margin-top: 0px; margin-top: 0px; margin-top: 32px;'>
+
+              <img src="http://bvcode.pt/moovie/assets/logo.png" style="max-width: 214px;">
+              <p style="margin-bottom: 49px; font-size: 28pt; color: white; font-family: Montserrat;">Media player made for movies</p>
+
+            </div>
+
+            <div style='max-width: 600px; position: relative; margin: 0 auto; margin-top: 0px; margin-top: 64px;'>
+
+              <video id="example" poster="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/E033B888C35EDCBDE224E89361F93994AC71CD395A53CE74E3FE88A776EA6DB9">
+                  <source src="https://vod-progressive.akamaized.net/exp=1615349721~acl=%2A%2F676584488.mp4%2A~hmac=eb825bd81e7351a1e5d810d0d091374c1d0af0f6af6647d47aa76538782873b4/vimeo-prod-skyfire-std-us/01/66/8/200331849/676584488.mp4?filename=Rogue+One%3A+A+Star+Wars+Story+-+Feature+Trailer+%28115173%29.mp4" type="video/mp4">
+                  <track kind="captions" label="Portuguese" srclang="pt" src="subtitles/pt.vtt">
+                  <track kind="captions" label="English" srclang="en" src="subtitles/en.vtt">
+                  Your browser does not support the video tag.
+              </video>
+
+              <a class="btn btn-light" style="margin-top:50px;">View on Github</a>
+
+            </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- Easyplay JS Core -->
+  <script src="js/moovie.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+        var demo1 = new moovie({
+          selector: "#example",
+          dimensions: {
+               width: "100%"
+          }
+        });
+  });
+  </script>
+
+</body>
+
+</html>
