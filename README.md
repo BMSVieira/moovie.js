@@ -7,7 +7,7 @@
 ◼️ Features:
 -
 - 🔧 Fully Customizable
-- 💎 Built-in Caption Offset Adjust
+- 💎 Built-in Caption Offset Adjust on the fly
 - 💪 No Dependencies, built with VanillaJS
 - 🌎 Tested in All Modern Browsers
 - 💻 Responsive
@@ -54,6 +54,12 @@ document.addEventListener("DOMContentLoaded", function() {
 -
 
 Currently it has full support for WebVTT (.vtt). To add a track use the standard html as the example above shows.
+
+◼️ Caption Offset Ajust:
+-
+
+It is possible to adjust the offset by a total of `10 seconds` (-5 / +5) on the fly.<br><br>
+<img width="500" src="https://bmsvieira.github.io/moovie.js/demo-template/images/captionadjust.png">
 
 ◼️ Shortcuts:
 -
