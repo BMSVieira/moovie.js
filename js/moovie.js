@@ -123,10 +123,16 @@ class Moovie {
                 case "left":
                       var vid_currentTime = video.currentTime;
                       video.currentTime = vid_currentTime - time;
+                      var ncurrentTime = document.getElementById("range_progress").value;
+                      document.getElementById("range_progress").value = Number(ncurrentTime)-5;
+
                     break;
                 case "right":
                       var vid_currentTime = video.currentTime;
                       video.currentTime = vid_currentTime + time;
+                      var ncurrentTime = document.getElementById("range_progress").value;
+                      document.getElementById("range_progress").value = Number(ncurrentTime)+5;
+
                 break;   
              } 
         }
@@ -139,6 +145,7 @@ class Moovie {
                 video.volume = 1;
                 document.getElementById("icon_volume_"+randomID).src = "icons/volume.svg";
                 document.getElementById("mooviegrid_volume_"+randomID).value = "1";
+
             } else {
                 video.volume = 0;
                 document.getElementById("icon_volume_"+randomID).src = "icons/mute.svg";
@@ -172,7 +179,7 @@ class Moovie {
             
             // Update current times
             document.getElementById("moovie_currentime").innerHTML = player_time(video.currentTime);
-            // if(video.currentTime >= video.duration) { video.currentTime = 0; togglePlay(); }
+             if(video.currentTime >= video.duration) { video.currentTime = 0; togglePlay();  document.getElementById("range_progress").value = 0; }
         }
 
         // Progress bar
@@ -466,7 +473,7 @@ class Moovie {
             video.addEventListener('keydown', function (event) {
                 if (event.keyCode == 32) { togglePlay(); }             // [Space bar] - Toogle play
                 if (event.keyCode == 75) { togglePlay(); }             // [K] - Toggle play
-                if (event.keyCode == 70) { SetFullScreen(); }          // [C] - Set fullscreen
+                if (event.keyCode == 70) { SetFullScreen(); }          // [F] - Set fullscreen
                 if (event.keyCode == 39) { movieVideo(5, "right"); }   // [Right Arrow] - Foward 5 seconds
                 if (event.keyCode == 37) { movieVideo(5, "left"); }    // [Left Arrow] - backward 5 seconds
                 if (event.keyCode == 77) { mutePlayer(); }             // [M] - Mute player   
