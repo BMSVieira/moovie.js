@@ -16,7 +16,7 @@ moovie.js - Movie focused HTML5 Player
 
 ◼️ Coming soon:
 -
-- 🔥 Full support for `.str` captions
+- 🔥 Full support for `.srt` captions
 - 🔥 Add tracks dinamically
 - 🔥 Caption customization
 - 🔥 Improved responsive behavior
