@@ -51,7 +51,8 @@ video {
   color:white;
   position:absolute;
   z-index:0;
-  width: 100%;bottom: 63px;
+  width: 100%;
+  bottom: 10%;
   pointer-events: none;
 
 }

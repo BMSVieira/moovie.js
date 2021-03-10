@@ -7,7 +7,7 @@ Made by: Bruno Vieira
 
 --------------------------- */
 
-class moovie {
+class Moovie {
 
     constructor({
         selector = 'defaultId',
@@ -627,7 +627,8 @@ class moovie {
      
                     this.SetupLogic();
                     this.GetCaptions();
-                    this.Keybinds();        
+                    this.Keybinds(); 
+                    SetCaptionSize();       
         }
 
         // ** SETUP player **
