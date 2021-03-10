@@ -1,4 +1,4 @@
-
+    
 /*-------------------------
 
 Moovie.js - HTML5 Media player made for movies
@@ -46,7 +46,7 @@ class Moovie {
         }
 
         // Change video status
-        function togglePlay() {
+        var togglePlay = this.togglePlay = function togglePlay() {
 
             // Remove poster background.
             document.getElementById("poster_layer_"+randomID).style.backgroundImage = "none"; 
@@ -57,11 +57,12 @@ class Moovie {
             } else {
                 video.pause();
                 document.getElementById("moovie_bplay_"+randomID).src = "icons/play.svg"
+                togglePoster("show");
             }      
         }
 
         /* View in fullscreen */
-        function SetFullScreen() {
+        var SetFullScreen = this.SetFullScreen = function SetFullScreen(){
             if (player.requestFullscreen) {
                 player.requestFullscreen();
             } else if (player.webkitRequestFullscreen) { /* Safari */
@@ -268,9 +269,8 @@ class Moovie {
         }
 
         // Activate subtitles
-        function ActivateSubtitles()
+        var ActivateSubtitles = this.ActivateSubtitles = function ActivateSubtitles()
         {
-            console.log(hassubtitles);
             if(hassubtitles == 1)
             {
 
@@ -319,6 +319,9 @@ class Moovie {
 
         // PLAY CAPTIONS ##############################################################################################################
         var PlayCaption = this.PlayCaption = function PlayCaption(caption) {
+
+            // Reset variables
+            selectedCaption = [];
 
             // Format time
             function sec2time(timeInSeconds) {
@@ -427,10 +430,14 @@ class Moovie {
             request.send();
 
             // Run caption
-            video.addEventListener('timeupdate', RunCaption, false);
+            video.addEventListener('timeupdate', RunCaption, true);
+            if(hassubtitles == 1) { video.removeEventListener('timeupdate', RunCaption, true); } else {
+
             // Set flag on hassubtitles
-            hassubtitles = 1;
-            ActivateSubtitles();
+            hassubtitles = 1; ActivateSubtitles();
+
+            }
+
         }
 
         // ADD CAPTIONS ###############################################################################################################
@@ -556,7 +563,7 @@ class Moovie {
             document.getElementById("moovie__controls_"+randomID).addEventListener('mouseleave', e => { isopen = 0; });
 
             document.getElementById("range_progress").addEventListener("input", function(event) { video.pause(); }, false);
-            document.getElementById("range_progress").addEventListener("change", function(event) { video.play(); togglePoster("hide"); }, false);
+            document.getElementById("range_progress").addEventListener("change", function(event) { togglePlay(); togglePoster("hide"); }, false);
 
         }
 
@@ -575,7 +582,6 @@ class Moovie {
             document.getElementById(this.selector).insertAdjacentHTML('afterend', "<div style='width:"+dimensions['width']+"' id='moovie__video_"+randomID+"' class='moovie'></div>");
                 
                 moovie_video = document.getElementById("moovie__video_"+randomID);
-                this.videoelement = moovie_video;
                 // Video tag
                 moovie_video.insertAdjacentHTML('beforeend', "<video tabindex='1' preload='auto' class='player__video viewer' style='width:100%; height:100%;' src='"+vsource+"'></video>");              
                 // Player Controls
@@ -650,5 +656,16 @@ class Moovie {
         window.addEventListener('resize', ResizeWindow);
 
     }
+
+    // METHODS ##########################################################
+
+    // Get player element so it can add event listener to it. 
+    GetPlayerElement(){ return this.video; }
+    // Trigger toggle play
+    TogglePlay(){ this.togglePlay(); }
+    // Trigger toggle subtitles
+    ToogleSubtitles(){ this.ActivateSubtitles(); }
+    // Trigger toggle Fullscreen
+    ToogleFullscreen(){ this.SetFullScreen(); }
 
 }
