@@ -16,7 +16,7 @@ moovie.js - Movie focused HTML5 Player
 
 ◼️ Coming soon:
 -
-- 🔥 Full support for .str captions
+- 🔥 Full support for `.str` captions
 - 🔥 Add tracks dinamically
 - 🔥 Caption customization
 
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 Currently it has full support for WebVTT (.vtt). To add a track use the standard html as the example above shows.
 
-◼️ Caption Offset Ajust:
+◼️ Caption Offset Adjust:
 -
 
 It is possible to adjust the offset by a total of `10 seconds` (-5 / +5) on the fly.<br><br>
