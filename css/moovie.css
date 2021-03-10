@@ -257,6 +257,9 @@ overflow: hidden;
       z-index:1;
 }
 
+
+
+
 input[type=range] {
   -webkit-appearance: none;
   background:transparent;
@@ -276,18 +279,7 @@ input[type=range]::-webkit-slider-runnable-track {
   border-radius: 1.3px;
   border: 0.2px solid rgba(1, 1, 1, 0);
 }
-input[type=range]::-webkit-slider-thumb {
-  height: 10px;
-  width: 10px;
-  border-radius: 50px;
-  background: #3191f7;
-  cursor: pointer;
-  margin-top: -5.6px;
-}
-/* input[type=range]:focus::-webkit-slider-runnable-track {
-  -webkit-appearance: none;
-  background: #bada55;
-}*/
+
 input[type=range]::-moz-range-track {
   width: 100%;
   height: 5px;
@@ -295,6 +287,17 @@ input[type=range]::-moz-range-track {
   background-color: rgba(198, 198, 198, 0.4);
   border-radius: 1.3px;
 }
+
+input[type=range]::-webkit-range-thumb {
+  height: 13px;
+  width: 13px;
+  border-radius: 50px;
+  background: #3191f7;
+  border:none;
+  cursor: pointer;
+}
+
+
 input[type=range]::-moz-range-thumb {
   height: 13px;
   width: 13px;
@@ -303,6 +306,29 @@ input[type=range]::-moz-range-thumb {
   border:none;
   cursor: pointer;
 }
+
+
+
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+ 
+  height: 13px;
+  width: 13px;
+  border-radius: 100%;
+  background: var(--moovie_main_color);
+  cursor: pointer;
+  margin-top: -4.3px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+
+}
+
+
+
+
+
+
+
 
 .opacity_svg
 {
