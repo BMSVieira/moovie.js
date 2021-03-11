@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ◼️ Captions:
 -
 
-Currently it has full support for WebVTT (.vtt) and SubRip (.srt).
+Currently it has full support for `WebVTT(.vtt)` and `SubRip(.srt)`.
 <br>To add a track use the standard html as the example below.
 
 ```html
