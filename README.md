@@ -20,6 +20,7 @@ moovie.js - Movie focused HTML5 Player
 - 🔥 Add tracks dinamically
 - 🔥 Caption customization
 - 🔥 Adjust speed on the fly
+- 🔥 Improved responsive behavior
 
 ◼️ Demo:
 -
