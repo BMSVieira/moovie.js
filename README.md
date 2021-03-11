@@ -102,16 +102,16 @@ Play/Pause video
 demo1.TogglePlay();
 ```
 
-<b>ToogleSubtitles:</b>
+<b>ToggleSubtitles:</b>
 Enable/Disable subtitles
 
 ```javascript
-demo1.ToogleSubtitles();
+demo1.ToggleSubtitles();
 ```
 
-<b>ToogleFullscreen:</b>
+<b>ToggleFullscreen:</b>
 Enable/Disable fullscreen
 
 ```javascript
-demo1.ToogleFullscreen();
+demo1.ToggleFullscreen();
 ```
