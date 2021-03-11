@@ -8,6 +8,7 @@ moovie.js - Movie focused HTML5 Player
 -
 - 🔧 Fully Customizable
 - 💎 Built-in Caption Offset Adjust on the fly
+- 🎬 Built-in support for `.vtt` and `.srt` caption files 
 - 💪 No Dependencies, built with VanillaJS
 - 🌎 Tested in All Modern Browsers
 - 💻 Responsive
@@ -16,10 +17,8 @@ moovie.js - Movie focused HTML5 Player
 
 ◼️ Coming soon:
 -
-- 🔥 Full support for `.srt` captions
 - 🔥 Add tracks dinamically
 - 🔥 Caption customization
-- 🔥 Improved responsive behavior
 - 🔥 Adjust speed on the fly
 
 ◼️ Demo:
@@ -61,7 +60,12 @@ document.addEventListener("DOMContentLoaded", function() {
 ◼️ Captions:
 -
 
-Currently it has full support for WebVTT (.vtt). To add a track use the standard html as the example above shows.
+Currently it has full support for WebVTT (.vtt) and SubRip (.srt).
+<br>To add a track use the standard html as the example below.
+
+```html
+<track kind="captions" label="<<Language>>" srclang="<<SourceLang>>" src="<<path-to-caption.vtt/.srt>>">
+```
 
 ◼️ Caption Offset Adjust:
 -
