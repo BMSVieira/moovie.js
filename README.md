@@ -14,10 +14,11 @@ moovie.js - Movie focused HTML5 Player
 - 💻 Responsive
 - ⌨️ Standardized Shortcuts
 - 🛠 Standardized Events
+- 🖊 Add Tracks/Captions dynamically
 
 ◼️ Coming soon:
 -
-- 🔥 Add tracks dinamically
+- ✅ Add tracks dynamically
 - 🔥 Caption customization
 - 🔥 Adjust speed on the fly
 - 🔥 Improved responsive behavior
@@ -115,3 +116,30 @@ Enable/Disable fullscreen
 ```javascript
 demo1.ToggleFullscreen();
 ```
+
+<b>AddTrack:</b>
+Add multiple captions to player
+
+| Name | Default | Description |
+| --- | --- | --- |
+| `label` | `New Subtitle` |  Name of the new subtitle in the caption box |
+| `srclang` | `New` | Country designation |
+| `src` | `---` |  Path to the file <b>[Can not be empty]</b> |
+
+```javascript
+demo1.AddTrack({
+  options : {
+        0: {
+            label: 'Italian',
+            srclang: "it",
+            src: "<<path-to-file.vtt/.srt"
+        },
+        1: {
+            label: 'Spanish',
+            srclang: "es",
+            src: "<<path-to-file.vtt/.srt"
+        }
+    }
+}
+```
+
