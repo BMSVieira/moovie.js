@@ -21,7 +21,7 @@ class Moovie {
         var randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
         var dimensions = dimensions;
         var _this = this;
-        var parts, video, subtitles = 0, hassubtitles = 0, moovie_el_player, moovie_elprogress, progressBar, moovie_el_toggle, ranges, fullscreen, progressBarBuffered, offsettime=0, isopen = 0, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
+        var parts, video, subtitles = 0, hassubtitles = 0, moovie_ishiden = 0, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, progressBarBuffered, offsettime=0, isopen = 0, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
         var selectedCaption = [];
 
         // Define Variables
@@ -180,8 +180,8 @@ class Moovie {
             var end = r.end(0);
             
             // Update current times
-            document.getElementById("moovie_currentime").innerHTML = player_time(video.currentTime);
-             if(video.currentTime >= video.duration) { video.currentTime = 0; togglePlay();  moovie_el_progress.value = 0; }
+            if(moovie_ishiden == 0){ document.getElementById("moovie_currentime").innerHTML = player_time(video.currentTime); }
+            if(video.currentTime >= video.duration) { video.currentTime = 0; togglePlay();  moovie_el_progress.value = 0; }
         }
 
         // Progress bar
@@ -274,9 +274,8 @@ class Moovie {
         {
             if(hassubtitles == 1)
             {
-
-                if(subtitles == 0){ subtitles = 1; document.getElementById("moovie_subtitle_svg").classList.remove("opacity_svg");
-                } else if(subtitles == 1) { subtitles = 0; document.getElementById("moovie_subtitle_svg").classList.add("opacity_svg");}
+                    if(subtitles == 0){ subtitles = 1; document.getElementById("moovie_subtitle_svg").classList.remove("opacity_svg");
+                    } else if(subtitles == 1) { subtitles = 0; document.getElementById("moovie_subtitle_svg").classList.add("opacity_svg");}
 
             } else {
                 console.log("You must choose an Subtitle first.");
@@ -299,6 +298,30 @@ class Moovie {
         function OpenRangeMenu(){
                 moovie_el_submain.style.display = "none";
                 document.getElementById("moovie_range_captions").style.display = "block";  
+        }
+
+        // Responsiveness Improvement
+        var TransformPlayer = this.TransformPlayer = function TransformPlayer(caption) {
+
+            var containerWidth = moovie_el_video.offsetWidth;
+            if(containerWidth <= 460)
+            {
+                // Set Flag
+                moovie_ishiden = 1;
+                // Set player transformations
+                document.getElementById("moovie_el_current").style.display = "none";
+                document.getElementById("moovie_progressbar").classList.add("responsive_bar"); 
+
+            } else {
+
+                // Set Flag
+                moovie_ishiden = 0;
+                // Set player transformations
+                document.getElementById("moovie_el_current").style.display = "block";
+                document.getElementById("moovie_progressbar").classList.remove("responsive_bar"); 
+                document.getElementById("moovie_fulltime").innerHTML = player_time(video.duration); 
+            }
+         
         }
 
         // Set caption size
@@ -438,7 +461,8 @@ class Moovie {
             if(hassubtitles == 1) { video.removeEventListener('timeupdate', RunCaption, true); } else {
 
             // Set flag on hassubtitles
-            hassubtitles = 1; ActivateSubtitles();
+            hassubtitles = 1; 
+            ActivateSubtitles();
 
             }
 
@@ -507,8 +531,10 @@ class Moovie {
 
             // Wait to load video and set duration
             video.oncanplay = (event) => {
-              document.getElementById("moovie_fulltime").innerHTML = player_time(video.duration);
-              moovie_el_progress.setAttribute("max", video.duration); 
+              if(moovie_ishiden == 0){
+                document.getElementById("moovie_fulltime").innerHTML = player_time(video.duration);
+                moovie_el_progress.setAttribute("max", video.duration); 
+              }
             };
 
             // Focus player so we can add bindings
@@ -537,8 +563,6 @@ class Moovie {
 
             // Progress bar
             moovie_elprogress = moovie_el_player.querySelector('.moovie_progress');
-            progressBar = moovie_el_player.querySelector('.progress__filled');
-            progressBarBuffered = moovie_el_player.querySelector('.progress__filled_buffered');
             
             let mousedown = false;
             moovie_elprogress.addEventListener('click', Scrub);
@@ -611,9 +635,9 @@ class Moovie {
                     // Toogle play button
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button class='player__button toggle' id='tooglebutton' title='Toggle Play'><img id='moovie_bplay_"+randomID+"' src='icons/play.svg'></button>");
                     // Progress bar
-                    moovie_el_controls.insertAdjacentHTML('beforeend', "<div class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /></div>");  
+                    moovie_el_controls.insertAdjacentHTML('beforeend', "<div id='moovie_progressbar' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /></div>");  
                     // Current time / full time
-                    moovie_el_controls.insertAdjacentHTML('beforeend', "<div class='player__button player_button_disabled moovie_currentime'><span id='moovie_currentime'>00:00</span> / <span id='moovie_fulltime'></span></div>");  
+                    moovie_el_controls.insertAdjacentHTML('beforeend', "<div id='moovie_el_current' class='player__button player_button_disabled moovie_currentime'><span id='moovie_currentime'>00:00</span> / <span id='moovie_fulltime'></span></div>");  
                     // Volume Icon
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='mooviegrid_mute_"+randomID+"' class='player__button'><img id='icon_volume_"+randomID+"' src='icons/volume.svg'></button>"); 
                     // Volume
@@ -648,7 +672,8 @@ class Moovie {
                     this.SetupLogic();
                     this.GetCaptions();
                     this.Keybinds(); 
-                    SetCaptionSize();       
+                    SetCaptionSize();  
+                    TransformPlayer();     
         }
 
         // ** SETUP player **
@@ -657,6 +682,7 @@ class Moovie {
         // Function that will run repeatedly at each fixed interval of time.
         var ResizeWindow = throttle(function() {
             SetCaptionSize();
+            TransformPlayer();
         }, 300);
 
         // Add EventListener
@@ -691,7 +717,6 @@ class Moovie {
                 if(!tracksrc) { console.log("Error, 'src' can not be empty.");} else {
                     document.getElementById(this.selector).insertAdjacentHTML("beforeend", "<track "+addlabel+" "+srclang+" "+tracksrc+">");   
                 }
-
             }
 
             // Remove all caption itens

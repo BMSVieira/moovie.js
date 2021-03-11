@@ -26,6 +26,14 @@ video {
   border-radius: 7px;
 }
 
+.responsive_bar
+{
+  position: absolute!important;
+  width: 100%!important;
+  left: -11px!important;
+  top: -15px!important;
+}
+
 .labelformat
 {
   position: absolute;
