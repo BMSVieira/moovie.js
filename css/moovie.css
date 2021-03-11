@@ -26,6 +26,20 @@ video {
   border-radius: 7px;
 }
 
+.labelformat
+{
+  position: absolute;
+  right: 22px;
+  padding: 2px 5px 2px 6px;
+  background-color: #686868;
+  color: white;
+  border-radius: 4px;
+  margin-top: 1px;
+  font-size: 7pt;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
 .moovie_submenu
 {
   position: absolute;
@@ -88,6 +102,15 @@ video {
   transition: all 0.2s ease;
   color:white;
 }
+
+.moovie_submenu ul li:hover .labelformat
+{
+
+  background-color:white;
+  color: var(--moovie_main_color);
+
+}
+
 .option_submenu
 {
   position: absolute;
@@ -307,9 +330,6 @@ input[type=range]::-moz-range-thumb {
   cursor: pointer;
 }
 
-
-
-
 /* Special styling for WebKit/Blink */
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -322,13 +342,6 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -4.3px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
 
 }
-
-
-
-
-
-
-
 
 .opacity_svg
 {
