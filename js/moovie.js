@@ -454,7 +454,7 @@ class Moovie {
             var captionIDRandom = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
             // Add caption to list and add event listener to play it
 
-            moovie_el_captions.insertAdjacentHTML('beforeend', "<li id='captionid_"+captionIDRandom+"'><span>"+caption['track']['label']+"</span><span class='labelformat'>"+CaptionFormat+"</span></li>");
+            moovie_el_captions.insertAdjacentHTML('beforeend', "<li class='caption_track' id='captionid_"+captionIDRandom+"'><span>"+caption['track']['label']+"</span><span class='labelformat'>"+CaptionFormat+"</span></li>");
             document.getElementById("captionid_"+captionIDRandom).addEventListener("click", function(){
                 
                 PlayCaption(caption);
@@ -674,5 +674,38 @@ class Moovie {
     ToggleSubtitles(){ this.ActivateSubtitles(); }
     // Trigger toggle Fullscreen
     ToggleFullscreen(){ this.SetFullScreen(); }
+     // Add new track
+    AddTrack(properties){ 
+
+        if(properties.options && typeof(properties.options) === 'object')
+        {
+            // Loop object and add new options to original select box
+            var prop = Object.keys(properties.options).length;
+            for (var i = 0; i < prop; i++) {
+
+                var addlabel, srclang, tracksrc;
+                if(properties.options[i].label){ addlabel = "label='"+properties.options[i].label+"'"; } else {  addlabel = "label='New Subtitle'"; }
+                if(properties.options[i].srclang){ srclang = "srclang='"+properties.options[i].srclang+"'" } else { srclang = "srclang='New'" }
+                if(properties.options[i].src){ tracksrc = "src='"+properties.options[i].src+"'" } else { tracksrc = ""; }
+
+                if(!tracksrc) { console.log("Error, 'src' can not be empty.");} else {
+                    document.getElementById(this.selector).insertAdjacentHTML("beforeend", "<track "+addlabel+" "+srclang+" "+tracksrc+">");   
+                }
+
+            }
+
+            // Remove all caption itens
+            document.querySelectorAll('.caption_track').forEach((item) => {
+                item.remove();
+            });
+
+            // fetch all track itens again
+            this.GetCaptions();
+
+        } else {
+            console.error("Options must be and Object. Read documentation.");
+        }
+    
+    }   
 
 }
