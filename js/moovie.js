@@ -671,8 +671,8 @@ class Moovie {
     // Trigger toggle play
     TogglePlay(){ this.togglePlay(); }
     // Trigger toggle subtitles
-    ToogleSubtitles(){ this.ActivateSubtitles(); }
+    ToggleSubtitles(){ this.ActivateSubtitles(); }
     // Trigger toggle Fullscreen
-    ToogleFullscreen(){ this.SetFullScreen(); }
+    ToggleFullscreen(){ this.SetFullScreen(); }
 
 }
