@@ -64,6 +64,7 @@ class Moovie {
 
         /* View in fullscreen */
         var SetFullScreen = this.SetFullScreen = function SetFullScreen(){
+
             if (moovie_el_player.requestFullscreen) {
                 moovie_el_player.requestFullscreen();
             } else if (moovie_el_player.webkitRequestFullscreen) { /* Safari */
@@ -139,6 +140,13 @@ class Moovie {
              } 
         }
 
+        // Detect touchscreen
+        function detectTouchScreen()
+        {
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            return isMobile;
+        }
+
         // Mute/Unmute player
         function mutePlayer()
         {
@@ -210,10 +218,28 @@ class Moovie {
 
         // Jump to current time when clicked
         function Scrub(e) {
-          const scrubTime = (e.offsetX / moovie_elprogress.offsetWidth) * video.duration;
-          if(scrubTime >= video.duration){ scrubTime = video.duration; }
 
-          video.currentTime = scrubTime;
+            if(!detectTouchScreen())
+            {
+                var offsetEvent = e.offsetX;
+                const scrubTime = (offsetEvent / moovie_elprogress.offsetWidth) * video.duration;
+                if(scrubTime >= video.duration){ scrubTime = video.duration; }
+                video.currentTime = scrubTime;
+
+            } else {
+
+                var offsetEvent = document.getElementById("range_progress").value;
+
+                if(offsetEvent == undefined)
+                {
+                    offsetEvent = e.touches[0].clientX;
+                    const scrubTime = (offsetEvent / moovie_elprogress.offsetWidth) * video.duration;
+                    if(scrubTime >= video.duration){ scrubTime = video.duration; }
+                    video.currentTime = scrubTime;
+                } else {
+                    video.currentTime = offsetEvent;
+                }
+            }
         }
 
         // Close all Menus
@@ -564,11 +590,27 @@ class Moovie {
             // Progress bar
             moovie_elprogress = moovie_el_player.querySelector('.moovie_progress');
             
-            let mousedown = false;
-            moovie_elprogress.addEventListener('click', Scrub);
-            moovie_elprogress.addEventListener('mousemove', (e) => mousedown && Scrub(e));
-            moovie_elprogress.addEventListener('mousedown', () => mousedown = true);
-            moovie_elprogress.addEventListener('mouseup', () => mousedown = false);
+            if(!detectTouchScreen())
+            {
+                    /* Mouse related eventListeners */
+                    let mousedown = false;
+                    moovie_elprogress.addEventListener('click', Scrub);
+                    moovie_elprogress.addEventListener('mousemove', (e) => mousedown && Scrub(e));
+                    moovie_elprogress.addEventListener('mousedown', () => mousedown = true);
+                    moovie_elprogress.addEventListener('mouseup', () => mousedown = false);
+
+                    moovie_el_controls.addEventListener('mouseover', e => { isopen = 1; });
+                    moovie_el_controls.addEventListener('mouseleave', e => { isopen = 0; });
+
+                    moovie_el_progress.addEventListener("input", function(event) { video.pause(); }, false);
+                    moovie_el_progress.addEventListener("change", function(event) { togglePlay(); togglePoster("hide"); }, false);
+
+            } else {
+                    /* Touch related eventListeners */
+                    moovie_el_progress.addEventListener("touchmove", function(event) { Scrub(event); });
+                    moovie_el_progress.addEventListener("change", function(event) { Scrub(event); togglePoster("hide"); }, false);
+            }
+
 
             // Submenu events
             document.getElementById("moovie_cog").addEventListener("click", ToggleSubmenu);
@@ -590,11 +632,6 @@ class Moovie {
                 clearTimeout(i);
                 HideControls("close");
             });
-            moovie_el_controls.addEventListener('mouseover', e => { isopen = 1; });
-            moovie_el_controls.addEventListener('mouseleave', e => { isopen = 0; });
-
-            moovie_el_progress.addEventListener("input", function(event) { video.pause(); }, false);
-            moovie_el_progress.addEventListener("change", function(event) { togglePlay(); togglePoster("hide"); }, false);
 
         }
 
@@ -683,7 +720,7 @@ class Moovie {
         var ResizeWindow = throttle(function() {
             SetCaptionSize();
             TransformPlayer();
-        }, 300);
+        }, 100);
 
         // Add EventListener
         window.addEventListener('resize', ResizeWindow);
