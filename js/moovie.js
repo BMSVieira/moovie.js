@@ -21,7 +21,7 @@ class Moovie {
         var randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
         var dimensions = dimensions;
         var _this = this;
-        var parts, video, subtitles = 0, hassubtitles = 0, moovie_ishiden = 0, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, progressBarBuffered, offsettime=0, isopen = 0, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
+        var parts, video, subtitles = 0, hassubtitles = 0, moovie_ishiden = 0, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, progressBarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
         var selectedCaption = [];
 
         // Define Variables
@@ -67,9 +67,9 @@ class Moovie {
 
             if (moovie_el_player.requestFullscreen) {
                 moovie_el_player.requestFullscreen();
-            } else if (moovie_el_player.webkitRequestFullscreen) { /* Safari */
+            } else if (moovie_el_player.webkitRequestFullscreen) { // Safari
                 moovie_el_player.webkitRequestFullscreen();
-            } else if (moovie_el_player.msRequestFullscreen) { /* IE11 */
+            } else if (moovie_el_player.msRequestFullscreen) { // IE11
                 moovie_el_player.msRequestFullscreen();
             }
 
@@ -77,9 +77,9 @@ class Moovie {
             {
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) { /* Safari */
+                } else if (document.webkitExitFullscreen) { // Safari
                     document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) { /* IE11 */
+                } else if (document.msExitFullscreen) { // IE11
                     document.msExitFullscreen();
                 }
             }
@@ -111,12 +111,18 @@ class Moovie {
          video.currentTime += parseFloat(this.dataset.skip);
         }
 
+        // Check player mute and change icon
+        var checkMute = this.checkMute = function checkMute()
+        {
+            if(video.volume == 0) { document.getElementById("icon_volume_"+randomID).src = "icons/mute.svg"; } else { document.getElementById("icon_volume_"+randomID).src = "icons/volume.svg";}
+        }
+
         // Range value when drag
         function handleRangeUpdate() {
 
             video[this.name] = this.value;
             // Update volume icon
-            if(this.value == 0) { document.getElementById("icon_volume_"+randomID).src = "icons/mute.svg"; } else { document.getElementById("icon_volume_"+randomID).src = "icons/volume.svg";}
+            checkMute();
         }
 
         // Change current playtime
@@ -611,7 +617,6 @@ class Moovie {
                     moovie_el_progress.addEventListener("change", function(event) { Scrub(event); togglePoster("hide"); }, false);
             }
 
-
             // Submenu events
             document.getElementById("moovie_cog").addEventListener("click", ToggleSubmenu);
             document.getElementById("topic_submenu_caption").addEventListener("click", OpenCaptionMenu);
@@ -635,7 +640,7 @@ class Moovie {
 
         }
 
-        // SETUP PLAYER STRUCTURE ########################################################################################################
+        // SETUP PLAYER STRUCTURE ################################################################################################################
         var SetupPlayer = this.SetupPlayer = function SetupPlayer() {
 
             // Get video source
@@ -679,7 +684,8 @@ class Moovie {
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='mooviegrid_mute_"+randomID+"' class='player__button'><img id='icon_volume_"+randomID+"' src='icons/volume.svg'></button>"); 
                     // Volume
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<input type='range' id='mooviegrid_volume_"+randomID+"' style='max-width:100px; min-width:50px;' name='volume' class='moovie_progress_sound player__slider' min=0 max='1' step='0.01' value='1'>");  
-                    // Subtitles
+                    this.moovie_el_volume = moovie_el_volume = document.getElementById("mooviegrid_volume_"+randomID);
+                   // Subtitles
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='moovie_subtitle' style='margin-left:5px' class='player__button'><img class='opacity_svg' id='moovie_subtitle_svg' src='icons/cc.svg'></button>");  
                     // Config
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='moovie_cog' class='player__button'><img src='icons/cog.svg'></button>");  
@@ -690,6 +696,7 @@ class Moovie {
 
                         moovie_el_submenu = document.getElementById("moovie_submenu_"+randomID);
                         moovie_el_progress = document.getElementById("range_progress");
+                        this.progressbar = moovie_el_progress;
                         // Menu main
                         moovie_el_submenu.insertAdjacentHTML('beforeend', "<ul id='moovie_submenu_main'></ul>");
                         moovie_el_submain =  document.getElementById("moovie_submenu_main");
@@ -727,18 +734,16 @@ class Moovie {
 
     }
 
-    // METHODS ##########################################################
+    // METHODS ################################################################################################################
 
-    // Get player element so it can add event listener to it. 
-    GetPlayerElement(){ return this.video; }
     // Trigger toggle play
-    TogglePlay(){ this.togglePlay(); }
+    togglePlay(){ this.togglePlay(); }
     // Trigger toggle subtitles
-    ToggleSubtitles(){ this.ActivateSubtitles(); }
+    toggleSubtitles(){ this.ActivateSubtitles(); }
     // Trigger toggle Fullscreen
-    ToggleFullscreen(){ this.SetFullScreen(); }
+    toggleFullscreen(){ this.SetFullScreen(); }
      // Add new track
-    AddTrack(properties){ 
+    addTrack(properties){ 
 
         if(properties.options && typeof(properties.options) === 'object')
         {
@@ -769,5 +774,50 @@ class Moovie {
         }
     
     }   
+
+    // GETS ################################################################################################################
+
+    // Get player element
+    get playerElement() { return this.video; }
+    // Get playing state
+    get playing() { return Boolean(this.video.ready && !this.video.paused && !this.video.ended); }
+    // Get stopped state
+    get paused() {  return Boolean(this.video.paused); }
+    // Get stopped state
+    get stopped() {  return Boolean(this.video.paused && this.video.currentTime === 0); }
+    // Get ended state
+    get ended() { return Boolean(this.video.ended); }
+    // Get duration
+    get duration() {
+        const Duration = parseFloat(this.video.duration);
+        const realDuration = (this.video.media || {}).duration;
+        const duration = realDuration || realDuration === Infinity ? 0 : realDuration;
+        return Duration || duration;
+    }
+    // Get Seeking
+    get seeking() { return Boolean(this.video.seeking); }
+    // Get CurrentTime
+    get currentTime() { return Number(this.video.currentTime); }
+    // Get CurrentTime
+    get volume() {  return this.video.volume; }
+    // Get muted state
+    get muted() {  return Boolean(this.video.muted); }
+    // Get playrate
+    get speed() { return Number(this.video.playbackRate); }
+    // Get Mininum Speed
+    get minimumSpeed() { return 0.0625; }
+    // Get Maximum Speed
+    get maximumSpeed() { return 16; }
+    // Get Source
+    get source() { return this.video.currentSrc; }
+
+    // SETS ################################################################################################################
+
+    // Set current time
+    set currentTime (input) { this.video.currentTime = input; this.progressbar.value = input; }
+    // Set volume
+    set volume (input) { this.video.volume = input; this.moovie_el_volume.value = input; this.checkMute(); }
+    // Set speed
+    set speed (input) {this.video.playbackRate = input; }
 
 }
