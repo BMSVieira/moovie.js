@@ -7,6 +7,7 @@ video {
   background: transparent;
   border-bottom: 1px solid transparent;
   display: block;
+  outline: none!important;
 }
 
 /* *
@@ -24,6 +25,7 @@ video {
   font-family: Arial;
   /* -webkit-transform-style: initial!important; */
   border-radius: 7px;
+  outline: none!important;
 }
 
 .responsive_bar
@@ -126,6 +128,7 @@ video {
   font-weight: bold;
 }
 .poster_layer {
+  outline: none!important;
   position: absolute;
   top: 0px;
   left: 0px;
