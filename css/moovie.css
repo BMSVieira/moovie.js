@@ -28,6 +28,29 @@ video {
   outline: none!important;
 }
 
+.moovie_cuetime
+{
+  display: none;
+  background-color: #2b2b2b;
+  position: absolute;
+  margin-top: -17px;
+  z-index: 9999;
+  margin-left: 30px;
+  font-size: 9pt;
+  padding: 1px 5px 1px 5px;
+  border-radius: 3px;
+  left: 0px;
+  transform: translate(14px, -3px);
+  color: white;
+}
+
+.moovie_cuetime_small
+{
+  top: -12px!important;
+  margin-left: -19px!important;
+  transform: translate(0px) !important;
+}
+
 .responsive_bar
 {
   position: absolute!important;
@@ -291,14 +314,11 @@ overflow: hidden;
       z-index:1;
 }
 
-
-
-
 input[type=range] {
   -webkit-appearance: none;
   background:transparent;
   width: 100%;
-  margin: 0 5px;
+  /* margin: 0 5px; */
 
 }
 input[type=range]:focus {
@@ -344,14 +364,12 @@ input[type=range]::-moz-range-thumb {
 /* Special styling for WebKit/Blink */
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
- 
   height: 13px;
   width: 13px;
   border-radius: 100%;
   background: var(--moovie_main_color);
   cursor: pointer;
   margin-top: -4.3px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
-
 }
 
 .opacity_svg
