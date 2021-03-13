@@ -17,7 +17,10 @@
 
   <!-- GFonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+  
+  <!-- Fork Corner -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-corner/dist/fork-corner.min.css">
 
 </head>
 
@@ -25,36 +28,40 @@
         background-position-x: 0%, 0%;
         background-position-y: 0%, 0%;
         background-size: auto, auto;
-    background-position-x: 0%, 0%;
-    background-position-y: 0%, 0%;
-    background-size: auto, auto;
-    background-position-x: 0%, 0%;
-    background-position-y: 0%, 0%;
-    background-size: auto auto, auto auto;
-    background-position-x: 0%, 0%;
-    background-position-y: 0%, 0%;
-    background-size: auto auto, auto auto;
-    background-position-x: 0%, 0%;
-    background-position-y: 0%, 0%;
-    background-size: auto auto, auto auto;
-    background-position-x: 0%, 0%;
-    background-position-y: 0%, 0%;
-    background-size: auto auto, auto auto;
-    background-size: cover;
-    background-position: 0px 0px;
-    min-height: 100vh;">
+        background-position-x: 0%, 0%;
+        background-position-y: 0%, 0%;
+        background-size: auto, auto;
+        background-position-x: 0%, 0%;
+        background-position-y: 0%, 0%;
+        background-size: auto auto, auto auto;
+        background-position-x: 0%, 0%;
+        background-position-y: 0%, 0%;
+        background-size: auto auto, auto auto;
+        background-position-x: 0%, 0%;
+        background-position-y: 0%, 0%;
+        background-size: auto auto, auto auto;
+        background-position-x: 0%, 0%;
+        background-position-y: 0%, 0%;
+        background-size: auto auto, auto auto;
+        background-size: cover;
+        background-position: 0px 0px;
+        min-height: 100vh;">
 
   <!-- Page Content -->
   <div class="container">
+
+    <!-- Fork Corner -->
+    <a href="https://github.com/BMSVieira/moovie.js" target="_blank" id="fork-corner" class="fork-corner fc-pos-tr-sticky fc-animate-grow fc-theme-github"></a>
+
     <div class="row">
       <div class="col-lg-12 text-center">
-           <div style='max-width: 900px; position: relative; margin: 0 auto; margin-top: 0px; margin-top: 0px; margin-top: 32px;'>
+          <div style='max-width: 900px; position: relative; margin: 0 auto; margin-top: 0px; margin-top: 0px; margin-top: 32px;'>
 
               <img src="demo-template/images/moovie_white.png" style="max-width: 214px;">
-              <p style="margin-bottom: 49px; font-size: 28pt; color: white; font-family: Montserrat;">Media player made for movies</p>
+              <p style="margin-bottom: 20px; font-size: 28pt; color: white; font-family: Montserrat;">Media player made for movies</p>
             </div>
 
-            <div style='max-width: 800px; position: relative; margin: 0 auto; margin-top: 0px; margin-top: 64px;'>
+            <div style='max-width: 800px; position: relative; margin: 0 auto; margin-top: 0px; margin-bottom: 10px'>
 
               <video id="example" poster="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/E033B888C35EDCBDE224E89361F93994AC71CD395A53CE74E3FE88A776EA6DB9">
                   <source src="https://mooviehosted.000webhostapp.com/trailer.mp4" type="video/mp4">
@@ -63,8 +70,6 @@
                   <track kind="captions" label="French" srclang="en" src="https://raw.githubusercontent.com/BMSVieira/moovie.js/main/demo-template/subtitles/french.srt">
                   Your browser does not support the video tag.
               </video>
-
-              <a class="btn btn-light" href="https://github.com/BMSVieira/moovie.js" target="_blank" style="margin-top:50px; margin-bottom: 130px;">View on Github</a>
 
             </div>
       </div>
@@ -84,6 +89,9 @@
         });
   });
   </script>
+
+  <!-- Fork Corner -->
+  <script src="https://cdn.jsdelivr.net/npm/fork-corner/dist/fork-corner.min.js" defer></script>
 
 </body>
 
