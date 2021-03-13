@@ -72,7 +72,7 @@ Currently it has full support for `WebVTT(.vtt)` and `SubRip(.srt)`.
 -
 
 It is possible to adjust the offset by a total of `10 seconds` (-5 / +5) on the fly.<br><br>
-<img width="500" src="https://bmsvieira.github.io/moovie.js/demo-template/images/captionadjust.png">
+<img width="500" src="https://bmsvieira.github.io/moovie.js/demo-template/images/captionoffset.png">
 
 ◼️ Shortcuts:
 -
