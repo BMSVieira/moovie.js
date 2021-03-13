@@ -6,24 +6,21 @@ moovie.js - Movie focused HTML5 Player
 
 ◼️ Features:
 -
-- 🔧 Fully Customizable
-- 💎 Built-in Caption Offset Adjust on the fly
+- 🔧 Fully customizable
+- 💎 Built-in caption offset adjust on the fly
 - 🎬 Built-in support for `.vtt` and `.srt` caption files 
-- 💪 No Dependencies, built with VanillaJS
-- 🌎 Tested in All Modern Browsers
+- 🖊 Add tracks/captions dynamically
+- 🛠 Standardized events / shortcuts / API
+- 💪 No dependencies, built with VanillaJS
+- 🌎 Tested in all modern browsers
 - 💻 Responsive
-- ⌨️ Standardized Shortcuts
-- 🛠 Standardized Events
-- 🖊 Add Tracks/Captions dynamically
+
 
 ◼️ Coming soon:
 -
-- ✅ Add tracks dynamically
-- ✅ Improved responsive behavior
 - 🔥 Adjust speed on the fly
 - 🔥 Caption customization
-
-
+- 🔥 Remove tracks/captions dynamically
 
 ◼️ Demo:
 -
@@ -52,7 +49,7 @@ https://bmsvieira.github.io/moovie.js/
 3 - Initilize.
 ```javascript
 document.addEventListener("DOMContentLoaded", function() {
-   var demo1 = new Moovie({
+   var demo = new Moovie({
      selector: "#example",
      dimensions: {
           width: "100%"
@@ -77,56 +74,45 @@ Currently it has full support for `WebVTT(.vtt)` and `SubRip(.srt)`.
 It is possible to adjust the offset by a total of `10 seconds` (-5 / +5) on the fly.<br><br>
 <img width="500" src="https://bmsvieira.github.io/moovie.js/demo-template/images/captionadjust.png">
 
-◼️ Responsive:
--
-
-Built to be as much responsive as it can.<br><br>
-<img src="https://mooviehosted.000webhostapp.com/responsive.gif">
-
 ◼️ Shortcuts:
 -
 
 | Key | Description |
 | --- | --- |
-| `Space Bar` | Toggle Play|
+| `SpaceBar` | Toggle Play|
 | `K`  | Toggle Play  |
 | `F` | Toggle Fullscreen|
-| `->`  | Forward 5 seconds  |
-| `<-` | Backward 5 seconds |
+| `→`  | Forward 5 seconds  |
+| `←` | Backward 5 seconds |
 | `M`  | Toggle Mute  |
 
-Methods:
+
+◼️ API > Methods:
 -
-<b>GetPlayerElement:</b>
-Get generated player element, so it can be added eventListeners.
 
-```javascript
-demo1.GetPlayerElement();
-```
-
-<b>TogglePlay:</b>
+<b>togglePlay:</b>
 Play/Pause video
 
 ```javascript
-demo1.TogglePlay();
+demo.togglePlay();
 ```
 
-<b>ToggleSubtitles:</b>
+<b>toggleSubtitles:</b>
 Enable/Disable subtitles
 
 ```javascript
-demo1.ToggleSubtitles();
+demo.toggleSubtitles();
 ```
 
-<b>ToggleFullscreen:</b>
+<b>toggleFullscreen:</b>
 Enable/Disable fullscreen
 
 ```javascript
-demo1.ToggleFullscreen();
+demo.toggleFullscreen();
 ```
 
-<b>AddTrack:</b>
-Add multiple captions to player
+<b>addTrack:</b>
+Add multiple/single captions to player
 
 | Name | Default | Description |
 | --- | --- | --- |
@@ -135,7 +121,7 @@ Add multiple captions to player
 | `src` | `---` |  Path to the file <b>[Can not be empty]</b> |
 
 ```javascript
-demo1.AddTrack({
+demo.addTrack({
   options : {
         0: {
             label: 'Italian',
@@ -150,4 +136,62 @@ demo1.AddTrack({
     }
 }
 ```
+◼️ API > Gets:
+-
+```javascript
+// Returns player DOM element
+demo.playerElement
 
+// Returns a boolean indicating if the current player is playing.
+demo.playing
+
+// Returns a boolean indicating if the current player is paused.
+demo.paused
+
+// Returns a boolean indicating if the current player is stopped.
+demo.stopped  
+
+// Returns a boolean indicating if the current player has finished playback.
+demo.ended    
+
+// Returns currentTime of the player. 
+demo.currentTime
+
+// Returns the duration for the current media.
+demo.duration
+
+// Returns a boolean indicating if the current player is seeking.
+demo.seeking
+
+// Returns the volume of the player.
+demo.volume
+
+// Returns a boolean indicating if the current player is muted.
+demo.muted
+
+// Returns current playRate 
+demo.speed
+
+// Returns mininum speed allowed
+demo.minimumSpeed
+
+// Returns maximum speed allowed
+demo.maximumSpeed
+
+// Returns current source of the player
+demo.source
+```
+
+◼️ API > Sets:
+-
+```javascript
+// Set currentTime to given number(seconds)
+demo.currentTime = 60
+
+// Set player's volume to given number (0.5 is half the volume)
+demo.volume = 0.5
+
+// Set player's playbackRate to given number (0.5 is half the speed rate)
+demo.speed = 0.6
+
+```
