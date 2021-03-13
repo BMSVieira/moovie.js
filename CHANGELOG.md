@@ -1,3 +1,8 @@
+### v1.0.2
+
+- Added a time counter on the progress bar
+- Added change speed rate
+- Changed submenu size to fit smaller containers
 
 ### v1.0.1
 
