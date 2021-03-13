@@ -1,10 +1,10 @@
 
-### v1.1
+### v1.0.1
 
 - Fixed bug when using progress bar with touchscreen
 - CSS Improvements & Code Update
 
-# v1.0 Initial release
+# v1.0.1 Initial release
 
 - Built-in Caption Offset Adjust on the fly
 - Built-in support for .vtt and .srt caption files
