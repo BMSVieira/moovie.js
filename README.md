@@ -8,6 +8,7 @@ moovie.js - Movie focused HTML5 Player
 -
 - 🔧 Fully customizable
 - 💎 Built-in caption offset adjust on the fly
+- 🌠 Adjust speed on the fly
 - 🎬 Built-in support for `.vtt` and `.srt` caption files 
 - 🖊 Add tracks/captions dynamically
 - 🛠 Standardized events / shortcuts / API
@@ -18,7 +19,6 @@ moovie.js - Movie focused HTML5 Player
 
 ◼️ Coming soon:
 -
-- 🔥 Adjust speed on the fly
 - 🔥 Caption customization
 - 🔥 Remove tracks/captions dynamically
 
@@ -191,7 +191,7 @@ demo.currentTime = 60
 // Set player's volume to given number (0.5 is half the volume)
 demo.volume = 0.5
 
-// Set player's playbackRate to given number (0.5 is half the speed rate)
-demo.speed = 0.6
+// Set player's playbackRate to given number (0.1 to 8)
+demo.speed = 2
 
 ```
