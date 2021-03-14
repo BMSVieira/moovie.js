@@ -58,6 +58,18 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 ```
 
+◼️ CDN:
+-
+You can use our CDN (provided by JSDelivr) for the JavaScript and CSS files.
+
+```html
+// Javascript
+<script src="https://cdn.jsdelivr.net/gh/BMSVieira/moovie.js@latest/js/moovie.min.js"></script>
+
+// CSS
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/BMSVieira/moovie.js@latest/css/moovie.min.css">
+```
+
 ◼️ Captions:
 -
 
