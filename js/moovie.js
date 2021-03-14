@@ -2,7 +2,6 @@
 /*-------------------------
 
 Moovie.js - HTML5 Media player made for movies
-
 Made by: Bruno Vieira
 
 --------------------------- */
@@ -16,7 +15,6 @@ class Moovie {
         }
     }) 
     {
-
         // Global
         var randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
         var dimensions = dimensions;
@@ -30,7 +28,9 @@ class Moovie {
         this.dimensions = dimensions;
         this.randomID = randomID;
 
-        // Main throttle function
+        /*
+        ** Main throttle function
+        */
         function throttle (func, interval) {
           var timeout;
           return function() {
@@ -46,7 +46,9 @@ class Moovie {
           }
         }
 
-        // Change video status
+        /*
+        ** Change play/pause function and change all icons
+        */
         var togglePlay = this.togglePlay = function togglePlay() {
 
             // Remove poster background.
@@ -62,7 +64,9 @@ class Moovie {
             }      
         }
 
-        /* View in fullscreen */
+        /*
+        ** Fullscreen handler
+        */
         var SetFullScreen = this.SetFullScreen = function SetFullScreen(){
 
             if (moovie_el_player.requestFullscreen) {
@@ -87,10 +91,14 @@ class Moovie {
             Submenu("CAll");
         }
 
-        // Focus player
+        /*
+        ** Focus player to add keybinds
+        */
         function focusPlayer() { video.focus();}
 
-        // Show or Hide poster
+        /*
+        ** Toggle Poster
+        */
         function togglePoster(order)
         {
             if(order == "show")
@@ -106,26 +114,30 @@ class Moovie {
             }
         }
 
-        // Skips part of video
+        /*
+        ** Skips video on click
+        */
         function skip() {
          video.currentTime += parseFloat(this.dataset.skip);
         }
 
-        // Check player mute and change icon
-        var checkMute = this.checkMute = function checkMute()
-        {
-            if(video.volume == 0) { document.getElementById("icon_volume_"+randomID).src = "icons/mute.svg"; } else { document.getElementById("icon_volume_"+randomID).src = "icons/volume.svg";}
-        }
+        /*
+        ** Change Mute/Unmute Audio icon
+        */
+        var checkMute = this.checkMute = function checkMute() { if(video.volume == 0) { document.getElementById("icon_volume_"+randomID).src = "icons/mute.svg"; } else { document.getElementById("icon_volume_"+randomID).src = "icons/volume.svg";}}
 
-        // Range value when drag
+        /*
+        ** Range value update
+        */
         function handleRangeUpdate() {
-
             video[this.name] = this.value;
             // Update volume icon
             checkMute();
         }
 
-        // Change current playtime
+        /*
+        ** Current time handler
+        */
         function movieVideo(time, direction)
         {
             switch (direction) {
@@ -146,12 +158,14 @@ class Moovie {
              } 
         }
 
-        // Calcualte position of cuetimer
-        function calcSliderPos(e) {
-            return (e.offsetX / e.target.clientWidth) *  parseInt(e.target.getAttribute('max'));
-        }
+        /*
+        ** Slide position
+        */
+        function calcSliderPos(e) { return (e.offsetX / e.target.clientWidth) *  parseInt(e.target.getAttribute('max'));}
 
-        // Cue timer
+        /*
+        ** Progress bar cue timer function
+        */
         function cueTime(e)
         {
             cuevalue = calcSliderPos(e).toFixed(2);
@@ -160,14 +174,18 @@ class Moovie {
             moovie_el_cuetimer.innerHTML = player_time(cuevalue);
         }
 
-        // Detect touchscreen
+        /*
+        ** Detect touchscreen function so it can be added diff eventlisteners
+        */
         function detectTouchScreen()
         {
             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             return isMobile;
         }
 
-        // Mute/Unmute player
+        /*
+        ** Mute/UnMute function
+        */
         function mutePlayer()
         {
             if(video.volume == 0)
@@ -183,7 +201,9 @@ class Moovie {
             }
         }
 
-        // Calculates video time
+        /*
+        ** Formar player time
+        */
         function player_time(secs)
         {   
             var t = new Date(1970,0,1);
@@ -198,7 +218,9 @@ class Moovie {
             return s;
         }
 
-        // Update movie time
+        /*
+        ** Update moovie time on "timeupdate" event listener
+        */
         function updateTime(){
 
             // Get percentage buffered
@@ -212,7 +234,9 @@ class Moovie {
             if(video.currentTime >= video.duration) { video.currentTime = 0; togglePlay();  moovie_el_progress.value = 0; }
         }
 
-        // Progress bar
+        /*
+        ** Progress bar
+        */
         var handleProgress = throttle(function() {
 
             // Get percentage buffered
@@ -229,14 +253,19 @@ class Moovie {
 
         }, 1000);
 
-        // Save offset time
+        /*
+        ** Offset change function
+        */
         var OffsetChange = this.OffsetChange = function OffsetChange()
         {
             offsettime =  document.getElementById("offset_range_input").value;
             document.getElementById("option_submenu_range").innerHTML = offsettime+"s"; 
             document.getElementById("valoffset").value = offsettime;
         }
-        // Set speed
+
+        /*
+        ** Speed change functions
+        */
         var SpeedChange = this.SpeedChange = function SpeedChange()
         {
             speed = document.getElementById("offset_range_speed").value;
@@ -245,7 +274,9 @@ class Moovie {
             video.playbackRate = speed;
         }
 
-        // Jump to current time when clicked
+        /*
+        ** Handler progress bar click/mousemove/touch events
+        */
         function Scrub(e) {
 
             if(!detectTouchScreen())
@@ -271,7 +302,9 @@ class Moovie {
             }
         }
 
-        // Hide Controls
+        /*
+        ** Hide Controls
+        */
         function HideControls(order)
         {
             if(order == "close")
@@ -287,7 +320,9 @@ class Moovie {
             }
         }
 
-        // Activate subtitles
+        /*
+        ** Activate Subtitles
+        */
         var ActivateSubtitles = this.ActivateSubtitles = function ActivateSubtitles()
         {
             if(hassubtitles == 1)
@@ -300,6 +335,9 @@ class Moovie {
             }
         }
 
+        /*
+        ** Submenu handler function
+        */
         function Submenu(order)
         {
             switch(order) {
@@ -369,7 +407,9 @@ class Moovie {
             } 
         }
 
-        // Responsiveness Improvement
+        /*
+        ** Responsive Improveness
+        */
         var TransformPlayer = this.TransformPlayer = function TransformPlayer(caption) {
 
             var containerWidth = moovie_el_video.offsetWidth;
@@ -395,16 +435,19 @@ class Moovie {
          
         }
 
-        // Set caption size
+        /*
+        ** Set caption size when container changes size
+        */
         var SetCaptionSize = this.SetCaptionSize = function SetCaptionSize(caption) {
 
             var containerSize = moovie_el_video.offsetWidth;
             var fontSizeCap = containerSize*0.11;
             document.getElementById("caption_track_"+randomID).style.fontSize = fontSizeCap+"%";
-
         }
 
-        // PLAY CAPTIONS ##############################################################################################################
+        /*
+        **  Play Captions
+        */
         var PlayCaption = this.PlayCaption = function PlayCaption(caption) {
 
             // Reset variables
@@ -538,7 +581,10 @@ class Moovie {
             }
         }
 
-        // ADD CAPTIONS ###############################################################################################################
+        /*
+        ** Add Captions
+        */
+
         var SetCaptions = this.SetCaptions = function SetCaptions(caption) {
 
             // Get Caption Format
@@ -557,7 +603,9 @@ class Moovie {
             });
         }
 
-        // GET CAPTIONS ################################################################################################################
+        /*
+        ** Get Captions
+        */
         var GetCaptions = this.GetCaptions = function GetCaptions() {
 
             // Get all captions inside video tag
@@ -567,7 +615,9 @@ class Moovie {
             }
         }
 
-        // KEYBINDS ###################################################################################################################
+        /*
+        ** Keybinds
+        */
         var Keybinds = this.Keybinds = function Keybinds() {
 
             // Prevent window from scrolling down when space is used
@@ -588,7 +638,9 @@ class Moovie {
             });
         }
 
-        // SETUP EVENTS ################################################################################################################
+        /*
+        ** Setup Events
+        */
         var SetupLogic = this.SetupLogic = function SetupLogic() {
  
             // Get elements
@@ -596,97 +648,102 @@ class Moovie {
             video = moovie_el_player.querySelector('.viewer');
             this.video = video;
 
-            video.addEventListener('timeupdate', handleProgress);
-            video.addEventListener('timeupdate', updateTime);
-
-            // Wait to load video and set duration
+            // Wait media to load, to make sure it doesnt add eventlisteners to a empty container
             video.oncanplay = (event) => {
-              if(moovie_ishiden == 0){
-                document.getElementById("moovie_fulltime").innerHTML = player_time(video.duration);
-                moovie_el_progress.setAttribute("max", video.duration); 
-              }
-            };
 
-            // Focus player so we can add bindings
-            moovie_el_player.addEventListener('click', focusPlayer);
+                    // Hide loading screen
+                    document.getElementById("medialoading").style.display = "none";
 
-            // FullScreen
-            fullscreen = moovie_el_player.querySelector(".fullscreen_button");
-            fullscreen.addEventListener('click', SetFullScreen);
+                    if(moovie_ishiden == 0){
+                        document.getElementById("moovie_fulltime").innerHTML = player_time(video.duration);
+                        moovie_el_progress.setAttribute("max", video.duration); 
+                    }
 
-            // Toogle Functions
-            moovie_el_toggle = moovie_el_player.querySelector('.toggle');
-            moovie_el_toggle.addEventListener('click', togglePlay);
+                    video.addEventListener('timeupdate', handleProgress);
+                    video.addEventListener('timeupdate', updateTime);
 
-            // Poster Functions
-            moovie_el_poster = moovie_el_player.querySelector('#poster_layer_'+randomID);
-            moovie_el_poster.addEventListener('click', togglePlay);
-            video.addEventListener('click', togglePlay);
+                   
+                    // Focus player so we can add bindings
+                    moovie_el_player.addEventListener('click', focusPlayer);
 
-            // Ranges & Sliders
-            ranges = moovie_el_player.querySelectorAll('.player__slider');
-            ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
-            document.getElementById('offset_range_input').addEventListener('change', OffsetChange);
-            document.getElementById('offset_range_speed').addEventListener('change', SpeedChange);
+                    // FullScreen
+                    fullscreen = moovie_el_player.querySelector(".fullscreen_button");
+                    fullscreen.addEventListener('click', SetFullScreen);
 
-            // Mute
-            document.getElementById("mooviegrid_mute_"+randomID).addEventListener('click', mutePlayer);
+                    // Toogle Functions
+                    moovie_el_toggle = moovie_el_player.querySelector('.toggle');
+                    moovie_el_toggle.addEventListener('click', togglePlay);
 
-            // Progress bar
-            moovie_elprogress = moovie_el_player.querySelector('.moovie_progress');
-            
-            if(!detectTouchScreen())
-            {
-                    /* Mouse related eventListeners */
-                    let mousedown = false;
-                    moovie_elprogress.addEventListener('click', Scrub);
-                    moovie_elprogress.addEventListener('mousemove', (e) => mousedown && Scrub(e));
+                    // Poster Functions
+                    moovie_el_poster = moovie_el_player.querySelector('#poster_layer_'+randomID);
+                    moovie_el_poster.addEventListener('click', togglePlay);
+                    video.addEventListener('click', togglePlay);
 
-                    // Cue Time
-                    document.getElementById('range_progress').addEventListener('mousemove', function(e) { cueTime(e); });
-                    document.getElementById('range_progress').addEventListener('mouseleave', function(e) { moovie_el_cuetimer.style.display = "none"; });
+                    // Ranges & Sliders
+                    ranges = moovie_el_player.querySelectorAll('.player__slider');
+                    ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
+                    this.rangeinput.addEventListener('change', OffsetChange);
+                    this.speedinput.addEventListener('change', SpeedChange);
+
+                    // Mute
+                    document.getElementById("mooviegrid_mute_"+randomID).addEventListener('click', mutePlayer);
+
+                    // Progress bar
+                    moovie_elprogress = moovie_el_player.querySelector('.moovie_progress');
                     
-                    moovie_elprogress.addEventListener('mousedown', () => mousedown = true);
-                    moovie_elprogress.addEventListener('mouseup', () => mousedown = false);
+                    if(!detectTouchScreen())
+                    {
+                            /* Mouse related eventListeners */
+                            let mousedown = false;
+                            moovie_elprogress.addEventListener('click', Scrub);
+                            moovie_elprogress.addEventListener('mousemove', (e) => mousedown && Scrub(e));
 
-                    moovie_el_controls.addEventListener('mouseover', e => { isopen = 1; });
-                    moovie_el_controls.addEventListener('mouseleave', e => { isopen = 0; });
+                            // Cue Time
+                            document.getElementById('range_progress').addEventListener('mousemove', function(e) { cueTime(e); });
+                            document.getElementById('range_progress').addEventListener('mouseleave', function(e) { moovie_el_cuetimer.style.display = "none"; });
+                            
+                            moovie_elprogress.addEventListener('mousedown', () => mousedown = true);
+                            moovie_elprogress.addEventListener('mouseup', () => mousedown = false);
 
-                    moovie_el_progress.addEventListener("input", function(event) { video.pause(); }, false);
-                    moovie_el_progress.addEventListener("change", function(event) { togglePlay(); togglePoster("hide"); }, false);
+                            moovie_el_controls.addEventListener('mouseover', e => { isopen = 1; });
+                            moovie_el_controls.addEventListener('mouseleave', e => { isopen = 0; });
 
-            } else {
-                    /* Touch related eventListeners */
-                    moovie_el_progress.addEventListener("touchmove", function(event) { Scrub(event); });
-                    moovie_el_progress.addEventListener("change", function(event) { Scrub(event); togglePoster("hide"); }, false);
-            }
+                            moovie_el_progress.addEventListener("input", function(event) { video.pause(); }, false);
+                            moovie_el_progress.addEventListener("change", function(event) { togglePlay(); togglePoster("hide"); }, false);
 
-            
-            // Submenu events
-            document.getElementById("moovie_cog").addEventListener("click", function() { Submenu("toggleSubmenu") }, true);
-            document.getElementById("topic_submenu_caption").addEventListener("click", function() { Submenu("OCaption") }, true);
-            document.getElementById("topic_submenu_speed").addEventListener("click", function() { Submenu("OSpeed") }, true);
-            document.getElementById("captions_back").addEventListener("click", function() { Submenu("CCaption") }, true);
-            document.getElementById("moovie_subtitle").addEventListener("click", ActivateSubtitles);
-            moovie_el_video.addEventListener("mouseleave", function() { Submenu("CAll") }, false);
-            document.getElementById("captions_offset").addEventListener("click", function() { Submenu("ORange") }, true);
+                    } else {
+                            /* Touch related eventListeners */
+                            moovie_el_progress.addEventListener("touchmove", function(event) { Scrub(event); });
+                            moovie_el_progress.addEventListener("change", function(event) { Scrub(event); togglePoster("hide"); }, false);
+                    }
 
-            // Hide div on mouse stop
-            HideControls("close");
-            var i = null;
-            moovie_el_video.addEventListener('mousemove', e => {
-                clearTimeout(i);
-                HideControls("open");
-                i = setTimeout(function(){ HideControls("close"); }, 2000);
-            });
-            moovie_el_video.addEventListener('mouseleave', e => {
-                clearTimeout(i);
-                HideControls("close");
-            });
+                    // Submenu events
+                    this.moovie_cog.addEventListener("click", function() { Submenu("toggleSubmenu") }, true);
+                    this.topic_submenu_caption.addEventListener("click", function() { Submenu("OCaption") }, true);
+                    this.topic_submenu_speed.addEventListener("click", function() { Submenu("OSpeed") }, true);
+                    this.captions_back.addEventListener("click", function() { Submenu("CCaption") }, true);
+                    this.moovie_subtitle.addEventListener("click", ActivateSubtitles);
+                    moovie_el_video.addEventListener("mouseleave", function() { Submenu("CAll") }, false);
+                    this.captions_offset.addEventListener("click", function() { Submenu("ORange") }, true);
 
+                    // Hide div on mouse stop
+                    HideControls("close");
+                    var i = null;
+                    moovie_el_video.addEventListener('mousemove', e => {
+                        clearTimeout(i);
+                        HideControls("open");
+                        i = setTimeout(function(){ HideControls("close"); }, 2000);
+                    });
+                    moovie_el_video.addEventListener('mouseleave', e => {
+                        clearTimeout(i);
+                        HideControls("close");
+                    });
+             };
         }
 
-        // SETUP PLAYER STRUCTURE ################################################################################################################
+        /*
+        ** Player Structure
+        */
         var SetupPlayer = this.SetupPlayer = function SetupPlayer() {
 
             // Get video source
@@ -709,13 +766,11 @@ class Moovie {
                     moovie_el_controls = document.getElementById("moovie__controls_"+randomID);
 
                     // Set main Play control when video is stopped
-                    moovie_el_video.insertAdjacentHTML('afterbegin', "<div class='poster_layer posteron' id='poster_layer_"+randomID+"'></div>"); 
+                    moovie_el_video.insertAdjacentHTML('afterbegin', "<div id='medialoading' class='loadingv'><div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div></div><div class='poster_layer posteron' id='poster_layer_"+randomID+"'></div>"); 
 
                     moovie_el_poster = document.getElementById("poster_layer_"+randomID);
                     moovie_el_poster.insertAdjacentHTML('afterbegin', "<div class='poster_center' id='poster_center_"+randomID+"' style=''></div>"); 
                     document.getElementById("poster_center_"+randomID).insertAdjacentHTML('afterbegin', "<div class='poster_button'><img src='icons/play.svg' style='width: 24px; position: relative; left: 3px;'></div>"); 
-
-                    // Check if it has poster
                     if(vposter != null){  moovie_el_poster.style.backgroundImage = "url("+vposter+")"; moovie_el_poster.style.backgroundSize = "100%"; }
                    
                     // Add caption spot
@@ -724,15 +779,13 @@ class Moovie {
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button class='player__button toggle' id='tooglebutton' title='Toggle Play'><img id='moovie_bplay_"+randomID+"' src='icons/play.svg'></button>");
                     // Progress bar
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<div class='moovie_cuetime' id='moovie_cue_timer'>loading...</div><div id='moovie_progressbar' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /></div>");  
-                    this.moovie_el_cuetimer = moovie_el_cuetimer = document.getElementById("moovie_cue_timer");
-                    // Current time / full time
+                   // Current time / full time
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<div id='moovie_el_current' class='player__button player_button_disabled moovie_currentime'><span id='moovie_currentime'>00:00</span> / <span id='moovie_fulltime'></span></div>");  
                     // Volume Icon
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='mooviegrid_mute_"+randomID+"' class='player__button'><img id='icon_volume_"+randomID+"' src='icons/volume.svg'></button>"); 
                     // Volume
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<input type='range' id='mooviegrid_volume_"+randomID+"' style='max-width:100px; min-width:50px;' name='volume' class='moovie_progress_sound player__slider' min=0 max='1' step='0.01' value='1'>");  
-                    this.moovie_el_volume = moovie_el_volume = document.getElementById("mooviegrid_volume_"+randomID);
-                   // Subtitles
+                    // Subtitles
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='moovie_subtitle' style='margin-left:5px' class='player__button'><img class='opacity_svg' id='moovie_subtitle_svg' src='icons/cc.svg'></button>");  
                     // Config
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='moovie_cog' class='player__button'><img src='icons/cog.svg'></button>");  
@@ -741,33 +794,42 @@ class Moovie {
                     // Create main sub-menu
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<div style='display:none;' class='moovie_submenu menuclosed' id='moovie_submenu_"+randomID+"'><div class='arrow-down' style='position: absolute; margin-left: 148px;'></div></div>");  
 
+                        /* SUBMENU */
+
                         moovie_el_submenu = document.getElementById("moovie_submenu_"+randomID);
                         moovie_el_progress = document.getElementById("range_progress");
-                        this.progressbar = moovie_el_progress;
                         // Menu main
                         moovie_el_submenu.insertAdjacentHTML('beforeend', "<ul id='moovie_submenu_main'></ul>");
                         moovie_el_submain =  document.getElementById("moovie_submenu_main");
-
                         // Add lines to main
                         moovie_el_submain.insertAdjacentHTML('beforeend', "<li class='topic_submenu'>Settings:</li>");
                         moovie_el_submain.insertAdjacentHTML('beforeend', "<li id='topic_submenu_caption'><span>Captions</span><span class='option_submenu' id='option_submenu_caption'>Disabled</span></li>");
                         moovie_el_submain.insertAdjacentHTML('beforeend', "<li id='captions_offset'><span >Caption Offset</span><span class='option_submenu' id='option_submenu_range'>0s</span></li>");
                         moovie_el_submain.insertAdjacentHTML('beforeend', "<li id='topic_submenu_speed'><span >Speed</span><span class='option_submenu' id='option_submenu_speed'>Default</span></li>");
-
-                        /* CAPTIONS MENU */
+                        // Captions Menu
                         moovie_el_submenu.insertAdjacentHTML('beforeend', "<ul style='display:none;' id='moovie_submenu_captions'><li class='topic_submenu'>Captions:</li><li id='captions_back' style='font-weight:bold;'>Back</li></ul>");
                         moovie_el_captions = document.getElementById("moovie_submenu_captions");
-                        /* RANGE CAPTION */
+                        // Range Caption
                         moovie_el_submenu.insertAdjacentHTML('beforeend', "<ul style='display:none; width:250px;' id='moovie_range_captions' style='display:none;'><li class='topic_submenu'>Adjust Caption Offset:<output style='position:absolute; right:22px;' id='valoffset'>0</output></li><li class='topic_submenu'><span>-5s</span><span style='float: right;'>+5s</span><input type='range' oninput='valoffset.value = offset_range_input.value' id='offset_range_input' min='-5' max='5' step='0.2'></li>");
                         moovie_el_range = document.getElementById("moovie_range_captions");
-                        this.rangeinput = moovie_el_rinput = document.getElementById("offset_range_input");
-                        /* SPEED RATE */
+                        // Speed rate 
                         moovie_el_submenu.insertAdjacentHTML('beforeend', "<ul style='display:none; width:250px;' id='moovie_range_speed' style='display:none;'><li class='topic_submenu'>Adjust Speed:<output style='position:absolute; right:22px;' id='valoffset_speed'>1</output></li><li class='topic_submenu'><span>0.1x</span><span style='float: right;'>8x</span><input type='range' value='1' oninput='valoffset_speed.value = offset_range_speed.value' id='offset_range_speed' min='0.1' max='8' step='0.1'></li>");
                         moovie_el_speed = document.getElementById("moovie_range_speed");
-                        this.speedinput = moovie_el_sinput = document.getElementById("offset_range_speed");
 
+                    // Update variables
+                    this.moovie_cog = document.getElementById("moovie_cog");
+                    this.topic_submenu_caption = document.getElementById("topic_submenu_caption");
+                    this.topic_submenu_speed = document.getElementById("topic_submenu_speed");
+                    this.captions_back = document.getElementById("captions_back");
+                    this.moovie_subtitle = document.getElementById("moovie_subtitle");
+                    this.captions_offset = document.getElementById("captions_offset");
+                    this.speedinput = moovie_el_sinput = document.getElementById("offset_range_speed");
+                    this.rangeinput = moovie_el_rinput = document.getElementById("offset_range_input");
+                    this.progressbar = moovie_el_progress;
+                    this.moovie_el_volume = moovie_el_volume = document.getElementById("mooviegrid_volume_"+randomID);
+                    this.moovie_el_cuetimer = moovie_el_cuetimer = document.getElementById("moovie_cue_timer");
 
-
+                    // Call events
                     this.SetupLogic();
                     this.GetCaptions();
                     this.Keybinds(); 
@@ -775,7 +837,7 @@ class Moovie {
                     TransformPlayer();     
         }
 
-        // ** SETUP player **
+        // Setup
         this.SetupPlayer();
 
         // Function that will run repeatedly at each fixed interval of time.
@@ -789,7 +851,9 @@ class Moovie {
 
     }
 
-    // METHODS ################################################################################################################
+    /*
+    ** Methods
+    */
 
     // Trigger toggle play
     togglePlay(){ this.togglePlay(); }
@@ -830,7 +894,9 @@ class Moovie {
     
     }   
 
-    // GETS ################################################################################################################
+    /*
+    ** API > Gets
+    */
 
     // Get player element
     get playerElement() { return this.video; }
@@ -872,7 +938,9 @@ class Moovie {
     // Get Source
     get captionOffset() { return this.rangeinput.value; }
 
-    // SETS ################################################################################################################
+    /*
+    ** API > Sets
+    */
 
     // Set current time
     set currentTime (input) { this.video.currentTime = input; this.progressbar.value = input; }
