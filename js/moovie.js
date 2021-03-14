@@ -311,13 +311,11 @@ class Moovie {
             {
                 if(isopen == 0 && video.paused == false) 
                 {   
-                  Submenu("CAll");
-                  document.getElementById("moovie__controls_"+randomID).style.display = "none";
+                    Submenu("CAll");
+                    document.getElementById("moovie__controls_"+randomID).style.display = "none";   
                 }
 
-            } else if(order == "open")
-            { document.getElementById("moovie__controls_"+randomID).style.display = "flex";
-            }
+            } else if(order == "open"){ document.getElementById("moovie__controls_"+randomID).style.display = "flex";}
         }
 
         /*
@@ -648,8 +646,8 @@ class Moovie {
             video = moovie_el_player.querySelector('.viewer');
             this.video = video;
 
-            // Wait media to load, to make sure it doesnt add eventlisteners to a empty container
-            video.oncanplay = (event) => {
+                // Wait media to load, to make sure it doesnt add eventlisteners to a empty container
+                video.oncanplay = (event) => {
                     // Hide loading screen
                     document.getElementById("medialoading").style.display = "none";
 
@@ -673,11 +671,6 @@ class Moovie {
                 moovie_el_toggle = moovie_el_player.querySelector('.toggle');
                 moovie_el_toggle.addEventListener('click', togglePlay);
 
-                // Poster Functions
-                moovie_el_poster = moovie_el_player.querySelector('#poster_layer_'+randomID);
-                moovie_el_poster.addEventListener('click', togglePlay);
-                video.addEventListener('click', togglePlay);
-
                 // Ranges & Sliders
                 ranges = moovie_el_player.querySelectorAll('.player__slider');
                 ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
@@ -697,6 +690,11 @@ class Moovie {
                         moovie_elprogress.addEventListener('click', Scrub);
                         moovie_elprogress.addEventListener('mousemove', (e) => mousedown && Scrub(e));
 
+                        // Poster Functions
+                        moovie_el_poster = moovie_el_player.querySelector('#poster_layer_'+randomID);
+                        moovie_el_poster.addEventListener('click', togglePlay);
+                        video.addEventListener('click', togglePlay);
+
                         // Cue Time
                         document.getElementById('range_progress').addEventListener('mousemove', function(e) { cueTime(e); });
                         document.getElementById('range_progress').addEventListener('mouseleave', function(e) { moovie_el_cuetimer.style.display = "none"; });
@@ -710,10 +708,39 @@ class Moovie {
                         moovie_el_progress.addEventListener("input", function(event) { video.pause(); }, false);
                         moovie_el_progress.addEventListener("change", function(event) { togglePlay(); togglePoster("hide"); }, false);
 
+                        // Hide div on mouse stop
+                        HideControls("close");
+                        var i = null;
+                        moovie_el_video.addEventListener('mousemove', e => {
+                            clearTimeout(i);
+                            HideControls("open");
+                            i = setTimeout(function(){ HideControls("close"); }, 2000);
+                        });
+                        moovie_el_video.addEventListener('mouseleave', e => {
+                            clearTimeout(i);
+                            HideControls("close");
+                        });
+
                 } else {
+
                         /* Touch related eventListeners */
-                        moovie_el_progress.addEventListener("touchmove", function(event) { Scrub(event); });
-                        moovie_el_progress.addEventListener("change", function(event) { Scrub(event); togglePoster("hide"); }, false);
+                        moovie_el_progress.addEventListener("touchmove", function(event) { Scrub(event); video.pause(); });
+                        moovie_el_progress.addEventListener("change", function(event) { Scrub(event); if(!video.pause()){togglePlay();} togglePoster("hide"); }, false);
+                        moovie_el_poster.addEventListener("touchend", function(event) { if(!video.pause()){togglePlay();}  });
+
+                        // Hide div on mouse stop
+                        var i = null;
+                        moovie_el_video.addEventListener('touchstart', e => {
+                            clearTimeout(i);
+                            HideControls("open");
+                            i = setTimeout(function(){ HideControls("close");  }, 4000);
+                         });
+                        moovie_el_video.addEventListener('touchmove', e => { clearTimeout(i); });
+                        moovie_el_video.addEventListener('touchend', e => {
+                            clearTimeout(i);
+                            i = setTimeout(function(){ HideControls("close");  }, 4000);
+                        });
+
                 }
 
                 // Submenu events
@@ -723,21 +750,7 @@ class Moovie {
                 this.captions_back.addEventListener("click", function() { Submenu("CCaption") }, true);
                 this.moovie_subtitle.addEventListener("click", ActivateSubtitles);
                 moovie_el_video.addEventListener("mouseleave", function() { Submenu("CAll") }, false);
-                this.captions_offset.addEventListener("click", function() { Submenu("ORange") }, true);
-
-                // Hide div on mouse stop
-                HideControls("close");
-                var i = null;
-                moovie_el_video.addEventListener('mousemove', e => {
-                    clearTimeout(i);
-                    HideControls("open");
-                    i = setTimeout(function(){ HideControls("close"); }, 2000);
-                });
-                moovie_el_video.addEventListener('mouseleave', e => {
-                    clearTimeout(i);
-                    HideControls("close");
-                });
-             
+                this.captions_offset.addEventListener("click", function() { Submenu("ORange") }, true);  
         }
 
         /*
