@@ -1,3 +1,12 @@
+### v1.0.3
+
+- Major improvements in mobile UX
+- Added loading screen while media is still loading
+- Added new API Gets/Sets
+- Reworked Functions
+- Fixed Minor Bugs
+- Code Update
+
 ### v1.0.2
 
 - Added a time counter on the progress bar
