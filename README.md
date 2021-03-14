@@ -178,6 +178,15 @@ demo.minimumSpeed
 // Returns maximum speed allowed
 demo.maximumSpeed
 
+// Returns mininum caption offset allowed
+demo.minimumOffset
+
+// Returns maximum caption offset allowed
+demo.maximumOffset
+
+// Returns current caption offset
+demo.captionOffset
+
 // Returns current source of the player
 demo.source
 ```
@@ -194,4 +203,6 @@ demo.volume = 0.5
 // Set player's playbackRate to given number (0.1 to 8)
 demo.speed = 2
 
+// Set player's caption offset to given number (-5 to 5)
+demo.captionOffset = 2
 ```
