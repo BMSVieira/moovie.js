@@ -65,7 +65,7 @@
                   Your browser does not support the video tag.
               </video>
 
-              <a class="btn btn-light" href="https://github.com/BMSVieira/moovie.js" target="_blank" style="margin-top:50px; margin-bottom: 130px;">View on Github</a>
+              <a class="btn btn-light" href="https://github.com/BMSVieira/moovie.js" target="_blank" style="margin-top:50px; margin-bottom: 130px;">View on GitHub</a>
 
             </div>
       </div>
@@ -81,6 +81,14 @@
           selector: "#example",
           dimensions: {
                width: "100%"
+          },
+          config: {
+              storage: {
+                 captionOffset: false,
+                 playrateSpeed: false,
+                 captionSize: false,
+                 captionPosition: false
+              }
           }
         });
   });

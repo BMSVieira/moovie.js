@@ -11,8 +11,16 @@ class Moovie {
     constructor({
         selector = 'defaultId',
         dimensions = {
-          width: "700"
-        }
+          width: "100%"
+        },
+        config = {
+            storage : {
+                captionOffset: false,
+                playrateSpeed: false,
+                captionSize: false,
+                captionPosition: false
+            }
+         }
     }) 
     {
         // Global
@@ -27,6 +35,7 @@ class Moovie {
         this.element = document.getElementById(this.selector);
         this.dimensions = dimensions;
         this.randomID = randomID;
+        this.config = config;
 
         /*
         ** Main throttle function
@@ -44,6 +53,24 @@ class Moovie {
               setTimeout(later, interval)
             }
           }
+        }
+
+        /*
+        ** function that handles internal storage
+        */
+        var handleStorage = this.handleStorage = function handleStorage(order, variable, value) {
+            switch(order) {
+              case "set":
+                    localStorage.setItem(variable, value);
+                break;
+              case "get": break;
+              case "setStorage": 
+                    if(config["storage"]["captionOffset"]){ moovie_el_rinput.value = localStorage.getItem("captionOffset"); OffsetChange();}   
+                    if(config["storage"]["playrateSpeed"]){ moovie_el_sinput.value = localStorage.getItem("playrateSpeed"); SpeedChange();}   
+                    if(config["storage"]["captionSize"]){ document.getElementById("caption_track_"+randomID).style.fontSize = localStorage.getItem("captionSize")+"px"; }   
+                    if(config["storage"]["captionPosition"]){ document.getElementById("caption_track_"+randomID).style.marginBottom = localStorage.getItem("captionPosition")+"px";}               
+              break;
+            } 
         }
 
         /*
@@ -261,6 +288,9 @@ class Moovie {
             offsettime =  document.getElementById("offset_range_input").value;
             document.getElementById("option_submenu_range").innerHTML = offsettime+"s"; 
             document.getElementById("valoffset").value = offsettime;
+
+            // Save info in internal storage if true
+            if(config["storage"]["captionOffset"]){ handleStorage("set", "captionOffset", offsettime); }   
         }
 
         /*
@@ -269,9 +299,15 @@ class Moovie {
         var SpeedChange = this.SpeedChange = function SpeedChange()
         {
             speed = document.getElementById("offset_range_speed").value;
-            document.getElementById("option_submenu_speed").innerHTML = speed+"x"; 
             document.getElementById("valoffset_speed").value = speed;
+
+            if(speed == 1){ document.getElementById("option_submenu_speed").innerHTML = "Default"; } else {
+            document.getElementById("option_submenu_speed").innerHTML = speed+"x"; }
+
             video.playbackRate = speed;
+
+            // Save info in internal storage if true
+            if(config["storage"]["playrateSpeed"]){ handleStorage("set", "playrateSpeed", speed); }   
         }
 
         /*
@@ -460,6 +496,10 @@ class Moovie {
                     computedFontSize = Number(computedFontSize)-Number(1);
                     captionSize.style.fontSize = computedFontSize+"px"; 
                 }
+
+                // Save info in internal storage if true
+                if(config["storage"]["captionSize"]){ handleStorage("set", "captionSize", computedFontSize); } 
+
             }
         }
 
@@ -483,6 +523,8 @@ class Moovie {
                     computedMargin = Number(computedMargin)-Number(1);
                     captionSize.style.marginBottom = computedMargin+"px"; 
                 }
+
+            if(config["storage"]["captionPosition"]){ handleStorage("set", "captionPosition", computedMargin); }  
         }
 
         /*
@@ -687,7 +729,7 @@ class Moovie {
         ** Setup Events
         */
         var SetupLogic = this.SetupLogic = function SetupLogic() {
- 
+
             // Get elements
             moovie_el_player = document.querySelector('#moovie__video_'+randomID);
             video = moovie_el_player.querySelector('.viewer');
@@ -702,6 +744,9 @@ class Moovie {
                         document.getElementById("moovie_fulltime").innerHTML = player_time(video.duration);
                         moovie_el_progress.setAttribute("max", video.duration); 
                     }
+
+                    // Call funtion to set values in the Localstore
+                    handleStorage("setStorage"); 
                 };
 
                 video.addEventListener('timeupdate', handleProgress);
@@ -893,7 +938,7 @@ class Moovie {
                     this.GetCaptions();
                     this.Keybinds(); 
                     SetCaptionSize();  
-                    TransformPlayer();     
+                    TransformPlayer(); 
         }
 
         // Setup
