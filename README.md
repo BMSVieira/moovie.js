@@ -89,15 +89,20 @@ It is possible to adjust the offset by a total of `10 seconds` (-5 / +5) on the 
 ◼️ Shortcuts:
 -
 
+A player will bind the following keyboard shortcuts when it has focus.
+
 | Key | Description |
 | --- | --- |
 | `SpaceBar` | Toggle Play|
 | `K`  | Toggle Play  |
 | `F` | Toggle Fullscreen|
-| `→`  | Forward 5 seconds  |
-| `←` | Backward 5 seconds |
+| `ArrowRight`  | Forward `5s`  |
+| `ArrowLeft` | Backward `5s` |
 | `M`  | Toggle Mute  |
-
+| `Shift`+`PageUp`| Increase caption's size|
+| `Shift`+`PageDown`| Decrease caption's size|
+| `Shift`+`ArrowUp`| Move caption up|
+| `Shift`+`ArrowDown`| Move caption down|
 
 ◼️ API > Methods:
 -
