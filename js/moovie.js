@@ -315,7 +315,7 @@ class Moovie {
                     document.getElementById("moovie__controls_"+randomID).style.display = "none";   
                 }
 
-            } else if(order == "open"){ document.getElementById("moovie__controls_"+randomID).style.display = "flex";}
+            } else if(order == "open"){ document.getElementById("moovie__controls_"+randomID).style.display = "flex"; }
         }
 
         /*
@@ -436,11 +436,53 @@ class Moovie {
         /*
         ** Set caption size when container changes size
         */
-        var SetCaptionSize = this.SetCaptionSize = function SetCaptionSize(caption) {
+        var SetCaptionSize = this.SetCaptionSize = function SetCaptionSize(value) {
 
-            var containerSize = moovie_el_video.offsetWidth;
-            var fontSizeCap = containerSize*0.11;
-            document.getElementById("caption_track_"+randomID).style.fontSize = fontSizeCap+"%";
+            const captionSize = document.getElementById("caption_track_"+randomID);
+            var computedFontSize = window.getComputedStyle(captionSize).fontSize;
+
+            if(!value)
+            {
+                var containerSize = moovie_el_video.offsetWidth;
+                var fontSizeCap = containerSize*0.11;
+                captionSize.style.fontSize = fontSizeCap+"%";
+            } else {
+
+                if(value == "sizeUp")
+                {
+                    computedFontSize = computedFontSize.slice(0, -2);
+                    computedFontSize = Number(computedFontSize)+Number(1);
+                    captionSize.style.fontSize = computedFontSize+"px"; 
+
+                } else if(value == "sizeDown")
+                {
+                    computedFontSize = computedFontSize.slice(0, -2);
+                    computedFontSize = Number(computedFontSize)-Number(1);
+                    captionSize.style.fontSize = computedFontSize+"px"; 
+                }
+            }
+        }
+
+        /*
+        ** Set caption position
+        */
+        var SetCaptionPosition = this.SetCaptionPosition = function SetCaptionPosition(value) {
+
+            const captionSize = document.getElementById("caption_track_"+randomID);
+            var computedMargin = captionSize.currentStyle || window.getComputedStyle(captionSize);
+
+                if(value == "posiUp")
+                { 
+                    computedMargin = computedMargin["marginBottom"].slice(0, -2);
+                    computedMargin = Number(computedMargin)+Number(1);
+                    captionSize.style.marginBottom = computedMargin+"px"; 
+
+                } else if(value == "posiDown")
+                {  
+                    computedMargin = computedMargin["marginBottom"].slice(0, -2);
+                    computedMargin = Number(computedMargin)-Number(1);
+                    captionSize.style.marginBottom = computedMargin+"px"; 
+                }
         }
 
         /*
@@ -620,19 +662,24 @@ class Moovie {
 
             // Prevent window from scrolling down when space is used
             video.addEventListener('keydown', function(e) {
-              if(e.keyCode == 32) {
+              if(e.keyCode == 32 || event.shiftKey && event.keyCode == 33 || event.shiftKey && event.keyCode == 34 || event.shiftKey && event.keyCode == 38 || event.shiftKey && event.keyCode == 40) {
                 e.preventDefault();
               }
             });
 
             // Keybinds to player
             video.addEventListener('keydown', function (event) {
-                if (event.keyCode == 32) { togglePlay(); }             // [Space bar] - Toogle play
-                if (event.keyCode == 75) { togglePlay(); }             // [K] - Toggle play
-                if (event.keyCode == 70) { SetFullScreen(); }          // [F] - Set fullscreen
-                if (event.keyCode == 39) { movieVideo(5, "right"); }   // [Right Arrow] - Foward 5 seconds
-                if (event.keyCode == 37) { movieVideo(5, "left"); }    // [Left Arrow] - backward 5 seconds
-                if (event.keyCode == 77) { mutePlayer(); }             // [M] - Mute player   
+                if (event.keyCode == 32) { togglePlay(); }             // [Space bar]
+                if (event.keyCode == 75) { togglePlay(); }             // [K]
+                if (event.keyCode == 70) { SetFullScreen(); }          // [F]
+                if (event.keyCode == 39) { movieVideo(5, "right"); }   // [Right Arrow]
+                if (event.keyCode == 37) { movieVideo(5, "left"); }    // [Left Arrow]
+                if (event.keyCode == 77) { mutePlayer(); }             // [M] 
+                if(event.shiftKey && event.keyCode == 33) { SetCaptionSize("sizeUp"); } // [Shift + PageUp]
+                if(event.shiftKey && event.keyCode == 34) { SetCaptionSize("sizeDown"); } // [Shift + PageDown]
+                if(event.shiftKey && event.keyCode == 38) { SetCaptionPosition("posiUp"); } // [Shift + Arrow Up]
+                if(event.shiftKey && event.keyCode == 40) { SetCaptionPosition("posiDown"); } // [Shift + Arrow Down]
+
             });
         }
 
