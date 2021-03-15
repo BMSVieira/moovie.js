@@ -12,15 +12,10 @@ moovie.js - Movie focused HTML5 Player
 - 🎬 Built-in support for `.vtt` and `.srt` caption files 
 - 🖊 Add tracks/captions dynamically
 - 🛠 Standardized events / shortcuts / API
+- 🖌 Caption customization
 - 💪 No dependencies, built with VanillaJS
 - 🌎 Tested in all modern browsers
 - 💻 Responsive
-
-
-◼️ Coming soon:
--
-- 🔥 Caption customization
-- 🔥 Remove tracks/captions dynamically
 
 ◼️ Demo:
 -
