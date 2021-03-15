@@ -223,3 +223,35 @@ demo.speed = 2
 // Set player's caption offset to given number (-5 to 5)
 demo.captionOffset = 2
 ```
+
+◼️ Settings:
+-
+| Option | Type | Description |
+| --- | --- | --- |
+| `selector` | `String`  | Specify ID of the element|
+| `dimensions` > `width` | `string` | Width of the player (you must specify the type: `px`, `%`, etc..)|
+| `config` > `storage` > `captionOffset`| `boolean`  | Indicates whether caption's offset adjust will be stored or not|
+| `config` > `storage` > `playrateSpeed`| `boolean`  | Indicates whether Play Speed will be stored or not|
+| `config` > `storage` > `captionSize`| `boolean`  | Indicates whether caption's size will be stored or not|
+| `config` > `storage` > `captionPosition`| `boolean`  | Indicates whether caption's position will be stored or not|
+
+<b>Full Example:</b>
+
+```javascript
+document.addEventListener("DOMContentLoaded", function() {
+  var demo = new Moovie({
+    selector: "#example",
+    dimensions: {
+         width: "100%"
+    },
+    config: {
+        storage: {
+           captionOffset: false,
+           playrateSpeed: false,
+           captionSize: false,
+           captionPosition: false
+        }
+    }
+  });
+});
+```
