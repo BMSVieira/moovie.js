@@ -126,11 +126,11 @@ demo.toggleFullscreen();
 <b>addTrack:</b>
 Add multiple/single captions to player
 
-| Name | Default | Description |
-| --- | --- | --- |
-| `label` | `New Subtitle` |  Name of the new subtitle in the caption box |
-| `srclang` | `New` | Country designation |
-| `src` | `---` |  Path to the file <b>[Can not be empty]</b> |
+| Name | Type | Default | Description |
+| --- | --- |--- | --- |
+| `label` | `string` | `New Subtitle` | Name of the new subtitle in the caption box |
+| `srclang` | `string` | `New` | Country designation |
+| `src` | `string` | `---` |  Path to the file <b>[Can not be empty]</b> |
 
 ```javascript
 demo.addTrack({
@@ -148,6 +148,28 @@ demo.addTrack({
     }
 }
 ```
+
+<b>change:</b>
+Apply changes to current player.
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `video` > `videoSrc` | `string` | New video's source|
+| `video` > `posterSrc` | `string` | New poster's source |
+| `captions` > `clearCaptions` | `boolean` |  Remove all available captions in the menu |
+
+```javascript
+demo.change({
+     video: {
+         videoSrc: "<<path-to-video>>",
+         posterSrc: "<<path-to-poster>>"
+     },
+     captions:{
+         clearCaptions: true
+     }
+});
+```
+
 ◼️ API > Gets:
 -
 ```javascript
