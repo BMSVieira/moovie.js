@@ -1,3 +1,12 @@
+### v1.0.4
+
+- Added "change" method, video's and poster's source can now be changed
+- Added LocalStorage to store user's input to the player
+- Caption's font size and positioning can now be changed on the fly
+- Reworked Functions
+- Fixed Minor Bugs
+- Code Update
+
 ### v1.0.3
 
 - Major improvements in mobile UX
