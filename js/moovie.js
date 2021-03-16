@@ -250,12 +250,6 @@ class Moovie {
         */
         function updateTime(){
 
-            // Get percentage buffered
-            var r = video.buffered;
-            var total = video.duration;
-            var start = r.start(0);
-            var end = r.end(0);
-            
             // Update current times
             if(moovie_ishiden == 0){ document.getElementById("moovie_currentime").innerHTML = player_time(video.currentTime); }
             if(video.currentTime >= video.duration) { video.currentTime = 0; togglePlay();  moovie_el_progress.value = 0; }
@@ -265,12 +259,6 @@ class Moovie {
         ** Progress bar
         */
         var handleProgress = throttle(function() {
-
-            // Get percentage buffered
-            var r = video.buffered;
-            var total = video.duration;
-            var start = r.start(0);
-            var end = r.end(0);
             
             if(!video.paused)
             {
@@ -872,7 +860,7 @@ class Moovie {
                     // Set main Play control when video is stopped
                     moovie_el_video.insertAdjacentHTML('afterbegin', "<div id='medialoading' class='loadingv'><div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div></div><div class='poster_layer posteron' id='poster_layer_"+randomID+"'></div>"); 
 
-                    moovie_el_poster = document.getElementById("poster_layer_"+randomID);
+                    this.moovieposter = moovie_el_poster = document.getElementById("poster_layer_"+randomID);
                     moovie_el_poster.insertAdjacentHTML('afterbegin', "<div class='poster_center' id='poster_center_"+randomID+"' style=''></div>"); 
                     document.getElementById("poster_center_"+randomID).insertAdjacentHTML('afterbegin', "<div class='poster_button'><img src='icons/play.svg' style='width: 24px; position: relative; left: 3px;'></div>"); 
                     if(vposter != null){  moovie_el_poster.style.backgroundImage = "url("+vposter+")"; moovie_el_poster.style.backgroundSize = "100%"; }
@@ -965,7 +953,7 @@ class Moovie {
     toggleSubtitles(){ this.ActivateSubtitles(); }
     // Trigger toggle Fullscreen
     toggleFullscreen(){ this.SetFullScreen(); }
-     // Add new track
+    // Add new track
     addTrack(properties){ 
 
         if(properties.options && typeof(properties.options) === 'object')
@@ -993,11 +981,45 @@ class Moovie {
             this.GetCaptions();
 
         } else {
+               console.error("Options must be and Object. Read documentation.");
+        }
+    }   
+    // Apply changes to current player
+    change(properties){ 
+
+        if(properties.video && typeof(properties.video) === 'object')
+        {
+            // Check if Video Source is empty or not
+            if(properties.video.videoSrc)
+            {
+                // Pause video, then change source and plays it
+                this.video.pause();
+                this.video.src = properties.video.videoSrc;
+                this.video.play();
+            }
+            // Check if Poster source is empty or not
+            if(properties.video.posterSrc)
+            {   
+                this.element.setAttribute('poster', properties.video.posterSrc);
+                this.moovieposter.style.backgroundImage = "url("+properties.video.posterSrc+")";
+            }
+
+            if(properties.captions && typeof(properties.captions) === 'object')
+            {
+                // Check if captions clear is true or false
+                if(properties.captions.clearCaptions)
+                {   
+                    // Remove all caption itens
+                    document.querySelectorAll('.caption_track').forEach((item) => {
+                        item.remove();
+                    });
+                }      
+
+            }
+        } else {
             console.error("Options must be and Object. Read documentation.");
         }
-    
     }   
-
     /*
     ** API > Gets
     */
@@ -1054,5 +1076,6 @@ class Moovie {
     set speed (input) { if(input < -0.1 || input > 8) { return "Value must be between -0.1 and 8"; } else { this.video.playbackRate = input; this.speedinput.value = input; this.SpeedChange();}}
     // Set caption offset
     set captionOffset (input) { if(input < -5 || input > 5) { return "Value must be between -5 and 5"; } else { this.rangeinput.value = input; this.OffsetChange();}}
-
+    // Change source
+    set source (input) { this.video.pause(); this.video.src = input; this.video.play(); }  
 }
