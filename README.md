@@ -94,8 +94,8 @@ A player will bind the following keyboard shortcuts when it has focus.
 | `ArrowRight`  | Forward `5s`  |
 | `ArrowLeft` | Backward `5s` |
 | `M`  | Toggle Mute  |
-| `Shift`+`PageUp`| Increase caption's size|
-| `Shift`+`PageDown`| Decrease caption's size|
+| `Shift`+`W`| Increase caption's size|
+| `Shift`+`S`| Decrease caption's size|
 | `Shift`+`ArrowUp`| Move caption up|
 | `Shift`+`ArrowDown`| Move caption down|
 
