@@ -1,5 +1,6 @@
 moovie.js - Movie focused HTML5 Player 
 --
+
 <p align="center">
 <img width="250" src="https://bmsvieira.github.io/moovie.js/demo-template/images/moovie_black.png">
 </p>
@@ -240,6 +241,44 @@ demo.speed = 2
 // Set player's caption offset to given number (-5 to 5)
 demo.captionOffset = 2
 ```
+
+◼️ Events:
+-
+
+Using <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events" target="_blank">Standard Media Events</a> you can listen for events on the target element you setup. check the example below:
+
+```javascript
+demo.video.addEventListener("canplay", function() {
+    // Your Code Here
+}, true);
+```
+
+| Event | Description 
+| --- | --- |
+| `abort`| Sent when playback is aborted; for example, if the media is playing and is restarted from the beginning, this event is sent. |
+| `canplay`| Sent when enough data is available that the media can be played, at least for a couple of frames. |
+| `canplaythrough`| Sent when the readyState changes to HAVE_ENOUGH_DATA, indicating that the entire media can be played without interruption, assuming the download rate remains at least at the current level.|
+| `durationchange`| The metadata has loaded or changed, indicating a change in duration of the media. |
+| `emptied`| The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the load() method is called to reload it. |
+| `error`| Sent when an error occurs.  The element's error attribute contains more information. |
+| `interruptbegin`| Sent when audio playing on a Firefox OS device is interrupted, either because the app playing the audio is sent to the background, or audio in a higher priority audio channel begins to play. |
+| `interruptend`| Sent when previously interrupted audio on a Firefox OS device commences playing again — when the interruption ends. |
+| `loadeddata`| The first frame of the media has finished loading. |
+| `loadedmetadata`| The media's metadata has finished loading; all attributes now contain as much useful information as they're going to. |
+| `loadstart`| Sent when loading of the media begins. |
+| `pause`| Sent when the playback state is changed to paused (paused property is true). |
+| `play`| Sent when the playback state is no longer paused, as a result of the play method, or the autoplay attribute. |
+| `playing`| Sent when the media has enough data to start playing, after the play event, but also when recovering from being stalled, when looping media restarts, and after seeked, if it was playing before seeking. |
+| `progress`| Sent periodically to inform interested parties of progress downloading the media. Information about the current amount of the media that has been downloaded is available in the media element's buffered attribute. |
+| `ratechange`| Sent when the playback speed changes. |
+| `seeked`| Sent when a seek operation completes. |
+| `seeking`| Sent when a seek operation begins. |
+| `stalled`| Sent when the user agent is trying to fetch media data, but data is unexpectedly not forthcoming. |
+| `suspend`| Sent when loading of the media is suspended; this may happen either because the download has completed or because it has been paused for any other reason. |
+| `timeupdate`| The time indicated by the element's currentTime attribute has changed. |
+| `volumechange`| Sent when the audio volume changes (both when the volume is set and when the muted attribute is changed). |
+| `waiting`| Sent when the requested operation (such as playback) is delayed pending the completion of another operation (such as a seek). |
+
 
 ◼️ Settings:
 -
