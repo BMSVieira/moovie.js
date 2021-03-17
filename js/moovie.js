@@ -119,6 +119,18 @@ class Moovie {
         }
 
         /*
+        ** Buffered Video
+        */
+        function bufferedVideo()
+        {
+            var r = video.buffered;
+            var total = video.duration;
+            var start = r.start(0);
+            var end = r.end(0);
+            document.getElementById("moovie_buffered").value = (end/total)*100; 
+        }
+
+        /*
         ** Focus player to add keybinds
         */
         function focusPlayer() { video.focus();}
@@ -259,7 +271,11 @@ class Moovie {
         ** Progress bar
         */
         var handleProgress = throttle(function() {
+
+            // Get percentage buffered
+            bufferedVideo();
             
+            // Set current time progressbar
             if(!video.paused)
             {
                 var ncurrentTime = moovie_el_progress.value;
@@ -692,7 +708,7 @@ class Moovie {
 
             // Prevent window from scrolling down when space is used
             video.addEventListener('keydown', function(e) {
-              if(e.keyCode == 32 || event.shiftKey && event.keyCode == 33 || event.shiftKey && event.keyCode == 34 || event.shiftKey && event.keyCode == 38 || event.shiftKey && event.keyCode == 40) {
+              if(e.keyCode == 32 || event.shiftKey && event.keyCode == 87 || event.shiftKey && event.keyCode == 83 || event.shiftKey && event.keyCode == 38 || event.shiftKey && event.keyCode == 40) {
                 e.preventDefault();
               }
             });
@@ -705,8 +721,8 @@ class Moovie {
                 if (event.keyCode == 39) { movieVideo(5, "right"); }   // [Right Arrow]
                 if (event.keyCode == 37) { movieVideo(5, "left"); }    // [Left Arrow]
                 if (event.keyCode == 77) { mutePlayer(); }             // [M] 
-                if(event.shiftKey && event.keyCode == 33) { SetCaptionSize("sizeUp"); } // [Shift + PageUp]
-                if(event.shiftKey && event.keyCode == 34) { SetCaptionSize("sizeDown"); } // [Shift + PageDown]
+                if(event.shiftKey && event.keyCode == 87) { SetCaptionSize("sizeUp"); } // [Shift + W]
+                if(event.shiftKey && event.keyCode == 83) { SetCaptionSize("sizeDown"); } // [Shift + S]
                 if(event.shiftKey && event.keyCode == 38) { SetCaptionPosition("posiUp"); } // [Shift + Arrow Up]
                 if(event.shiftKey && event.keyCode == 40) { SetCaptionPosition("posiDown"); } // [Shift + Arrow Down]
 
@@ -732,6 +748,9 @@ class Moovie {
                         document.getElementById("moovie_fulltime").innerHTML = player_time(video.duration);
                         moovie_el_progress.setAttribute("max", video.duration); 
                     }
+
+                    // Get buffered video
+                    bufferedVideo();
 
                     // Call funtion to set values in the Localstore
                     handleStorage("setStorage"); 
@@ -870,8 +889,8 @@ class Moovie {
                     // Toogle play button
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button class='player__button toggle' id='tooglebutton' title='Toggle Play'><img id='moovie_bplay_"+randomID+"' src='icons/play.svg'></button>");
                     // Progress bar
-                    moovie_el_controls.insertAdjacentHTML('beforeend', "<div class='moovie_cuetime' id='moovie_cue_timer'>loading...</div><div id='moovie_progressbar' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /></div>");  
-                   // Current time / full time
+                    moovie_el_controls.insertAdjacentHTML('beforeend', "<div class='moovie_cuetime' id='moovie_cue_timer'>loading...</div><div id='moovie_progressbar' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /><progress class='moovie_bufferprogress' min='' max='100' value='0' id='moovie_buffered' role='progressbar' aria-hidden='true'>% buffered</progress></div>");  
+                    // Current time / full time
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<div id='moovie_el_current' class='player__button player_button_disabled moovie_currentime'><span id='moovie_currentime'>00:00</span> / <span id='moovie_fulltime'></span></div>");  
                     // Volume Icon
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='mooviegrid_mute_"+randomID+"' class='player__button'><img id='icon_volume_"+randomID+"' src='icons/volume.svg'></button>"); 
@@ -939,8 +958,7 @@ class Moovie {
         }, 100);
 
         // Add EventListener
-        window.addEventListener('resize', ResizeWindow);
-
+        window.addEventListener('resize', ResizeWindow); 
     }
 
     /*

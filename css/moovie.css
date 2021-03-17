@@ -12,6 +12,7 @@ video {
 }
 
 
+
 /* *
 {
   -webkit-transform: translate3d(0, 0, 0);
@@ -121,7 +122,9 @@ video {
   text-shadow: 1px 1px 1px black;
   pointer-events: none;
   z-index: 0;
+  
 }
+
 
 .caption_size {
   font-size: 17pt;
@@ -362,6 +365,7 @@ input[type=range] {
   background: transparent;
   width: 100%;
   /* margin: 0 5px; */
+  z-index: 3;
 }
 
 input[type=range]:focus {
@@ -403,6 +407,37 @@ input[type=range]::-moz-range-thumb {
   border: none;
   cursor: pointer;
 }
+
+
+/* PROGRESS BAR */
+
+progress {
+  border-radius: 7px;
+  width: 100%;
+  height: 5px;
+  margin-left: -11.5%;
+  box-shadow: ;
+  position: absolute;
+  margin-left: 0px;
+  top: 14px;
+  border: 0px;
+  z-index: 1;
+  background-color: #b32c2c00;
+}
+
+progress::-webkit-progress-bar {
+  background-color:transparent;
+}
+
+progress::-webkit-progress-value {
+  background-color:white;
+  opacity:0.3
+}
+progress::-moz-progress-bar {
+  background-color:white;
+  opacity:0.3
+}
+
 
 
 /* Special styling for WebKit/Blink */
