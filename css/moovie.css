@@ -111,7 +111,7 @@ video {
   position: absolute;
   z-index: 0;
   width: 100%;
-  bottom: 10%;
+  bottom: 20px;
   pointer-events: none;
   text-align: center !important;
 }

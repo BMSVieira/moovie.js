@@ -17,8 +17,7 @@ class Moovie {
             storage : {
                 captionOffset: false,
                 playrateSpeed: false,
-                captionSize: false,
-                captionPosition: false
+                captionSize: false
             }
          }
     }) 
@@ -67,8 +66,7 @@ class Moovie {
               case "setStorage": 
                     if(config["storage"]["captionOffset"]){ moovie_el_rinput.value = localStorage.getItem("captionOffset"); OffsetChange();}   
                     if(config["storage"]["playrateSpeed"]){ moovie_el_sinput.value = localStorage.getItem("playrateSpeed"); SpeedChange();}   
-                    if(config["storage"]["captionSize"]){ document.getElementById("caption_track_"+randomID).style.fontSize = localStorage.getItem("captionSize")+"px"; }   
-                    if(config["storage"]["captionPosition"]){ document.getElementById("caption_track_"+randomID).style.marginBottom = localStorage.getItem("captionPosition")+"px";}               
+                    if(config["storage"]["captionSize"]){ document.getElementById("caption_track_"+randomID).style.fontSize = localStorage.getItem("captionSize")+"px"; }             
               break;
             } 
         }
@@ -353,9 +351,13 @@ class Moovie {
                 {   
                     Submenu("CAll");
                     document.getElementById("moovie__controls_"+randomID).style.display = "none";   
+                    document.getElementById("caption_track_"+randomID).style.marginBottom = "0px";
                 }
 
-            } else if(order == "open"){ document.getElementById("moovie__controls_"+randomID).style.display = "flex"; }
+            } else if(order == "open"){ 
+                    document.getElementById("caption_track_"+randomID).style.marginBottom = "55px";
+                    document.getElementById("moovie__controls_"+randomID).style.display = "flex";
+            }
         }
 
         /*
@@ -484,7 +486,7 @@ class Moovie {
             if(!value)
             {
                 var containerSize = moovie_el_video.offsetWidth;
-                var fontSizeCap = containerSize*0.11;
+                var fontSizeCap = containerSize*0.10;
                 captionSize.style.fontSize = fontSizeCap+"%";
             } else {
 
@@ -505,30 +507,6 @@ class Moovie {
                 if(config["storage"]["captionSize"]){ handleStorage("set", "captionSize", computedFontSize); } 
 
             }
-        }
-
-        /*
-        ** Set caption position
-        */
-        var SetCaptionPosition = this.SetCaptionPosition = function SetCaptionPosition(value) {
-
-            const captionSize = document.getElementById("caption_track_"+randomID);
-            var computedMargin = captionSize.currentStyle || window.getComputedStyle(captionSize);
-
-                if(value == "posiUp")
-                { 
-                    computedMargin = computedMargin["marginBottom"].slice(0, -2);
-                    computedMargin = Number(computedMargin)+Number(1);
-                    captionSize.style.marginBottom = computedMargin+"px"; 
-
-                } else if(value == "posiDown")
-                {  
-                    computedMargin = computedMargin["marginBottom"].slice(0, -2);
-                    computedMargin = Number(computedMargin)-Number(1);
-                    captionSize.style.marginBottom = computedMargin+"px"; 
-                }
-
-            if(config["storage"]["captionPosition"]){ handleStorage("set", "captionPosition", computedMargin); }  
         }
 
         /*
@@ -708,7 +686,7 @@ class Moovie {
 
             // Prevent window from scrolling down when space is used
             video.addEventListener('keydown', function(e) {
-              if(e.keyCode == 32 || event.shiftKey && event.keyCode == 87 || event.shiftKey && event.keyCode == 83 || event.shiftKey && event.keyCode == 38 || event.shiftKey && event.keyCode == 40) {
+              if(e.keyCode == 32 || event.shiftKey && event.keyCode == 87 || event.shiftKey && event.keyCode == 83) {
                 e.preventDefault();
               }
             });
@@ -723,9 +701,6 @@ class Moovie {
                 if (event.keyCode == 77) { mutePlayer(); }             // [M] 
                 if(event.shiftKey && event.keyCode == 87) { SetCaptionSize("sizeUp"); } // [Shift + W]
                 if(event.shiftKey && event.keyCode == 83) { SetCaptionSize("sizeDown"); } // [Shift + S]
-                if(event.shiftKey && event.keyCode == 38) { SetCaptionPosition("posiUp"); } // [Shift + Arrow Up]
-                if(event.shiftKey && event.keyCode == 40) { SetCaptionPosition("posiDown"); } // [Shift + Arrow Down]
-
             });
         }
 
