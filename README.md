@@ -98,8 +98,6 @@ A player will bind the following keyboard shortcuts when it has focus.
 | `M`  | Toggle Mute  |
 | `Shift`+`W`| Increase caption's size|
 | `Shift`+`S`| Decrease caption's size|
-| `Shift`+`ArrowUp`| Move caption up|
-| `Shift`+`ArrowDown`| Move caption down|
 
 ◼️ API > Methods:
 -
@@ -290,7 +288,6 @@ demo.video.addEventListener("canplay", function() {
 | `config` > `storage` > `captionOffset`| `boolean`  | Indicates whether caption's offset adjust will be stored or not|
 | `config` > `storage` > `playrateSpeed`| `boolean`  | Indicates whether Play Speed will be stored or not|
 | `config` > `storage` > `captionSize`| `boolean`  | Indicates whether caption's size will be stored or not|
-| `config` > `storage` > `captionPosition`| `boolean`  | Indicates whether caption's position will be stored or not|
 
 <b>Full Example:</b>
 
@@ -305,8 +302,7 @@ document.addEventListener("DOMContentLoaded", function() {
         storage: {
            captionOffset: false,
            playrateSpeed: false,
-           captionSize: false,
-           captionPosition: false
+           captionSize: false
         }
     }
   });
