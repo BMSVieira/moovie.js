@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
    });
 });
 ```
+###### Note: Do not forget to include "icons" folder.
 
 ◼️ CDN:
 -
