@@ -33,7 +33,7 @@ https://bmsvieira.github.io/moovie.js/
 ```javascript
 <link rel="stylesheet" href="path/to/moovie.css">
 ```
-4 - Set HTML.
+3 - Set HTML.
 ```html
 <video id="example" poster="<<path-to-poster>>">
   <source src="<<path-to-file.mp4>>" type="video/mp4">
@@ -42,7 +42,7 @@ https://bmsvieira.github.io/moovie.js/
   Your browser does not support the video tag.
 </video>
 ```
-3 - Initilize.
+4 - Initilize.
 ```javascript
 document.addEventListener("DOMContentLoaded", function() {
    var demo = new Moovie({
