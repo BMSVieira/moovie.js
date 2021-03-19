@@ -271,10 +271,6 @@ video {
   transition:all .3s; */
 }
 
-.moovie:hover .moovie_controls {
-  transform: translateY(0);
-}
-
 .moovie_progress {
   position: relative;
   display: flex;
