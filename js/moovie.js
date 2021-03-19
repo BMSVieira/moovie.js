@@ -355,7 +355,7 @@ class Moovie {
                 }
 
             } else if(order == "open"){ 
-                    document.getElementById("caption_track_"+randomID).style.marginBottom = "55px";
+                    document.getElementById("caption_track_"+randomID).style.marginBottom = "40px";
                     document.getElementById("moovie__controls_"+randomID).style.display = "flex";
             }
         }
