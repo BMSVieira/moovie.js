@@ -1,3 +1,15 @@
+
+### v1.0.5
+
+- UX Improvements for iOs (There is still a lot of work to do)
+- Added buffer progress bar
+- Changed captions's size shortcuts
+- Removed caption's positioning shortcuts
+- Now captions are always visible when controls show up
+- Reworked Functions
+- Fixed Minor Bugs
+- Code Update
+
 ### v1.0.4
 
 - Added "change" method, video's and poster's source can now be changed
