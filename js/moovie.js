@@ -161,7 +161,7 @@ class Moovie {
         /*
         ** Change Mute/Unmute Audio icon
         */
-        var checkMute = this.checkMute = function checkMute() { if(video.volume == 0) { document.getElementById("icon_volume_"+randomID).src = "icons/mute.svg"; } else { document.getElementById("icon_volume_"+randomID).src = "icons/volume.svg";}}
+        var checkMute = this.checkMute = function checkMute() { if(video.volume == 0) { document.getElementById("icon_volume_"+randomID).src = "icons/mute.svg"; } else { video.muted = false; document.getElementById("icon_volume_"+randomID).src = "icons/volume.svg";}}
 
         /*
         ** Range value update
@@ -221,18 +221,31 @@ class Moovie {
         }
 
         /*
+        ** Detect OS
+        */
+        function androidOrIOS() {
+            const userAgent = navigator.userAgent;
+            if(/android/i.test(userAgent)){
+                return 'android';
+            }
+            if(/iPad|iPhone|iPod/i.test(userAgent)){
+                return 'ios';
+            }
+        }
+
+        /*
         ** Mute/UnMute function
         */
         function mutePlayer()
         {
-            if(video.volume == 0)
+            if(video.muted == true)
             {
-                video.volume = 1;
+                video.muted = false;
                 document.getElementById("icon_volume_"+randomID).src = "icons/volume.svg";
                 document.getElementById("mooviegrid_volume_"+randomID).value = "1";
 
             } else {
-                video.volume = 0;
+                video.muted = true;
                 document.getElementById("icon_volume_"+randomID).src = "icons/mute.svg";
                 document.getElementById("mooviegrid_volume_"+randomID).value = "0";
             }
@@ -715,7 +728,7 @@ class Moovie {
             this.video = video;
 
                 // Wait media to load, to make sure it doesnt add eventlisteners to a empty container
-                video.oncanplay = (event) => {
+                video.addEventListener('loadedmetadata', e => {
                     // Hide loading screen
                     document.getElementById("medialoading").style.display = "none";
 
@@ -729,7 +742,7 @@ class Moovie {
 
                     // Call funtion to set values in the Localstore
                     handleStorage("setStorage"); 
-                };
+                });
 
                 video.addEventListener('timeupdate', handleProgress);
                 video.addEventListener('timeupdate', updateTime);
@@ -797,6 +810,9 @@ class Moovie {
 
                 } else {
 
+                        // Check if it is Android or iOs
+                        if(androidOrIOS() == "ios") { video.style.transformStyle = "preserve-3d"; }
+
                         /* Touch related eventListeners */
                         moovie_el_progress.addEventListener("touchmove", function(event) { Scrub(event); video.pause(); });
                         moovie_el_progress.addEventListener("change", function(event) { Scrub(event); if(!video.pause()){togglePlay();} togglePoster("hide"); }, false);
@@ -845,7 +861,7 @@ class Moovie {
                 
                 moovie_el_video = document.getElementById("moovie__video_"+randomID);
                 // Video tag
-                moovie_el_video.insertAdjacentHTML('beforeend', "<video tabindex='1' preload='auto' class='player__video viewer' style='width:100%; height:100%;' src='"+vsource+"'></video>");              
+                moovie_el_video.insertAdjacentHTML('beforeend', "<video tabindex='1' preload='auto' class='player__video viewer' style='width:100%; height:100%;' src='"+vsource+"' playsinline></video>");              
                 // Player Controls
                 moovie_el_video.insertAdjacentHTML('beforeend', "<div id='moovie__controls_"+randomID+"' class='moovie_controls'></div>"); 
                
