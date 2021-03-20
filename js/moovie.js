@@ -26,7 +26,7 @@ class Moovie {
         var randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
         var dimensions = dimensions;
         var _this = this;
-        var parts, video, subtitles = 0, cuevalue = 0, speed = 1, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, progressBarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
+        var parts, video, subtitles = 0, cuevalue = 0, speed = 1, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, progressBarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
         var selectedCaption = [];
 
         // Define Variables
@@ -242,8 +242,8 @@ class Moovie {
             {
                 video.muted = false;
                 document.getElementById("icon_volume_"+randomID).src = "icons/volume.svg";
-                document.getElementById("mooviegrid_volume_"+randomID).value = "1";
-
+                if(localStorage.getItem("scrubsound")) { moovie_ul_soundv.value = localStorage.getItem("scrubsound"); } else { moovie_ul_soundv.value = "1"; }
+                
             } else {
                 video.muted = true;
                 document.getElementById("icon_volume_"+randomID).src = "icons/mute.svg";
@@ -351,6 +351,16 @@ class Moovie {
                     video.currentTime = offsetEvent;
                 }
             }
+        }
+
+        /*
+        ** Handler progress bar click/mousemove/touch events
+        */
+        function ScrubSound(e) {
+                video.volume = moovie_ul_soundv.value;
+                // Save Sound variable
+                handleStorage("set", "scrubsound", video.volume);
+                checkMute();
         }
 
         /*
@@ -742,6 +752,8 @@ class Moovie {
 
                     // Call funtion to set values in the Localstore
                     handleStorage("setStorage"); 
+                    // Reset previous sound storage
+                    handleStorage("set", "scrubsound", 1);
                 });
 
                 video.addEventListener('timeupdate', handleProgress);
@@ -764,18 +776,36 @@ class Moovie {
                 this.rangeinput.addEventListener('change', OffsetChange);
                 this.speedinput.addEventListener('change', SpeedChange);
 
+                moovie_ul_soundv = document.getElementById("mooviegrid_volume_"+randomID);
+
                 // Mute
                 document.getElementById("mooviegrid_mute_"+randomID).addEventListener('click', mutePlayer);
 
                 // Progress bar
                 moovie_elprogress = moovie_el_player.querySelector('.moovie_progress');
                 
+                // Submenu events
+                this.moovie_cog.addEventListener("click", function() { Submenu("toggleSubmenu") }, true);
+                this.topic_submenu_caption.addEventListener("click", function() { Submenu("OCaption") }, true);
+                this.topic_submenu_speed.addEventListener("click", function() { Submenu("OSpeed") }, true);
+                this.captions_back.addEventListener("click", function() { Submenu("CCaption") }, true);
+                this.moovie_subtitle.addEventListener("click", ActivateSubtitles);
+                moovie_el_video.addEventListener("mouseleave", function() { Submenu("CAll") }, false);
+                this.captions_offset.addEventListener("click", function() { Submenu("ORange") }, true); 
+
                 if(!detectTouchScreen())
                 {
-                        /* Mouse related eventListeners */
+                        // Mouse related eventListeners
                         let mousedown = false;
                         moovie_elprogress.addEventListener('click', Scrub);
                         moovie_elprogress.addEventListener('mousemove', (e) => mousedown && Scrub(e));
+
+                        // Volume EventListeners
+                        moovie_ul_soundv.addEventListener('click', ScrubSound);
+                        let mousedowns = false;
+                        moovie_ul_soundv.addEventListener('mousemove', (e) => mousedowns && ScrubSound(e));
+                        moovie_ul_soundv.addEventListener('mousedown', () => mousedowns = true);
+                        moovie_ul_soundv.addEventListener('mouseup', () => mousedowns = false);
 
                         // Poster Functions
                         moovie_el_poster = moovie_el_player.querySelector('#poster_layer_'+randomID);
@@ -798,49 +828,34 @@ class Moovie {
                         // Hide div on mouse stop
                         HideControls("close");
                         var i = null;
-                        moovie_el_video.addEventListener('mousemove', e => {
-                            clearTimeout(i);
-                            HideControls("open");
-                            i = setTimeout(function(){ HideControls("close"); }, 2000);
-                        });
-                        moovie_el_video.addEventListener('mouseleave', e => {
-                            clearTimeout(i);
-                            HideControls("close");
-                        });
+                        moovie_el_video.addEventListener('mousemove', e => { clearTimeout(i);  HideControls("open");  i = setTimeout(function(){ HideControls("close"); }, 2000); });
+                        moovie_el_video.addEventListener('mouseleave', e => { clearTimeout(i); HideControls("close"); });
 
                 } else {
 
                         // Check if it is Android or iOs
-                        if(androidOrIOS() == "ios") { video.style.transformStyle = "preserve-3d"; }
+                        if(androidOrIOS() == "ios") { 
+                            // Since iOs doesnt support Fullscreen and Volume changes, let's hide it
+                            this.moovie_el_volume.style.display = "none";
+                            fullscreen.style.display = "none";
+                            video.style.transformStyle = "preserve-3d";
+                         }
 
-                        /* Touch related eventListeners */
+                        // Touch related eventListeners
                         moovie_el_progress.addEventListener("touchmove", function(event) { Scrub(event); video.pause(); });
                         moovie_el_progress.addEventListener("change", function(event) { Scrub(event); if(!video.pause()){togglePlay();} togglePoster("hide"); }, false);
                         moovie_el_poster.addEventListener("touchend", function(event) { if(!video.pause()){togglePlay();}  });
 
+                        // Volume EventListeners
+                        moovie_ul_soundv.addEventListener("touchmove", function(event) { ScrubSound(event);  });
+                        moovie_ul_soundv.addEventListener("change", function(event) { ScrubSound(event);  }, false);
+
                         // Hide div on mouse stop
                         var i = null;
-                        moovie_el_video.addEventListener('touchstart', e => {
-                            clearTimeout(i);
-                            HideControls("open");
-                            i = setTimeout(function(){ HideControls("close");  }, 4000);
-                         });
+                        moovie_el_video.addEventListener('touchstart', e => {clearTimeout(i);  HideControls("open");  i = setTimeout(function(){ HideControls("close");  }, 4000); });
                         moovie_el_video.addEventListener('touchmove', e => { clearTimeout(i); });
-                        moovie_el_video.addEventListener('touchend', e => {
-                            clearTimeout(i);
-                            i = setTimeout(function(){ HideControls("close");  }, 4000);
-                        });
-
-                }
-
-                // Submenu events
-                this.moovie_cog.addEventListener("click", function() { Submenu("toggleSubmenu") }, true);
-                this.topic_submenu_caption.addEventListener("click", function() { Submenu("OCaption") }, true);
-                this.topic_submenu_speed.addEventListener("click", function() { Submenu("OSpeed") }, true);
-                this.captions_back.addEventListener("click", function() { Submenu("CCaption") }, true);
-                this.moovie_subtitle.addEventListener("click", ActivateSubtitles);
-                moovie_el_video.addEventListener("mouseleave", function() { Submenu("CAll") }, false);
-                this.captions_offset.addEventListener("click", function() { Submenu("ORange") }, true);  
+                        moovie_el_video.addEventListener('touchend', e => { clearTimeout(i); i = setTimeout(function(){ HideControls("close");  }, 4000); });
+                } 
         }
 
         /*
@@ -886,7 +901,7 @@ class Moovie {
                     // Volume Icon
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='mooviegrid_mute_"+randomID+"' class='player__button'><img id='icon_volume_"+randomID+"' src='icons/volume.svg'></button>"); 
                     // Volume
-                    moovie_el_controls.insertAdjacentHTML('beforeend', "<input type='range' id='mooviegrid_volume_"+randomID+"' style='max-width:100px; min-width:50px;' name='volume' class='moovie_progress_sound player__slider' min=0 max='1' step='0.01' value='1'>");  
+                    moovie_el_controls.insertAdjacentHTML('beforeend', "<input type='range' id='mooviegrid_volume_"+randomID+"' style='max-width:100px; min-width:50px;' name='volume' class='moovie_progress_sound' min=0 max='1' step='0.01' value='1'>");  
                     // Subtitles
                     moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='moovie_subtitle' style='margin-left:5px' class='player__button'><img class='opacity_svg' id='moovie_subtitle_svg' src='icons/cc.svg'></button>");  
                     // Config
