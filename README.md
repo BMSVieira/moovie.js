@@ -146,7 +146,7 @@ demo.addTrack({
             src: "<<path-to-file.vtt/.srt"
         }
     }
-}
+});
 ```
 
 <b>change:</b>
