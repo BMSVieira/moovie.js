@@ -840,7 +840,11 @@ class Moovie {
 
             // Get video source
             var vsource = this.element.getAttribute("src");
-            if (vsource == null){ vsource = this.element.getElementsByTagName("source")[0].src }
+            if(vsource == null && this.element.getElementsByTagName("source")[0] != undefined) {  
+                vsource = this.element.getElementsByTagName("source")[0].src
+            } else { 
+                console.log("No video source found. Read documentation to a add video source dynamically.");
+            }
 
             // Get poster if exists
             var vposter = document.getElementById(this.selector).getAttribute("poster");
@@ -991,7 +995,6 @@ class Moovie {
                 // Pause video, then change source and plays it
                 this.video.pause();
                 this.video.src = properties.video.videoSrc;
-                this.video.play();
             }
 
             // Check if Poster source is empty or not
