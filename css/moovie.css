@@ -1,8 +1,31 @@
+/*-------------------------
+moovie.css - HTML5 Media player made for movies
+Made by: Bruno Vieira
+--------------------------- */
 
+/* VARIABLES */
 
 :root {
+
+  /* Colors */
   --moovie_main_color: #3191f7;
+  --moovie_bg_controls: rgba(16, 34, 62, 0.6);
+  --moovie_bg_submenu: #f7f7f7;
+  --moovie_bg_loading_overlay: rgba(11, 11, 11, 0.9);
+  --moovie_submenu_options_fcolor: #515151;
+  --moovie_topic_submenu_fcolor: #797979 ;
+  --moovie_currenttime_color: white;
+  /* Font Size */ 
+  --moovie_submenu_options_fsize: 10pt;
+  --moovie_topic_submenu_fsize: 9pt;
+  --moovie_currenttime_fsize: 11pt;
+  /* Icons size */
+  --moovie_svgicons_width: 15px;
+  /* General Styles */
+  --moovie_padding_controls: 13px;
 }
+
+/* START CSS */
 
 video {
   background: transparent;
@@ -11,21 +34,11 @@ video {
   outline: none!important;
 }
 
-
-
-/* *
-{
-  -webkit-transform: translate3d(0, 0, 0);
-  -webkit-transform-style: preserve-3d;
-  -webkit-backface-visibility: hidden;
-} */
-
 .moovie {
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
   font-family: Arial;
-  /* -webkit-transform-style: initial!important; */
   border-radius: 7px;
   outline: none!important;
 }
@@ -34,7 +47,7 @@ video {
   width: 100%;
   position: absolute;
   height: 100%;
-  background-color: hsla(0, 0%, 4.3%, 0.9);
+  background-color: var(--moovie_bg_loading_overlay);
   z-index: 5;
 }
 
@@ -93,7 +106,7 @@ video {
   bottom: 11px;
   right: 26px;
   margin-bottom: 56px;
-  background-color: #f7f7f7;
+  background-color: var(--moovie_bg_submenu);
   border-radius: 5px;
   box-shadow: 1px 2px 2px 0px #242424;
   z-index: 5;
@@ -126,18 +139,17 @@ video {
   
 }
 
-
 .caption_size {
   font-size: 17pt;
 }
 
 .moovie_submenu ul li {
   padding: 10px 14px 10px 14px;
-  font-size: 10pt;
+  font-size: var(--moovie_submenu_options_fsize);
   width: 170px;
   margin: 0px 12px 0px 10px;
   border-radius: 2px;
-  color: #515151;
+  color: var(--moovie_submenu_options_fcolor);
 }
 
 .moovie_submenu ul li:hover {
@@ -217,7 +229,7 @@ video {
 }
 
 .player__button img {
-  width: 15px;
+  width: var(--moovie_svgicons_width);
   position: relative;
   top: 2px;
   vertical-align: baseline;
@@ -229,8 +241,8 @@ video {
 }
 
 .moovie_currentime {
-  color: white;
-  font-size: 11pt;
+  color: var(--moovie_currenttime_color);
+  font-size: var(--moovie_currenttime_fsize);
   padding-top: 10px;
 }
 
@@ -247,28 +259,22 @@ video {
   padding: 0px 0px 5px 0px !important;
   border-bottom: 1px dashed #e1e1e1 !important;
   width: auto !important;
-  color: #797979 !important;
+  color: var(--moovie_topic_submenu_fcolor)!important;
   font-weight: bold !important;
   background-color: transparent !important;
   margin-bottom: 9px !important;
-  font-size: 9pt !important;
+  font-size: var(--moovie_topic_submenu_fsize)!important;
 }
 
 .moovie_controls {
   box-sizing: border-box;
-  /* background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 11%, rgba(0,0,0,0.81) 100%); /* FF3.6-15 */
-  /* background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 11%,rgba(0,0,0,0.81) 100%); /* Chrome10-25,Safari5.1-6 */
-  /* background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 11%,rgba(0,0,0,0.81) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  /* filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#cf000000',GradientType=0 ); /* IE6-9 */
-  background-color: rgba(16, 34, 62, 0.6);
+  background-color: var(--moovie_bg_controls);
   display: flex;
   position: absolute;
   bottom: 0;
   width: 100%;
-  padding: 13px;
+  padding: var(--moovie_padding_controls);
   z-index: 3;
-  /* transform: translateY(100%) translateY(1px);
-  transition:all .3s; */
 }
 
 .moovie_progress {
@@ -302,7 +308,7 @@ video {
 
 .progress__filled {
   width: 0%;
-  background: #3191f7;
+  background: var(--moovie_main_color);
   flex: 0;
   flex-basis: 0%;
   z-index: 2;
@@ -353,9 +359,7 @@ video {
 }
 
 
-/* 
-** RANGE INPUT **
-*/
+/* RANGE INPUT */
 
 input[type=range] {
   -webkit-appearance: none;
@@ -391,7 +395,7 @@ input[type=range]::-webkit-range-thumb {
   height: 13px;
   width: 13px;
   border-radius: 50px;
-  background: #3191f7;
+  background: var(--moovie_main_color);
   border: none;
   cursor: pointer;
 }
@@ -400,7 +404,7 @@ input[type=range]::-moz-range-thumb {
   height: 13px;
   width: 13px;
   border-radius: 50px;
-  background: #3191f7;
+  background: var(--moovie_main_color);
   border: none;
   cursor: pointer;
 }
@@ -435,10 +439,6 @@ progress::-moz-progress-bar {
   opacity:0.3
 }
 
-
-
-/* Special styling for WebKit/Blink */
-
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 13px;
@@ -447,13 +447,9 @@ input[type=range]::-webkit-slider-thumb {
   background: var(--moovie_main_color);
   cursor: pointer;
   margin-top: -4.3px;
-  /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
 }
 
-
-/* 
-** LOADING SCREEN ** 
-*/
+/* LOADING SCREEN */
 
 .lds-ellipsis {
   display: inline-block;
