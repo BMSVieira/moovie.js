@@ -278,6 +278,26 @@ demo.video.addEventListener("canplay", function() {
 | `volumechange`| Sent when the audio volume changes (both when the volume is set and when the muted attribute is changed). |
 | `waiting`| Sent when the requested operation (such as playback) is delayed pending the completion of another operation (such as a seek). |
 
+◼️ Styling:
+-
+
+Using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties" target="_blank">CSS Custom Properties</a> you can easily customize your own player. 
+<br>Check below a list of variables and what they are used for:
+
+| Name | Description | Default |
+| --- | --- | --- |
+| `--moovie_main_color` | Moovie main color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/maincolor.png"> `#3191f7`|
+| `--moovie_bg_controls` | Background color when hover the buttons | `rgba(16, 34, 62, 0.6)`|
+| `--moovie_bg_submenu` | Submenu background color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/submenu.png"> `#f7f7f7`|
+| `--moovie_bg_loading_overlay` | Loading overlay background color  | `rgba(11, 11, 11, 0.9)`|
+| `--moovie_submenu_options_fcolor`| Submenu text color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/submenotext.png"> `#515151`|
+| `--moovie_topic_submenu_fcolor` | Submenu topic text color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/topiccolor.png"> `#797979`|
+| `--moovie_currenttime_color` | CurrentTime text color | `white`|
+| `--moovie_submenu_options_fsize` | Submenu options font size  | `10pt`|
+| `--moovie_topic_submenu_fsize` | Submenu topic font size  | `9pt`|
+| `--moovie_currenttime_fsize`| CurrentTime font size  | `11pt`|
+| `--moovie_svgicons_width` | Icons size  | `15px`|
+| `--moovie_padding_controls`| Control bar padding  | `13px`|
 
 ◼️ Settings:
 -
