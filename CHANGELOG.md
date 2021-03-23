@@ -1,3 +1,15 @@
+### v1.0.6
+
+- Added new methods
+- Added manual of how to integrate WebTorrent with moovie
+- Hidden Fullscreen and volume icons on iOs
+- Changed loading screen
+- Added CSS custom properties
+- Overall sound management improvements
+- Volume level is now stored when muted/unmuted and restored to last position.
+- Reworked functions
+- Fixed minor bugs
+- Code update
 
 ### v1.0.5
 
