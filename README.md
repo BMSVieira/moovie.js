@@ -255,6 +255,44 @@ demo.speed = 2
 demo.captionOffset = 2
 ```
 
+
+◼️ WebTorrent: <img width="30" src="https://webtorrent.io/apple-touch-icon-76x76.png">
+-
+
+To use moovie.js with WebTorrent, check the example below:
+<br>For more info read <a href="https://webtorrent.io/intro" target="_blank">WebTorrent</a> documentation.
+
+```html
+<!-- Include webtorrent cdn -->
+<script src="//cdn.jsdelivr.net/webtorrent/latest/webtorrent.min.js"></script>
+```
+
+```javascript
+// Initialize moovie
+var demo = new Moovie({ selector: "#example"});
+
+// Get new generated player id
+var videoElement = demo.playerElement.id;
+
+// Intialize webtorrent
+var client = new WebTorrent();
+ 
+// Torrent hash
+var torrentId = 'magnet:?xt=urn:btih:6a9759bffd5c0af65319979fb7832189f4f3c35d&dn=sintel.mp4&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss%3A%2F%2Ftracker.webtorrent.io&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel-1024-surround.mp4';
+
+// Find .mp4 content from torrent hash and render to moovie element
+client.add(torrentId, function (torrent) {
+  var file = torrent.files.find(function(file) {
+     return file.name.endsWith('.mp4');
+  });
+   
+  // Render to
+  var container = document.getElementById(videoElement);
+  file.renderTo(container);
+});
+```
+
+
 ◼️ Events:
 -
 
