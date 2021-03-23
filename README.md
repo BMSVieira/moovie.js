@@ -123,6 +123,20 @@ Enable/Disable fullscreen
 demo.toggleFullscreen();
 ```
 
+<b>destroy:</b>
+Remove current player and unbinds all its events
+
+```javascript
+demo.destroy();
+```
+
+<b>build:</b>
+Builds new player
+
+```javascript
+demo.build();
+```
+
 <b>addTrack:</b>
 Add multiple/single captions to player
 
@@ -297,6 +311,7 @@ Using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom
 | `--moovie_currenttime_fsize`| CurrentTime font size  | `11pt`|
 | `--moovie_svgicons_width` | Icons size  | `15px`|
 | `--moovie_padding_controls`| Control bar padding  | `13px`|
+| `--moovie_caption_fcolor`| Captions text color  | `white`|
 
 ◼️ Settings:
 -
