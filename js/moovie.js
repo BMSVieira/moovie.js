@@ -715,6 +715,7 @@ class Moovie {
             video.addEventListener('loadedmetadata', e => {
                 // Hide loading screen
                 document.getElementById("medialoading_"+randomID).style.display = "none";
+                moovie_el_controls.style.opacity = 1;
 
                 if (moovie_ishiden == 0){
                     document.getElementById("moovie_fulltime_"+randomID).innerHTML = player_time(video.duration);
@@ -855,12 +856,12 @@ class Moovie {
             // Video tag
             moovie_el_video.insertAdjacentHTML('beforeend', "<video tabindex='1' id='moovie_vid_"+randomID+"' preload='auto' class='player__video viewer' style='width:100%; height:100%;' src='"+vsource+"' playsinline></video>");
             // Player Controls
-            moovie_el_video.insertAdjacentHTML('beforeend', "<div id='moovie__controls_"+randomID+"' class='moovie_controls'></div>");
+            moovie_el_video.insertAdjacentHTML('beforeend', "<div style='opacity:0;' id='moovie__controls_"+randomID+"' class='moovie_controls'></div>");
 
             moovie_el_controls = document.getElementById("moovie__controls_"+randomID);
 
             // Set main Play control when video is stopped
-            moovie_el_video.insertAdjacentHTML('afterbegin', "<div id='medialoading_"+randomID+"' class='loadingv'><div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div></div><div class='poster_layer posteron' id='poster_layer_"+randomID+"'></div>");
+            moovie_el_video.insertAdjacentHTML('afterbegin', "<div id='medialoading_"+randomID+"' class='loadingv'><div class='loading animated fadeIn'><div class='moovie_bg'></div></div></div><div class='poster_layer posteron' id='poster_layer_"+randomID+"'></div>");
 
             this.moovieposter = moovie_el_poster = document.getElementById("poster_layer_"+randomID);
             moovie_el_poster.insertAdjacentHTML('afterbegin', "<div class='poster_center' id='poster_center_"+randomID+"' style=''></div>");

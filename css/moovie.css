@@ -11,7 +11,6 @@ Made by: Bruno Vieira
   --moovie_main_color: #3191f7;
   --moovie_bg_controls: rgba(16, 34, 62, 0.6);
   --moovie_bg_submenu: #f7f7f7;
-  --moovie_bg_loading_overlay: rgba(11, 11, 11, 0.9);
   --moovie_submenu_options_fcolor: #515151;
   --moovie_topic_submenu_fcolor: #797979 ;
   --moovie_currenttime_color: white;
@@ -47,17 +46,37 @@ video {
   width: 100%;
   position: absolute;
   height: 100%;
-  background-color: var(--moovie_bg_loading_overlay);
   z-index: 5;
 }
 
-.loadingv p {
-  color: white;
-  position: absolute;
-  bottom: 0px;
+.loading {
+  height: 40px;
   text-align: center;
+  position: absolute;
+  overflow: hidden;
+  font-style: italic;
+  bottom: -5px;
   width: 100%;
-  margin-bottom: 68px;
+  border-top: 2px solid #262626;
+}
+
+.moovie_bg{
+  position: absolute;
+  left: -46px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  background: -webkit-repeating-linear-gradient( 145deg, #f8e9db 1px, #fff5ed 2px, #fff5ed 11px, #f8e9db 12px, #f8e9db 20px );
+  background: repeating-linear-gradient( -55deg, #1c1c1c 1px, #464646 2px, #464646 11px, #242424 12px, #222 20px );
+  -webkit-animation-name: moovie_stripes;
+  -webkit-animation-duration: .6s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-name: moovie_stripes;
+  animation-duration: 0.6s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .moovie_cuetime {
@@ -136,7 +155,6 @@ video {
   pointer-events: none;
   z-index: 0;
   transition: all 0.2s ease 0s;
-  
 }
 
 .caption_size {
@@ -276,7 +294,7 @@ video {
   background-color: var(--moovie_bg_controls);
   display: flex;
   position: absolute;
-  bottom: 0;
+  bottom: 1px;
   width: 100%;
   padding: var(--moovie_padding_controls);
   z-index: 3;
@@ -363,7 +381,6 @@ video {
   border-right: 10px solid blue;
 }
 
-
 /* RANGE INPUT */
 
 input[type=range] {
@@ -413,7 +430,6 @@ input[type=range]::-moz-range-thumb {
   border: none;
   cursor: pointer;
 }
-
 
 /* PROGRESS BAR */
 
@@ -523,3 +539,20 @@ input[type=range]::-webkit-slider-thumb {
   }
 }
 
+@-webkit-keyframes moovie_stripes {
+  from {
+    -webkit-transform: translateX(0);
+  }
+  to { 
+    -webkit-transform: translateX(46px);
+  }
+}
+
+@keyframes moovie_stripes {
+  from {
+    transform: translateX(0);
+  }
+  to { 
+    transform: translateX(46px);
+  }
+}
