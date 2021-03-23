@@ -14,6 +14,7 @@ Made by: Bruno Vieira
   --moovie_submenu_options_fcolor: #515151;
   --moovie_topic_submenu_fcolor: #797979 ;
   --moovie_currenttime_color: white;
+  --moovie_caption_fcolor: white;
   /* Font Size */ 
   --moovie_submenu_options_fsize: 10pt;
   --moovie_topic_submenu_fsize: 9pt;
@@ -139,7 +140,7 @@ video {
 }
 
 .moovie_captionspot {
-  color: white;
+  color: var(--moovie_caption_fcolor);
   position: absolute;
   z-index: 0;
   width: 100%;

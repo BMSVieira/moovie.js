@@ -852,7 +852,7 @@ class Moovie {
             // Main Div
             this.element.insertAdjacentHTML('afterend', "<div style='width:"+dimensions['width']+"' id='moovie__video_"+randomID+"' class='moovie'></div>");
 
-            moovie_el_video = document.getElementById("moovie__video_"+randomID);
+            this.moovie_el_video = moovie_el_video = document.getElementById("moovie__video_"+randomID);
             // Video tag
             moovie_el_video.insertAdjacentHTML('beforeend', "<video tabindex='1' id='moovie_vid_"+randomID+"' preload='auto' class='player__video viewer' style='width:100%; height:100%;' src='"+vsource+"' playsinline></video>");
             // Player Controls
@@ -955,6 +955,10 @@ class Moovie {
     toggleSubtitles(){ this.ActivateSubtitles(); }
     // Trigger toggle Fullscreen
     toggleFullscreen(){ this.SetFullScreen(); }
+    // Destroy all moovie elements and unbinds all its events
+    destroy(){ this.moovie_el_video.remove(); }
+    // Rebuild moovie player
+    build(){ this.SetupPlayer(); }
     // Add new track
     addTrack(properties){
 
