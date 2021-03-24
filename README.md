@@ -131,7 +131,7 @@ demo.destroy();
 ```
 
 <b>build:</b>
-Builds new player
+Build a new player
 
 ```javascript
 demo.build();
