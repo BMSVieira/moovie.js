@@ -17,12 +17,16 @@ class Moovie {
                 playrateSpeed: false,
                 captionSize: false
             }
+        },
+        icons = {
+            path: "./icons/"
         }
     })
     {
         // Global
         var randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
         var dimensions = dimensions;
+        var icons = icons;
         var _this = this;
         var parts, video, subtitles = 0, cuevalue = 0, speed = 1, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, progressBarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
         var selectedCaption = [];
@@ -33,6 +37,7 @@ class Moovie {
         this.dimensions = dimensions;
         this.randomID = randomID;
         this.config = config;
+        this.icons = icons;
 
         /*
         ** Main throttle function
@@ -78,11 +83,11 @@ class Moovie {
             document.getElementById("poster_layer_"+randomID).style.backgroundImage = "none";
             if (video.paused == true) {
                 video.play();
-                document.getElementById("moovie_bplay_"+randomID).src = "icons/pause.svg"
+                document.getElementById("moovie_bplay_"+randomID).src = icons.path+"pause.svg"
                 togglePoster("hide");
             } else {
                 video.pause();
-                document.getElementById("moovie_bplay_"+randomID).src = "icons/play.svg"
+                document.getElementById("moovie_bplay_"+randomID).src = icons.path+"play.svg"
                 togglePoster("show");
             }
         }
@@ -156,9 +161,9 @@ class Moovie {
         */
         var checkMute = this.checkMute = function checkMute() {
             if (video.volume == 0) {
-                document.getElementById("icon_volume_"+randomID).src = "icons/mute.svg";
+                document.getElementById("icon_volume_"+randomID).src = icons.path+"mute.svg";
             } else {
-                video.muted = false; document.getElementById("icon_volume_"+randomID).src = "icons/volume.svg";
+                video.muted = false; document.getElementById("icon_volume_"+randomID).src = icons.path+"volume.svg";
             }
         }
 
@@ -235,7 +240,7 @@ class Moovie {
         function mutePlayer() {
             if (video.muted == true) {
                 video.muted = false;
-                document.getElementById("icon_volume_"+randomID).src = "icons/volume.svg";
+                document.getElementById("icon_volume_"+randomID).src = icons.path+"volume.svg";
                 if (localStorage.getItem("scrubsound")) {
                     moovie_ul_soundv.value = localStorage.getItem("scrubsound");
                 } else {
@@ -243,7 +248,7 @@ class Moovie {
                 }
             } else {
                 video.muted = true;
-                document.getElementById("icon_volume_"+randomID).src = "icons/mute.svg";
+                document.getElementById("icon_volume_"+randomID).src = icons.path+"mute.svg";
                 document.getElementById("mooviegrid_volume_"+randomID).value = "0";
             }
         }
@@ -865,27 +870,27 @@ class Moovie {
 
             this.moovieposter = moovie_el_poster = document.getElementById("poster_layer_"+randomID);
             moovie_el_poster.insertAdjacentHTML('afterbegin', "<div class='poster_center' id='poster_center_"+randomID+"' style=''></div>");
-            document.getElementById("poster_center_"+randomID).insertAdjacentHTML('afterbegin', "<div class='poster_button'><img src='icons/play.svg' style='width: 24px; position: relative; left: 3px;'></div>");
+            document.getElementById("poster_center_"+randomID).insertAdjacentHTML('afterbegin', "<div class='poster_button'><img src='"+icons.path+"play.svg' style='width: 24px; position: relative; left: 3px;'></div>");
             if (vposter != null){  moovie_el_poster.style.backgroundImage = "url("+vposter+")"; moovie_el_poster.style.backgroundSize = "100%"; }
 
             // Add caption spot
             moovie_el_video.insertAdjacentHTML('beforeend', "<div class='moovie_captionspot caption_size'><p class='moovie_caption' id='caption_track_"+randomID+"'></p></div>");
             // Toogle play button
-            moovie_el_controls.insertAdjacentHTML('beforeend', "<button class='player__button toggle' id='tooglebutton_"+randomID+"' title='Toggle Play'><img id='moovie_bplay_"+randomID+"' src='icons/play.svg'></button>");
+            moovie_el_controls.insertAdjacentHTML('beforeend', "<button class='player__button toggle' id='tooglebutton_"+randomID+"' title='Toggle Play'><img id='moovie_bplay_"+randomID+"' src='"+icons.path+"play.svg'></button>");
             // Progress bar
             moovie_el_controls.insertAdjacentHTML('beforeend', "<div class='moovie_cuetime' id='moovie_cue_timer_"+randomID+"'>loading...</div><div id='moovie_progressbar_"+randomID+"' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress_"+randomID+"' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /><progress class='moovie_bufferprogress' min='' max='100' value='0' id='moovie_buffered_"+randomID+"' role='progressbar' aria-hidden='true'>% buffered</progress></div>");
             // Current time / full time
             moovie_el_controls.insertAdjacentHTML('beforeend', "<div id='moovie_el_current_"+randomID+"' class='player__button player_button_disabled moovie_currentime'><span id='moovie_currentime_"+randomID+"'>00:00</span> / <span id='moovie_fulltime_"+randomID+"'></span></div>");
             // Volume Icon
-            moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='mooviegrid_mute_"+randomID+"' class='player__button'><img id='icon_volume_"+randomID+"' src='icons/volume.svg'></button>");
+            moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='mooviegrid_mute_"+randomID+"' class='player__button'><img id='icon_volume_"+randomID+"' src='"+icons.path+"volume.svg'></button>");
             // Volume
             moovie_el_controls.insertAdjacentHTML('beforeend', "<input type='range' id='mooviegrid_volume_"+randomID+"' style='max-width:100px; min-width:50px;' name='volume' class='moovie_progress_sound' min=0 max='1' step='0.01' value='1'>");
             // Subtitles
-            moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='moovie_subtitle_"+randomID+"' style='margin-left:5px' class='player__button'><img class='opacity_svg' id='moovie_subtitle_svg_"+randomID+"' src='icons/cc.svg'></button>");
+            moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='moovie_subtitle_"+randomID+"' style='margin-left:5px' class='player__button'><img class='opacity_svg' id='moovie_subtitle_svg_"+randomID+"' src='"+icons.path+"cc.svg'></button>");
             // Config
-            moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='moovie_cog_"+randomID+"' class='player__button'><img src='icons/cog.svg'></button>");
+            moovie_el_controls.insertAdjacentHTML('beforeend', "<button id='moovie_cog_"+randomID+"' class='player__button'><img src='"+icons.path+"cog.svg'></button>");
             // Fullscreen
-            moovie_el_controls.insertAdjacentHTML('beforeend', "<button class='player__button fullscreen_button'><img src='icons/fullscreen.svg'></button>");
+            moovie_el_controls.insertAdjacentHTML('beforeend', "<button class='player__button fullscreen_button'><img src='"+icons.path+"fullscreen.svg'></button>");
             // Create main sub-menu
             moovie_el_controls.insertAdjacentHTML('beforeend', "<div style='display:none;' class='moovie_submenu menuclosed' id='moovie_submenu_"+randomID+"'><div class='arrow-down' style='position: absolute; margin-left: 148px;'></div></div>");
 
