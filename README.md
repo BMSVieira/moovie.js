@@ -330,7 +330,7 @@ demo.video.addEventListener("canplay", function() {
 | `volumechange`| Sent when the audio volume changes (both when the volume is set and when the muted attribute is changed). |
 | `waiting`| Sent when the requested operation (such as playback) is delayed pending the completion of another operation (such as a seek). |
 
-◼️ Styling:
+◼️ Styling > Colors:
 -
 
 Using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties" target="_blank">CSS Custom Properties</a> you can easily customize your own player. 
@@ -341,15 +341,54 @@ Using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom
 | `--moovie_main_color` | Moovie main color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/maincolor.png"> `#3191f7`|
 | `--moovie_bg_controls` | Background color when hover the buttons | `rgba(16, 34, 62, 0.6)`|
 | `--moovie_bg_submenu` | Submenu background color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/submenu.png"> `#f7f7f7`|
+| `--moovie_bg_cuetimer` | Cuetimer background color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/submenotext.png"> `#2b2b2b`|
 | `--moovie_submenu_options_fcolor`| Submenu text color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/submenotext.png"> `#515151`|
 | `--moovie_topic_submenu_fcolor` | Submenu topic text color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/topiccolor.png"> `#797979`|
 | `--moovie_currenttime_color` | CurrentTime text color | `white`|
 | `--moovie_submenu_options_fsize` | Submenu options font size  | `10pt`|
 | `--moovie_topic_submenu_fsize` | Submenu topic font size  | `9pt`|
 | `--moovie_currenttime_fsize`| CurrentTime font size  | `11pt`|
+| `--moovie_cuetimer_fsize`| Cuetimer font size  | `9pt`|
 | `--moovie_svgicons_width` | Icons size  | `15px`|
 | `--moovie_padding_controls`| Control bar padding  | `13px`|
 | `--moovie_caption_fcolor`| Captions text color  | `white`|
+| `--moovie_cuetimer_fcolor`| Cuetimer text color  | `white`|
+
+◼️ Styling > Icons:
+-
+moovie uses `.svg` icons that are stored in the `icons` folder that is located by default in the root, however, you can specify a new location in the config options.
+
+```javascript
+  config: {
+      icons: {
+         path: "./path/to/folder/"
+  }
+  });
+});
+```
+Folder structure:
+```html
+moovie/
+├── icons/
+│   ├── back.svg
+│   ├── caption.svg
+│   ├── cc.svg
+│   ├── cog.svg
+│   ├── fullscreen.svg
+│   ├── mute.svg
+│   ├── next.svg
+│   ├── pause.svg
+│   ├── play.svg
+│   ├── volume.svg
+|
+├── css/
+│   ├── moovie.css
+|
+├── js/
+│   ├── moovie.js
+```
+
+
 
 ◼️ Settings:
 -
@@ -360,6 +399,7 @@ Using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom
 | `config` > `storage` > `captionOffset`| `boolean`  | Indicates whether caption's offset adjust will be stored or not|
 | `config` > `storage` > `playrateSpeed`| `boolean`  | Indicates whether Play Speed will be stored or not|
 | `config` > `storage` > `captionSize`| `boolean`  | Indicates whether caption's size will be stored or not|
+| `config` > `icons` > `path`| `string`  | Specify icons folder location|
 
 <b>Full Example:</b>
 
@@ -376,6 +416,9 @@ document.addEventListener("DOMContentLoaded", function() {
            playrateSpeed: false,
            captionSize: false
         }
+    },
+    icons: {
+        path: "./path/to/folder/"
     }
   });
 });
