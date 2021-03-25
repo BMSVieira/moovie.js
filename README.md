@@ -359,12 +359,11 @@ Using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom
 moovie uses `.svg` icons that are stored in the `icons` folder that is located by default in the root, however, you can specify a new location in the config options.
 
 ```javascript
-  config: {
-      icons: {
-         path: "./path/to/folder/"
-  }
-  });
-});
+config: {
+    icons: {
+        path: "./path/to/folder/"
+    }
+}
 ```
 Folder structure:
 ```html
