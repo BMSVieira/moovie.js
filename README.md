@@ -93,6 +93,7 @@ A player will bind the following keyboard shortcuts when it has focus.
 | `SpaceBar` | Toggle Play|
 | `K`  | Toggle Play  |
 | `F` | Toggle Fullscreen|
+| `C` | Toggle Captions|
 | `ArrowRight`  | Forward `5s`  |
 | `ArrowLeft` | Backward `5s` |
 | `M`  | Toggle Mute  |
