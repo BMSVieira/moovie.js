@@ -94,9 +94,9 @@ A player will bind the following keyboard shortcuts when it has focus.
 | `K`  | Toggle Play  |
 | `F` | Toggle Fullscreen|
 | `C` | Toggle Captions|
+| `M`  | Toggle Mute  |
 | `ArrowRight`  | Forward `5s`  |
 | `ArrowLeft` | Backward `5s` |
-| `M`  | Toggle Mute  |
 | `Shift`+`W`| Increase caption's size|
 | `Shift`+`S`| Decrease caption's size|
 
