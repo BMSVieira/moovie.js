@@ -1,3 +1,12 @@
+### v1.0.7
+
+- New Shortcuts
+- Icons path can now be changed
+- Added new css custom properties
+- Reworked functions
+- Fixed minor bugs
+- Code update
+
 ### v1.0.6
 
 - Added new methods
