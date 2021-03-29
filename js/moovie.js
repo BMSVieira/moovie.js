@@ -760,24 +760,26 @@ class Moovie {
         */
         var Keybinds = this.Keybinds = function Keybinds() {
 
-            // Prevent window from scrolling down when space is used
-            video.addEventListener('keydown', function(e) {
-                if (e.keyCode == 32 || event.shiftKey && event.keyCode == 87 || event.shiftKey && event.keyCode == 83) {
-                    e.preventDefault();
-                }
-            });
+            // Accepted shortcuts
+            const acceptedShortcuts = 
+            {
+                keycode_32(){ togglePlay(); },                    // [Space Bar]
+                keycode_75(){ togglePlay(); },                    // [K]
+                keycode_70(){ SetFullScreen(); },                 // [F]
+                keycode_39(){ movieVideo(5,"right"); },           // [Right Arrow]
+                keycode_37(){ movieVideo(5,"left"); },            // [Left Arrow]
+                keycode_77(){ mutePlayer(); },                    // [M]
+                keycode_67(){ ActivateSubtitles(); },             // [C]
+                keycode_shift87(){ SetCaptionSize("sizeUp"); },   // [Shift + W]
+                keycode_shift83(){ SetCaptionSize("sizeDown"); }  // [Shift + S]
+            }
 
-            // Keybinds to player
+            // Listen to keyboard
             video.addEventListener('keydown', function (event) {
-                if (event.keyCode == 32) { togglePlay(); }             // [Space bar]
-                if (event.keyCode == 75) { togglePlay(); }             // [K]
-                if (event.keyCode == 70) { SetFullScreen(); }          // [F]
-                if (event.keyCode == 39) { movieVideo(5, "right"); }   // [Right Arrow]
-                if (event.keyCode == 37) { movieVideo(5, "left"); }    // [Left Arrow]
-                if (event.keyCode == 77) { mutePlayer(); }             // [M]
-                if (event.keyCode == 67) { ActivateSubtitles(); }      // [C]
-                if (event.shiftKey && event.keyCode == 87) { SetCaptionSize("sizeUp"); } // [Shift + W]
-                if (event.shiftKey && event.keyCode == 83) { SetCaptionSize("sizeDown"); } // [Shift + S]
+                let ShortCut;
+                if (event.keyCode == 32 || event.shiftKey && event.keyCode == 87 || event.shiftKey && event.keyCode == 83) { event.preventDefault(); }
+                if(event.shiftKey) { ShortCut = acceptedShortcuts['keycode_shift'+event.keyCode]; } else { ShortCut = acceptedShortcuts['keycode_'+event.keyCode]; }
+                if(ShortCut) ShortCut();
             });
         }
 
@@ -797,14 +799,15 @@ class Moovie {
                 document.getElementById("medialoading_"+randomID).style.display = "none";
                 moovie_el_controls.style.opacity = 1;
 
+                // Update movie direction
+                moovie_el_progress.setAttribute("max", video.duration);
+
                 if (moovie_ishiden == 0){
                     document.getElementById("moovie_fulltime_"+randomID).innerHTML = player_time(video.duration);
-                    moovie_el_progress.setAttribute("max", video.duration);
                 }
 
                 // Get buffered video
                 bufferedVideo();
-
                 // Call funtion to set values in the Localstore
                 handleStorage("setStorage");
                 // Reset previous sound storage
@@ -849,6 +852,7 @@ class Moovie {
             this.captions_offset.addEventListener("click", function() { Submenu("ORange") }, true);
 
             if (!detectTouchScreen()) {
+
                 // Mouse related eventListeners
                 let mousedown = false;
                 moovie_elprogress.addEventListener('click', Scrub);
