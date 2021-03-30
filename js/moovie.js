@@ -231,23 +231,12 @@ class Moovie {
         }
 
         /*
-        ** Change Mute/Unmute Audio icon
-        */
-        var checkMute = this.checkMute = function checkMute() {
-            if (video.volume == 0) {
-                document.getElementById("icon_volume_"+randomID).src = icons.path+"mute.svg";
-            } else {
-                video.muted = false; document.getElementById("icon_volume_"+randomID).src = icons.path+"volume.svg";
-            }
-        }
-
-        /*
         ** Range value update
         */
         function handleRangeUpdate() {
             video[this.name] = this.value;
             // Update volume icon
-            checkMute();
+            checkSoundLevel("checkMute");
         }
 
         /*
@@ -312,19 +301,7 @@ class Moovie {
         ** Mute/UnMute function
         */
         function mutePlayer() {
-            if (video.muted == true) {
-                video.muted = false;
-                document.getElementById("icon_volume_"+randomID).src = icons.path+"volume.svg";
-                if (localStorage.getItem("scrubsound")) {
-                    moovie_ul_soundv.value = localStorage.getItem("scrubsound");
-                } else {
-                    moovie_ul_soundv.value = "1";
-                }
-            } else {
-                video.muted = true;
-                document.getElementById("icon_volume_"+randomID).src = icons.path+"mute.svg";
-                document.getElementById("mooviegrid_volume_"+randomID).value = "0";
-            }
+
         }
 
         /*
@@ -428,7 +405,7 @@ class Moovie {
             video.volume = moovie_ul_soundv.value;
             // Save Sound variable
             handleStorage("set", "scrubsound", video.volume);
-            checkMute();
+            checkSoundLevel("checkMute");
         }
 
         /*
@@ -459,6 +436,56 @@ class Moovie {
                 }
             } else {
                 console.log("You must choose an Subtitle first.");
+            }
+        }
+
+        /*
+        ** Sound overall handler
+        */
+        var checkSoundLevel = this.checkSoundLevel = function checkSoundLevel(order) {
+            switch(order) {
+
+                case "checkMute":
+
+                    if (video.volume == 0) {
+                        document.getElementById("icon_volume_"+randomID).src = icons.path+"mute.svg";
+                    } else {
+                        video.muted = false; document.getElementById("icon_volume_"+randomID).src = icons.path+"volume.svg";
+                    }
+
+                break;
+                case "mutePlayer":
+
+                    if (video.muted == true) {
+                        
+                        video.muted = false;
+                        checkSoundLevel("checkMute");
+                        if (localStorage.getItem("scrubsound")) {
+                            moovie_ul_soundv.value = localStorage.getItem("scrubsound");
+                        } else { 
+                            moovie_ul_soundv.value = "1";
+                        }
+
+                    } else {
+                        video.muted = true;
+                        document.getElementById("icon_volume_"+randomID).src = icons.path+"mute.svg";
+                        document.getElementById("mooviegrid_volume_"+randomID).value = "0";
+                    }
+
+                break;  
+                case "checkStorage":
+
+                    if (localStorage.getItem("scrubsound")) {
+                        moovie_ul_soundv.value = localStorage.getItem("scrubsound");
+                        video.volume = localStorage.getItem("scrubsound");
+                    } else {
+                        moovie_ul_soundv.value = "1";
+                        video.muted = false;
+                    }
+                    checkSoundLevel("checkMute");
+
+                break;               
+              default:
             }
         }
 
@@ -768,7 +795,7 @@ class Moovie {
                 keycode_70(){ SetFullScreen(); },                 // [F]
                 keycode_39(){ movieVideo(5,"right"); },           // [Right Arrow]
                 keycode_37(){ movieVideo(5,"left"); },            // [Left Arrow]
-                keycode_77(){ mutePlayer(); },                    // [M]
+                keycode_77(){ checkSoundLevel("mutePlayer"); },   // [M]
                 keycode_67(){ ActivateSubtitles(); },             // [C]
                 keycode_shift87(){ SetCaptionSize("sizeUp"); },   // [Shift + W]
                 keycode_shift83(){ SetCaptionSize("sizeDown"); }  // [Shift + S]
@@ -810,8 +837,8 @@ class Moovie {
                 bufferedVideo();
                 // Call funtion to set values in the Localstore
                 handleStorage("setStorage");
-                // Reset previous sound storage
-                handleStorage("set", "scrubsound", 1);
+                // Check stored sound level
+                checkSoundLevel("checkStorage");
             });
 
             video.addEventListener('timeupdate', handleProgress);
@@ -837,7 +864,7 @@ class Moovie {
             moovie_ul_soundv = document.getElementById("mooviegrid_volume_"+randomID);
 
             // Mute
-            document.getElementById("mooviegrid_mute_"+randomID).addEventListener('click', mutePlayer);
+            document.getElementById("mooviegrid_mute_"+randomID).addEventListener("click", function() { checkSoundLevel("mutePlayer"); }, false);
 
             // Progress bar
             moovie_elprogress = moovie_el_player.querySelector('.moovie_progress');
@@ -1032,6 +1059,11 @@ class Moovie {
     // Add new track
     addTrack(properties){
 
+        // OnComplete Callback
+        function onComplete(callback) { 
+            if (typeof callback == "function") { callback();}
+        } 
+
         if (properties.options && typeof(properties.options) === 'object') {
             // Loop object and add new options to original select box
             var prop = Object.keys(properties.options).length;
@@ -1054,6 +1086,9 @@ class Moovie {
 
             // fetch all track itens again
             this.GetCaptions();
+
+            // if is "onComplete" is a function, call it back.
+            if (typeof properties.onComplete == "function") { onComplete(properties.onComplete); }
 
         } else {
             console.error("Options must be and Object. Read documentation.");
@@ -1140,7 +1175,7 @@ class Moovie {
     // Set current time
     set currentTime (input) { this.video.currentTime = input; this.progressbar.value = input; }
     // Set volume
-    set volume (input) { this.video.volume = input; this.moovie_el_volume.value = input; this.checkMute(); }
+    set volume (input) { this.video.volume = input; this.moovie_el_volume.value = input; this.checkSoundLevel("checkMute"); }
     // Set speed
     set speed (input) { if (input < -0.1 || input > 8) { return "Value must be between -0.1 and 8"; } else { this.video.playbackRate = input; this.speedinput.value = input; this.SpeedChange();}}
     // Set caption offset
