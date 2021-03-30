@@ -160,7 +160,10 @@ demo.addTrack({
             srclang: "es",
             src: "<<path-to-file.vtt/.srt"
         }
-    }
+    },
+    onComplete: function(){
+      console.log("Completed!");
+    } 
 });
 ```
 
