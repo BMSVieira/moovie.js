@@ -235,8 +235,6 @@ class Moovie {
         */
         function handleRangeUpdate() {
             video[this.name] = this.value;
-            // Update volume icon
-            checkSoundLevel("checkMute");
         }
 
         /*
@@ -447,10 +445,15 @@ class Moovie {
 
                 case "checkMute":
 
-                    if (video.volume == 0) {
+                    if (video.muted || video.volume == 0) {
+
+                        video.muted = false;
+                        moovie_ul_soundv.value = localStorage.getItem("scrubsound");
+                        video.volume = localStorage.getItem("scrubsound");
                         document.getElementById("icon_volume_"+randomID).src = icons.path+"mute.svg";
+                   
                     } else {
-                        video.muted = false; document.getElementById("icon_volume_"+randomID).src = icons.path+"volume.svg";
+                        document.getElementById("icon_volume_"+randomID).src = icons.path+"volume.svg";
                     }
 
                 break;
@@ -466,8 +469,12 @@ class Moovie {
                             moovie_ul_soundv.value = "1";
                         }
 
+                        // quick fix | needs more attention.
+                        document.getElementById("icon_volume_"+randomID).src = icons.path+"volume.svg";
+                        
                     } else {
                         video.muted = true;
+                        video.volume = 0;
                         document.getElementById("icon_volume_"+randomID).src = icons.path+"mute.svg";
                         document.getElementById("mooviegrid_volume_"+randomID).value = "0";
                     }
@@ -1097,6 +1104,11 @@ class Moovie {
     // Apply changes to current player
     change(properties){
 
+        // OnComplete Callback
+        function onComplete(callback) { 
+            if (typeof callback == "function") { callback();}
+        } 
+
         if (properties.video && typeof(properties.video) === 'object') {
             // Check if Video Source is empty or not
             if (properties.video.videoSrc) {
@@ -1120,6 +1132,10 @@ class Moovie {
                     });
                 }
             }
+
+            // if is "onComplete" is a function, call it back.
+            if (typeof properties.onComplete == "function") { onComplete(properties.onComplete); }
+
         } else {
             console.error("Options must be and Object. Read documentation.");
         }
