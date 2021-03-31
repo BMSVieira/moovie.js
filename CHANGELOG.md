@@ -1,3 +1,12 @@
+### v1.0.8
+
+- Fixed bug that when the audio is muted if scrub to a new location of the video, unmutes the audio.
+- Added Callback function to addTrack() and change() methods
+- Reworked sound functions
+- Reworked shortcuts Functions
+- Fixed minor bugs
+- Code update
+
 ### v1.0.7
 
 - New Shortcuts
