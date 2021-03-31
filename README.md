@@ -184,7 +184,10 @@ demo.change({
      },
      captions:{
          clearCaptions: true
-     }
+     },
+    onComplete: function(){
+      console.log("Completed!");
+    } 
 });
 ```
 
