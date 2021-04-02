@@ -75,7 +75,7 @@ class Moovie {
             },
             {
               name: "Main Submenu",
-              element: "<div style='display:none;' class='moovie_submenu menuclosed' id='moovie_submenu_"+randomID+"'><div class='arrow-down' style='position: absolute; margin-left: 148px;'></div></div>"  
+              element: "<div style='display:none;' class='moovie_submenu menuclosed' id='moovie_submenu_"+randomID+"'></div>"  
             }
         ];
 
