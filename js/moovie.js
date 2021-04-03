@@ -296,13 +296,6 @@ class Moovie {
         }
 
         /*
-        ** Mute/UnMute function
-        */
-        function mutePlayer() {
-
-        }
-
-        /*
         ** Formar player time
         */
         function player_time(secs) {
