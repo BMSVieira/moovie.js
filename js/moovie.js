@@ -5,40 +5,44 @@ Made by: Bruno Vieira
 --------------------------- */
 
 class Moovie {
+    constructor(options) {
 
-    constructor({
-        selector = 'defaultId',
-        dimensions = {
-          width: "100%"
-        },
-        config = {
-            storage : {
-                captionOffset: false,
-                playrateSpeed: false,
-                captionSize: false
+        const defaults = {
+            selector : 'defaultId',
+            dimensions : {
+              width: "100%"
+            },
+            config : {
+                storage : {
+                    captionOffset: false,
+                    playrateSpeed: false,
+                    captionSize: false
+                }
+            },
+            icons : {
+                path: "./icons/"
             }
-        },
-        icons = {
-            path: "./icons/"
-        }
-    })
-    {
-        // Global
+        };      
+
+        // Player Random ID
         var randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
-        var dimensions = dimensions;
-        var icons = icons;
+
+        this.selector = options.selector.substring(1) || defaults.selector.substring(1);
+        this.dimensions = options.dimensions || defaults.dimensions
+        this.config = options.config || defaults.config
+        this.icons = options.icons || defaults.icons
+        this.element = document.getElementById(this.selector);
+        this.randomID = randomID;
+        this.options = options || defaults;
+
+        // Global
         var _this = this;
         var parts, video, subtitles = 0, cuevalue = 0, speed = 1, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, progressBarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
         var selectedCaption = [];
-
-        // Define Variables
-        this.selector = selector.substring(1);
-        this.element = document.getElementById(this.selector);
-        this.dimensions = dimensions;
-        this.randomID = randomID;
-        this.config = config;
-        this.icons = icons;
-
+        var icons = this.icons;
+        var config = this.config;
+        var dimensions = this.dimensions;
+        
         // Main menu object
         var mainmenu = [
             {
@@ -196,11 +200,14 @@ class Moovie {
         ** Buffered Video
         */
         function bufferedVideo() {
-            var r = video.buffered;
-            var total = video.duration;
-            var start = r.start(0);
-            var end = r.end(0);
-            document.getElementById("moovie_buffered_"+randomID).value = (end/total)*100;
+            if(video.paused == false)
+            {
+                var r = video.buffered;
+                var total = video.duration;
+                var start = r.start(0);
+                var end = r.end(0);
+                document.getElementById("moovie_buffered_"+randomID).value = (end/total)*100; 
+            }
         }
 
         /*
@@ -318,7 +325,7 @@ class Moovie {
         function updateTime() {
             // Update current times
             if (moovie_ishiden == 0){ document.getElementById("moovie_currentime_"+randomID).innerHTML = player_time(video.currentTime); }
-            if (video.currentTime >= video.duration) { video.currentTime = 0; togglePlay();  moovie_el_progress.value = 0; }
+            if (video.currentTime >= video.duration) { video.currentTime = 0; moovie_el_progress.value = 0; togglePlay(); }
         }
 
         /*
@@ -492,7 +499,7 @@ class Moovie {
         /*
         ** Submenu handler function
         */
-        function Submenu(order) {
+        var Submenu = this.Submenu = function Submenu(order) {
             switch(order) {
 
                 case "toggleSubmenu": // Close caption menu
@@ -823,7 +830,7 @@ class Moovie {
             // Wait media to load, to make sure it doesnt add eventlisteners to a empty container
             video.addEventListener('loadedmetadata', e => {
                 // Hide loading screen
-                document.getElementById("medialoading_"+randomID).style.display = "none";
+                this.medialoading.style.display = "none";
                 moovie_el_controls.style.opacity = 1;
 
                 // Update movie direction
@@ -969,12 +976,13 @@ class Moovie {
             // Player Controls
             moovie_el_video.insertAdjacentHTML('beforeend', "<div style='opacity:0;' id='moovie__controls_"+randomID+"' class='moovie_controls'></div>");
 
-            moovie_el_controls = document.getElementById("moovie__controls_"+randomID);
+            this.moovie_el_controlbar = moovie_el_controls = document.getElementById("moovie__controls_"+randomID);
 
             // Set main Play control when video is stopped
             moovie_el_video.insertAdjacentHTML('afterbegin', "<div id='medialoading_"+randomID+"' class='loadingv'><div class='loading animated fadeIn'><div class='moovie_bg'></div></div></div><div class='poster_layer posteron' id='poster_layer_"+randomID+"'></div>");
+            this.medialoading = document.getElementById("medialoading_"+randomID);
 
-            this.moovieposter = moovie_el_poster = document.getElementById("poster_layer_"+randomID);
+            this.moovie_el_poster = moovie_el_poster = document.getElementById("poster_layer_"+randomID);
             moovie_el_poster.insertAdjacentHTML('afterbegin', "<div class='poster_center' id='poster_center_"+randomID+"' style=''></div>");
             document.getElementById("poster_center_"+randomID).insertAdjacentHTML('afterbegin', "<div class='poster_button'><img src='"+icons.path+"play.svg' style='width: 24px; position: relative; left: 3px;'></div>");
             if (vposter != null){  moovie_el_poster.style.backgroundImage = "url("+vposter+")"; moovie_el_poster.style.backgroundSize = "100%"; }
@@ -996,7 +1004,7 @@ class Moovie {
                 moovie_el_submenu.insertAdjacentHTML('beforeend', submenu[key]["mainElement"]);
                 if(submenu[key].hasOwnProperty('elements'))
                 {
-                    moovie_el_submain =  document.getElementById("moovie_submenu_main_"+randomID);
+                    this.moovie_submain = moovie_el_submain =  document.getElementById("moovie_submenu_main_"+randomID);
                     for (var i = 0; i < submenu[key]["elements"].length; i++) {
                         moovie_el_submain.insertAdjacentHTML('beforeend', submenu[key]["elements"][i]['element']);
                     }
@@ -1020,6 +1028,7 @@ class Moovie {
             this.progressbar = moovie_el_progress;
             this.moovie_el_volume = moovie_el_volume = document.getElementById("mooviegrid_volume_"+randomID);
             this.moovie_el_cuetimer = moovie_el_cuetimer = document.getElementById("moovie_cue_timer_"+randomID);
+            this.submenuBase = moovie_el_submenu;
 
             // Call events
             this.SetupLogic();
@@ -1113,7 +1122,7 @@ class Moovie {
             // Check if Poster source is empty or not
             if (properties.video.posterSrc) {
                 this.element.setAttribute('poster', properties.video.posterSrc);
-                this.moovieposter.style.backgroundImage = "url("+properties.video.posterSrc+")";
+                this.moovie_el_poster.style.backgroundImage = "url("+properties.video.posterSrc+")";
             }
 
             if (properties.captions && typeof(properties.captions) === 'object') {
@@ -1192,3 +1201,5 @@ class Moovie {
     // Change source
     set source (input) { this.video.pause(); this.video.src = input; this.video.play(); }
 }
+
+
