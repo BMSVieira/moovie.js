@@ -14,6 +14,7 @@
 - 🖊 Add tracks/captions dynamically
 - 🛠 Standardized events / shortcuts / API
 - 🖌 Caption customization
+- 🕹 Built-in Plugins, use the code that you really need
 - 💪 No dependencies, built with VanillaJS
 - 🌎 Tested in all modern browsers
 - 💻 Responsive
