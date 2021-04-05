@@ -394,7 +394,30 @@ moovie/
 │   ├── moovie.js
 ```
 
+◼️ Plugins:
+-
+There are external plugins you can use to add extra features.
+<br>to call a plugin, follow the example below:
 
+```html
+<!-- Include plugin path after moovie.js -->
+<script src="path/to/plugin.js"></script>
+```
+by default, plugins are located in the `./js/plugins/` folder, but you can specify a new location.<br>
+
+```javascript
+// Initialize Moovie
+var demo = new Moovie({selector: "#example"});
+
+// Call External Plugin (Playlist example)
+var PlaylistPlugin = new _Moovie_Playlist({reference: demo});
+```
+
+List of available plugins:
+
+| Name | Description |  |
+| --- | --- | --- |
+| `_Moovie_Playlist` | Create a playlist of videos| [More info](https://github.com/BMSVieira/moovie.js/tree/main/js/plugins/playlist)|
 
 ◼️ Settings:
 -
