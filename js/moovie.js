@@ -605,6 +605,7 @@ class Moovie {
                 var containerSize = moovie_el_video.offsetWidth;
                 var fontSizeCap = containerSize*0.10;
                 captionSize.style.fontSize = fontSizeCap+"%";
+                captionSize.style.lineHeight = (fontSizeCap/3)+"px";
             } else {
 
                 if (value == "sizeUp") {
