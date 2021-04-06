@@ -1,3 +1,12 @@
+## v1.1.0
+
+- Introduced Plugins to Moovie
+- Added Playlist plugin, you can now build a list of videos to be played.
+- Overall Reworked Functions
+- Fixed minor bugs
+
+<b>Plugins:</b> By adding plugins, it allows us to add more features to moovie without compromising the main functions, it also allows the user to select only the code they want for the features they want, making it much lighter. 
+
 ### v1.0.8
 
 - Fixed bug that when the audio is muted if scrub to a new location of the video, unmutes the audio.

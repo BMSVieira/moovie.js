@@ -3,7 +3,7 @@
 </p>
 
 
-<p align="center" size="20pt"><font size="20pt"><b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-demo">Demo</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-installation">Installation</a></b>   ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-shortcuts">Shortcuts</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-api--methods">API</a></b>  ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-webtorrent-">WebTorrent</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-events">Events</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-styling">Styling</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-settings">Settings</a></b></font></p>
+<p align="center" size="20pt"><font size="20pt"><b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-demo">Demo</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-installation">Installation</a></b>   ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-shortcuts">Shortcuts</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-api--methods">API</a></b>  ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-webtorrent-">WebTorrent</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-events">Events</a></b>  <br> <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-styling">Styling</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-plugins">Plugins</a></b></font> ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-settings">Settings</a></b></font></p>
 
 ◼️ Features:
 -
@@ -14,6 +14,7 @@
 - 🖊 Add tracks/captions dynamically
 - 🛠 Standardized events / shortcuts / API
 - 🖌 Caption customization
+- 🕹 Built-in Plugins, use the code that you really need
 - 💪 No dependencies, built with VanillaJS
 - 🌎 Tested in all modern browsers
 - 💻 Responsive
@@ -394,7 +395,30 @@ moovie/
 │   ├── moovie.js
 ```
 
+◼️ Plugins:
+-
+There are external plugins you can use to add extra features.
+<br>to call a plugin, follow the example below:
 
+```html
+<!-- Include plugin path after moovie.js -->
+<script src="path/to/plugin.js"></script>
+```
+by default, plugins are located in the `./js/plugins/` folder, but you can specify a new location.<br>
+
+```javascript
+// Initialize Moovie
+var demo = new Moovie({selector: "#example"});
+
+// Call External Plugin (Playlist example)
+var PlaylistPlugin = new _Moovie_Playlist({reference: demo});
+```
+
+List of available plugins:
+
+| Name | Description |  |
+| --- | --- | --- |
+| `_Moovie_Playlist` | Create a playlist of videos| [More info](https://github.com/BMSVieira/moovie.js/tree/main/js/plugins/playlist)|
 
 ◼️ Settings:
 -
