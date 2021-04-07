@@ -37,11 +37,12 @@ class Moovie {
 
         // Global
         var _this = this;
-        var parts, video, subtitles = 0, cuevalue = 0, speed = 1, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, progressBarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
+        var parts, video, subtitles = 0, cuevalue = 0, speed = 1, moovie_el_locally, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_localsub, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, progressBarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
         var selectedCaption = [];
         var icons = this.icons;
         var config = this.config;
         var dimensions = this.dimensions;
+        var selector = this.selector;
         
         // Main menu object
         var mainmenu = [
@@ -107,7 +108,8 @@ class Moovie {
                 ]
             },
             captionSubmenu : {
-                mainElement : "<ul style='display:none;' id='moovie_submenu_captions_"+randomID+"'><li class='topic_submenu'>Captions:</li><li id='captions_back_"+randomID+"' style='font-weight:bold;'>Back</li></ul>"
+            mainElement : "<ul style='display:none;' id='moovie_submenu_captions_"+randomID+"'><input style='display:none;' type='file' id='localsub_"+randomID+"'><li class='topic_submenu'>Captions:</li><li id='captions_back_"+randomID+"' style='font-weight:bold;'>Back</li><li id='locally_"+randomID
+            +"' style='font-weight:bold;'>Load Locally</li></ul>"
             },
             rangeSubmenu : {
                 mainElement : "<ul style='display:none; width:250px;' id='moovie_range_captions_"+randomID+"' style='display:none;'><li class='topic_submenu'>Adjust Caption Offset:<output style='position:absolute; right:22px;' id='valoffset_"+randomID+"'>0</output></li><li class='topic_submenu'><span>-5s</span><span style='float: right;'>+5s</span><input type='range' oninput='valoffset_"+randomID+".value = offset_range_input_"+randomID+".value' id='offset_range_input_"+randomID+"' min='-5' max='5' step='0.2'></li>"
@@ -326,6 +328,42 @@ class Moovie {
             // Update current times
             if (moovie_ishiden == 0){ document.getElementById("moovie_currentime_"+randomID).innerHTML = player_time(video.currentTime); }
             if (video.currentTime >= video.duration) { video.currentTime = 0; moovie_el_progress.value = 0; togglePlay(); }
+        }
+
+        /*
+        ** Handle local subtitles
+        */
+        function localSubtitles() {
+
+            const allowedFormats = [".vtt", ".srt"];
+            const toBase64 = file => new Promise((resolve, reject) => {
+                  const reader = new FileReader();
+                  reader.readAsDataURL(file);
+                  reader.onload = () => resolve(reader.result);
+                  reader.onerror = error => reject(error);
+            });
+
+            let promise = new Promise( async function(resolve, reject) { 
+               
+               const file = document.querySelector('#localsub_'+randomID).files[0];
+               var CheckFormat = file["name"].substr(file["name"].length - 4);
+
+               // Check if format is allowed
+               if(allowedFormats.includes(CheckFormat))
+               {
+                    document.querySelectorAll('#moovie_submenu_captions_'+randomID+' .caption_track').forEach((item) => { item.remove(); });
+                    const CaptionSrc = await toBase64(file);
+                    let tname = file["name"].substring(0,10);
+                    document.getElementById(selector).insertAdjacentHTML("beforeend", "<track label='"+tname+"...' format='"+CheckFormat+"' srclang='Local' src='"+CaptionSrc+"'>");
+                    
+                    resolve();
+
+               } else { console.log("Only .vtt and .srt formats are allowed.");}
+            }); 
+            promise.then(function () { 
+                GetCaptions();
+                console.log("Local caption added successfully.");
+            });
         }
 
         /*
@@ -683,16 +721,26 @@ class Moovie {
             var request = new XMLHttpRequest();
             request.open('GET', caption["attributes"]["src"]["nodeValue"], true);
 
+            // Check if it has format attribute, if yes, came via local
+            if(caption["attributes"]["format"]) 
+            {
+                var capFormat = caption["attributes"]["src"]["nodeValue"]+caption["attributes"]["format"]["nodeValue"];
+            } else {
+                var capFormat = caption["attributes"]["src"]["nodeValue"];
+            }
+
             request.onload = function() {
                 if (this.status >= 200 && this.status < 400) {
 
                     var resp = this.response;
+                    resp = resp.replace(/(\r\n|\r|\n)/g, '\n');
 
                     // if it is .SRT format, add a cue to the beginning of the file to match VTT style
-                    var CheckFormat = caption["attributes"]["src"]["nodeValue"].substr(caption["attributes"]["src"]["nodeValue"].length - 4);
+                    var CheckFormat = capFormat.substr(capFormat.length - 4);
                     if (CheckFormat == '.srt') { resp = "STR\n\n"+resp; }
 
                         resp.split("\n\n").map(function (item) {
+
                             parts = item.split("\n");
 
                             if (parts[1] != undefined) {
@@ -700,37 +748,53 @@ class Moovie {
                                 if (isNaN(parts[0])) { // If VTT Doesnt have cue number
 
                                     var timeString = parts[0].replace(/-/g, '');
-                                    if (CheckFormat == '.srt'){ timeString = parts[0].replace(/,/g, '.'); }
+                                    var checkEmptyString = timeString;
+                                    checkEmptyString = checkEmptyString.replace(/ /g, '');
 
-                                    // Get starttime
-                                    var starttime = timeString.substr(0, timeString.indexOf('>'));
-                                    starttime = starttime.replace(/ /g, '');
-                                    // Get endtime
-                                    var endtime = timeString.split('>', 2);
-                                    endtime = endtime[1].replace(/ /g, '');
+                                    if(checkEmptyString)
+                                    {
+                                        if (CheckFormat == '.srt'){ timeString = parts[0].replace(/,/g, '.'); }
 
-                                    // If it is .srt, change ","" to ".""
-                                    if (CheckFormat == '.srt'){ endtime = endtime.replace(/,/g, '.'); starttime = starttime.replace(/,/g, '.'); }
+                                        // Get starttime
+                                        var starttime = timeString.substr(0, timeString.indexOf('>'));
+                                        starttime = starttime.replace(/ /g, '');
+                                       
+                                        // Get endtime
+                                        var endtime = timeString.split('>', 2);
+                                        endtime = endtime[1].replace(/ /g, '');
 
-                                    // Push array with all info
-                                    selectedCaption.push(({'starttime': starttime, 'endtime': endtime, 'text1': parts[1], 'text2': parts[2]}));
+                                        starttime = starttime.replace(/--/g, '');
+                                        endtime = endtime.replace(/--/g, '');
+
+                                        // If it is .srt, change ","" to ".""
+                                        if (CheckFormat == '.srt'){ endtime = endtime.replace(/,/g, '.'); starttime = starttime.replace(/,/g, '.'); }
+
+                                        // Push array with all info
+                                        selectedCaption.push(({'starttime': starttime, 'endtime': endtime, 'text1': parts[1], 'text2': parts[2]}));
+                                    }
 
                                 } else {
 
                                     var timeString = parts[1].replace(/-/g, '');
+                                    var checkEmptyString = timeString;
+                                    checkEmptyString = checkEmptyString.replace(/ /g, '');
+                                   
+                                    if(checkEmptyString)
+                                    {
+                                        // Get starttime
+                                        var starttime = timeString.substr(0, timeString.indexOf('>'));
+                                        starttime = starttime.replace(/ /g, '');
+                                        
+                                        // Get endtime
+                                        var endtime = timeString.split('>', 2);
+                                        endtime = endtime[1].replace(/ /g, '');
 
-                                    // Get starttime
-                                    var starttime = timeString.substr(0, timeString.indexOf('>'));
-                                    starttime = starttime.replace(/ /g, '');
-                                    // Get endtime
-                                    var endtime = timeString.split('>', 2);
-                                    endtime = endtime[1].replace(/ /g, '');
+                                        // If it is .srt, change ","" to ".""
+                                        if (CheckFormat == '.srt'){ endtime = endtime.replace(/,/g, '.'); starttime = starttime.replace(/,/g, '.'); }
 
-                                    // If it is .srt, change ","" to ".""
-                                    if (CheckFormat == '.srt'){ endtime = endtime.replace(/,/g, '.'); starttime = starttime.replace(/,/g, '.'); }
-
-                                    // Push array with all info
-                                    selectedCaption.push(({'starttime': starttime, 'endtime': endtime, 'text1': parts[2], 'text2': parts[3]}));
+                                        // Push array with all info
+                                        selectedCaption.push(({'starttime': starttime, 'endtime': endtime, 'text1': parts[2], 'text2': parts[3]}));
+                                    }                        
                                 }
 
                             } else {
@@ -740,7 +804,6 @@ class Moovie {
 
                             }
                         })
-
                     }
                 }
 
@@ -753,27 +816,27 @@ class Moovie {
                 // Set flag on hassubtitles
                 hassubtitles = 1;
                 ActivateSubtitles();
-
             }
         }
 
         /*
         ** Add Captions
         */
-
         var SetCaptions = this.SetCaptions = function SetCaptions(caption) {
 
             // Get Caption Format
-            const CaptionFormat = caption["attributes"]["src"]["nodeValue"].substr(caption["attributes"]["src"]["nodeValue"].length - 4);
-
+            let CaptionFormat = caption["attributes"]["src"]["nodeValue"].substr(caption["attributes"]["src"]["nodeValue"].length - 4);
+            let capLabel = caption['track']['label'];
             // Generating a random ID for each caption
             var captionIDRandom = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
-            // Add caption to list and add event listener to play it
 
-            moovie_el_captions.insertAdjacentHTML('beforeend', "<li class='caption_track' id='captionid_"+captionIDRandom+"'><span>"+caption['track']['label']+"</span><span class='labelformat'>"+CaptionFormat+"</span></li>");
+            if(caption["attributes"]["format"])  {  CaptionFormat = caption["attributes"]["format"]["nodeValue"];} 
+
+            // Add caption to list and add event listener to play it
+            moovie_el_captions.insertAdjacentHTML('beforeend', "<li class='caption_track' id='captionid_"+captionIDRandom+"'><span>"+capLabel+"</span><span class='labelformat'>"+CaptionFormat+"</span></li>");
             document.getElementById("captionid_"+captionIDRandom).addEventListener("click", function() {
                 PlayCaption(caption);
-                document.getElementById("option_submenu_caption_"+randomID).innerHTML = caption['track']['label'];
+                document.getElementById("option_submenu_caption_"+randomID).innerHTML = capLabel;
                 Submenu("toggleSubmenu"); // Close menu
             });
         }
@@ -784,9 +847,9 @@ class Moovie {
         var GetCaptions = this.GetCaptions = function GetCaptions() {
 
             // Get all captions inside video tag
-            var vcaptions = document.getElementById(this.selector).getElementsByTagName('track');
+            var vcaptions = document.getElementById(_this.selector).getElementsByTagName('track');
             for (var i = 0; i < vcaptions.length; i++) {
-                this.SetCaptions(vcaptions[i]);
+                _this.SetCaptions(vcaptions[i]);
             }
         }
 
@@ -863,6 +926,7 @@ class Moovie {
             moovie_el_toggle = moovie_el_player.querySelector('.toggle');
             moovie_el_toggle.addEventListener('click', togglePlay);
 
+
             // Ranges & Sliders
             ranges = moovie_el_player.querySelectorAll('.player__slider');
             ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
@@ -905,6 +969,10 @@ class Moovie {
                 moovie_el_poster.addEventListener('click', togglePlay);
                 video.addEventListener('click', togglePlay);
 
+                // Event listener for LocalSubtitles
+                moovie_el_locally.addEventListener("click", function() { moovie_el_localsub.click(); }, true);
+                moovie_el_localsub.addEventListener('change', localSubtitles);
+
                 // Cue Time
                 document.getElementById('range_progress_'+randomID).addEventListener('mousemove', function(e) { cueTime(e); });
                 document.getElementById('range_progress_'+randomID).addEventListener('mouseleave', function(e) { moovie_el_cuetimer.style.display = "none"; });
@@ -926,6 +994,8 @@ class Moovie {
 
             } else {
 
+
+
                 // Check if it is Android or iOs
                 if (androidOrIOS() == "ios") {
                     // Since iOs doesnt support Fullscreen and Volume changes, let's hide it
@@ -942,7 +1012,8 @@ class Moovie {
                 // Volume EventListeners
                 moovie_ul_soundv.addEventListener("touchmove", function(event) { ScrubSound(event);  });
                 moovie_ul_soundv.addEventListener("change", function(event) { ScrubSound(event);  }, false);
-
+                moovie_el_locally.style.display = "none";
+               
                 // Hide div on mouse stop
                 var i = null;
                 moovie_el_video.addEventListener('touchstart', e => {clearTimeout(i);  HideControls("open");  i = setTimeout(function(){ HideControls("close");  }, 4000); });
@@ -1030,6 +1101,8 @@ class Moovie {
             this.moovie_el_volume = moovie_el_volume = document.getElementById("mooviegrid_volume_"+randomID);
             this.moovie_el_cuetimer = moovie_el_cuetimer = document.getElementById("moovie_cue_timer_"+randomID);
             this.submenuBase = moovie_el_submenu;
+            this.moovie_el_localsub = moovie_el_localsub = document.getElementById("localsub_"+randomID);
+            this.moovie_el_locally = moovie_el_locally = document.getElementById("locally_"+randomID);
 
             // Call events
             this.SetupLogic();
