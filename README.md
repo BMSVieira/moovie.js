@@ -7,14 +7,15 @@
 
 ◼️ Features:
 -
-- 🔧 Fully customizable
-- 💎 Built-in caption offset adjust on the fly
-- 🌠 Adjust speed on the fly
+- 🔧 Fully customizable and Easy-to-use
+- 💎 Built-in `caption offset adjust` on the fly
 - 🎬 Built-in support for `.vtt` and `.srt` caption files 
+- 🕹 Built-in `Plugins`, use the code that you really need!
+- 🗃 Add tracks/captions locally (no server or upload required)  ☑️ *Coming soon!* ☑️
 - 🖊 Add tracks/captions dynamically
+- 🌠 Adjust speed on the fly
 - 🛠 Standardized events / shortcuts / API
 - 🖌 Caption customization
-- 🕹 Built-in Plugins, use the code that you really need
 - 💪 No dependencies, built with VanillaJS
 - 🌎 Tested in all modern browsers
 - 💻 Responsive
