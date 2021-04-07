@@ -11,8 +11,8 @@
 - 💎 Built-in `caption offset adjust` on the fly
 - 🎬 Built-in support for `.vtt` and `.srt` caption files 
 - 🕹 Built-in `Plugins`, use the code that you really need!
-- 🗃 Add tracks/captions locally (no server or upload required)  ☑️ *Coming soon!* ☑️
-- 🖊 Add tracks/captions dynamically
+- 🖊 Add tracks/captions `dynamically` using our API
+- 🗃 Add tracks/captions `locally` on the fly (no server or upload required) 
 - 🌠 Adjust speed on the fly
 - 🛠 Standardized events / shortcuts / API
 - 🖌 Caption customization
@@ -71,13 +71,23 @@ You can use our CDN (provided by JSDelivr) for the JavaScript and CSS files.
 
 ◼️ Captions:
 -
-
 Currently it has full support for `WebVTT(.vtt)` and `SubRip(.srt)`.
-<br>To add a track use the standard html as the example below.
+<br>
+### ▪️ Dynamically (Public server required)
+Use the standard html as the example below (source must be in a public server with cross-origin headers).
 
 ```html
-<track kind="captions" label="<<Language>>" srclang="<<SourceLang>>" src="<<path-to-caption.vtt/.srt>>">
+<video>
+  <track kind="captions" label="<<Language>>" srclang="<<SourceLang>>" src="<<path-to-caption.vtt/.srt>>">
+</video
 ```
+### ▪️ Locally (No server or upload required)
+Since browsers won't let you display subtitles loaded locally, you can use moovie's built-in feature that allows you to add local subtitles without a server or any kind of upload.
+```html
+Video Player ➔ ⚙️ ➔ Captions ➔ Load Locally
+```
+⚠️ This method <b>DOES NOT</b> load anything into server/folder/directory.
+
 
 ◼️ Caption Offset Adjust:
 -
