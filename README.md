@@ -436,11 +436,26 @@ List of available plugins:
 | Option | Type | Description |
 | --- | --- | --- |
 | `selector` | `String`  | Specify ID of the element|
-| `dimensions` > `width` | `string` | Width of the player (you must specify the type: `px`, `%`, etc..)|
-| `config` > `storage` > `captionOffset`| `boolean`  | Indicates whether caption's offset adjust will be stored or not|
-| `config` > `storage` > `playrateSpeed`| `boolean`  | Indicates whether Play Speed will be stored or not|
-| `config` > `storage` > `captionSize`| `boolean`  | Indicates whether caption's size will be stored or not|
-| `config` > `icons` > `path`| `string`  | Specify icons folder location|
+| ◼️ <b>`dimensions` > </b>|  |  |
+| `width` | `string` | Width of the player (you must specify the type: `px`, `%`, etc..) |
+| ◼️ <b>`config > storage` > </b>|  |  |
+| `captionOffset`| `boolean`  | Indicates whether caption's offset adjust will be stored or not|
+| `playrateSpeed`| `boolean`  | Indicates whether Play Speed will be stored or not|
+| `captionSize`| `boolean`  | Indicates whether caption's size will be stored or not|
+| ◼️ <b>`config > controls` > </b>|  |  |
+| `playtime`| `boolean` | Indicates whether current duration will be displayed or not |
+| `mute`| `boolean` | Indicates whether mute button will be displayed or not |
+| `volume`| `boolean` | Indicates whether volume button will be displayed or not  |
+| `subtitles`| `boolean` | Indicates whether subtitles button will be displayed or not  |
+| `config`| `boolean` | Indicates whether config button will be displayed or not  |
+| `fullscreen`| `boolean` | Indicates whether fullscreen button will be displayed or not  |
+| `submenuCaptions`| `boolean` | Indicates whether captions submenu button will be displayed or not |
+| `submenuOffset`| `boolean` | Indicates whether offset adjust submenu button will be displayed or not |
+| `submenuSpeed`| `boolean` | Indicates whether speed adjust submenu button will be displayed or not |
+| `allowLocalSubtitles`| `boolean` | Indicates whether local subtitles is allowed or not |
+| ◼️ <b>`icons >`</b>|  |  |
+| `path`| `string`  | Specify icons folder location |
+
 
 <b>Full Example:</b>
 
@@ -456,6 +471,18 @@ document.addEventListener("DOMContentLoaded", function() {
            captionOffset: false,
            playrateSpeed: false,
            captionSize: false
+        },
+        controls : {
+            playtime : true,
+            mute : true,
+            volume : true,
+            subtitles : true,
+            config : true,
+            fullscreen : true,
+            submenuCaptions : true,
+            submenuOffset : true,
+            submenuSpeed : true,
+            allowLocalSubtitles : true  
         }
     },
     icons: {
