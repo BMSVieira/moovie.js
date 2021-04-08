@@ -17,6 +17,18 @@ class Moovie {
                     captionOffset: false,
                     playrateSpeed: false,
                     captionSize: false
+                },
+                controls : {
+                    playtime : true,
+                    mute : true,
+                    volume : true,
+                    subtitles : true,
+                    config : true,
+                    fullscreen : true,
+                    submenuCaptions : true,
+                    submenuOffset : true,
+                    submenuSpeed : true,
+                    allowLocalSubtitles : true  
                 }
             },
             icons : {
@@ -26,6 +38,16 @@ class Moovie {
 
         // Player Random ID
         var randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
+
+        // Get Defaults Controls
+        options.config.controls == undefined ? options.config.controls = defaults.config.controls : options.config.controls
+        for(var key in defaults.config.controls)
+        { options.config.controls[key] == undefined ? options.config.controls[key] = defaults.config.controls[key] :  options.config.controls[key] = options.config.controls[key]; }
+
+        // Get default storage
+        options.config.storage == undefined ? options.config.storage = defaults.config.storage : options.config.storage
+        for(var key in defaults.config.storage)
+        { options.config.storage[key] == undefined ? options.config.storage[key] = defaults.config.storage[key] :  options.config.storage[key] = options.config.storage[key];}
 
         this.selector = options.selector.substring(1) || defaults.selector.substring(1);
         this.dimensions = options.dimensions || defaults.dimensions
@@ -47,40 +69,49 @@ class Moovie {
         // Main menu object
         var mainmenu = [
             {
-              name: "Play Button",
-              element: "<button class='player__button toggle' id='tooglebutton_"+randomID+"' title='Toggle Play'><img id='moovie_bplay_"+randomID+"' src='"+icons.path+"play.svg'></button>"  
+                name: "play_button",
+                element: "<button class='player__button toggle' id='tooglebutton_"+randomID+"' title='Toggle Play'><img id='moovie_bplay_"+randomID+"' src='"+icons.path+"play.svg'></button>",
+                opcional: false
             },
             {
-              name: "Progress Bar",
-              element: "<div class='moovie_cuetime' id='moovie_cue_timer_"+randomID+"'>loading...</div><div id='moovie_progressbar_"+randomID+"' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress_"+randomID+"' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /><progress class='moovie_bufferprogress' min='' max='100' value='0' id='moovie_buffered_"+randomID+"' role='progressbar' aria-hidden='true'>% buffered</progress></div>"  
+                name: "progress_bar",
+                element: "<div class='moovie_cuetime' id='moovie_cue_timer_"+randomID+"'>loading...</div><div id='moovie_progressbar_"+randomID+"' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress_"+randomID+"' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /><progress class='moovie_bufferprogress' min='' max='100' value='0' id='moovie_buffered_"+randomID+"' role='progressbar' aria-hidden='true'>% buffered</progress></div>", 
+                opcional: false           
             },
             {
-              name: "Current Time",
-              element: "<div id='moovie_el_current_"+randomID+"' class='player__button player_button_disabled moovie_currentime'><span id='moovie_currentime_"+randomID+"'>00:00</span> / <span id='moovie_fulltime_"+randomID+"'></span></div>"  
+                name: "playtime",
+                element: "<div id='moovie_el_current_"+randomID+"' class='player__button player_button_disabled moovie_currentime'><span id='moovie_currentime_"+randomID+"'>00:00</span> / <span id='moovie_fulltime_"+randomID+"'></span></div>",
+                opcional: true    
             },
             {
-              name: "Volume Icon",
-              element: "<button id='mooviegrid_mute_"+randomID+"' class='player__button'><img id='icon_volume_"+randomID+"' src='"+icons.path+"volume.svg'></button>"  
+                name: "mute",
+                element: "<button id='mooviegrid_mute_"+randomID+"' class='player__button'><img id='icon_volume_"+randomID+"' src='"+icons.path+"volume.svg'></button>",
+                opcional: true 
             },
             {
-              name: "Volume",
-              element: "<input type='range' id='mooviegrid_volume_"+randomID+"' style='max-width:100px; min-width:50px;' name='volume' class='moovie_progress_sound' min=0 max='1' step='0.01' value='1'>"  
+                name: "volume",
+                element: "<input type='range' id='mooviegrid_volume_"+randomID+"' style='max-width:100px; min-width:50px;' name='volume' class='moovie_progress_sound' min=0 max='1' step='0.01' value='1'>",
+                opcional: true 
             },
             {
-              name: "Subtitles",
-              element: "<button id='moovie_subtitle_"+randomID+"' style='margin-left:5px' class='player__button'><img class='opacity_svg' id='moovie_subtitle_svg_"+randomID+"' src='"+icons.path+"cc.svg'></button>"  
+                name: "subtitles",
+                element: "<button id='moovie_subtitle_"+randomID+"' style='margin-left:5px' class='player__button'><img class='opacity_svg' id='moovie_subtitle_svg_"+randomID+"' src='"+icons.path+"cc.svg'></button>",
+                opcional: true
             },
             {
-              name: "Config",
-              element: "<button id='moovie_cog_"+randomID+"' class='player__button'><img src='"+icons.path+"cog.svg'></button>"  
+                name: "config",
+                element: "<button id='moovie_cog_"+randomID+"' class='player__button'><img src='"+icons.path+"cog.svg'></button>",
+                opcional: true 
             },
             {
-              name: "Fullscreen",
-              element: "<button class='player__button fullscreen_button'><img src='"+icons.path+"fullscreen.svg'></button>"  
+                name: "fullscreen",
+                element: "<button class='player__button fullscreen_button'><img src='"+icons.path+"fullscreen.svg'></button>",
+                opcional: true 
             },
             {
-              name: "Main Submenu",
-              element: "<div style='display:none;' class='moovie_submenu menuclosed' id='moovie_submenu_"+randomID+"'></div>"  
+                name: "Main Submenu",
+                element: "<div style='display:none;' class='moovie_submenu menuclosed' id='moovie_submenu_"+randomID+"'></div>",
+                opcional: false 
             }
         ];
 
@@ -88,34 +119,48 @@ class Moovie {
         var submenu  = {
             mainSubmenu : {
                 mainElement : "<ul id='moovie_submenu_main_"+randomID+"'></ul>",
+                parentID : "moovie_submenu_main_",
                 elements : [
                     {
-                        name: "Topic",
-                        element: "<li class='topic_submenu'>Settings:</li>"
+                        name: "topic",
+                        element: "<li class='topic_submenu'>Settings:</li>",
+                        opcional: false 
                     },
                     {
-                        name: "Submenu Caption",
-                        element: "<li id='topic_submenu_caption_"+randomID+"'><span>Captions</span><span class='option_submenu' id='option_submenu_caption_"+randomID+"'>Disabled</span></li>"
+                        name: "submenuCaptions",
+                        element: "<li id='topic_submenu_caption_"+randomID+"'><span>Captions</span><span class='option_submenu' id='option_submenu_caption_"+randomID+"'>Disabled</span></li>",
+                        opcional: true
                     },      
                     {
-                        name: "Offset Caption",
-                        element: "<li id='captions_offset_"+randomID+"'><span >Caption Offset</span><span class='option_submenu' id='option_submenu_range_"+randomID+"'>0s</span></li>"
+                        name: "submenuOffset",
+                        element: "<li id='captions_offset_"+randomID+"'><span >Caption Offset</span><span class='option_submenu' id='option_submenu_range_"+randomID+"'>0s</span></li>",
+                        opcional: true
                     },  
                     {
-                        name: "Speed Movie",
-                        element: "<li id='topic_submenu_speed_"+randomID+"'><span >Speed</span><span class='option_submenu' id='option_submenu_speed_"+randomID+"'>Default</span></li>"
+                        name: "submenuSpeed",
+                        element: "<li id='topic_submenu_speed_"+randomID+"'><span >Speed</span><span class='option_submenu' id='option_submenu_speed_"+randomID+"'>Default</span></li>",
+                        opcional: true
                     }  
                 ]
             },
             captionSubmenu : {
-            mainElement : "<ul style='display:none;' id='moovie_submenu_captions_"+randomID+"'><input style='display:none;' type='file' id='localsub_"+randomID+"'><li class='topic_submenu'>Captions:</li><li id='captions_back_"+randomID+"' style='font-weight:bold;'>Back</li><li id='locally_"+randomID
-            +"' style='font-weight:bold;'>Load Locally</li></ul>"
+                mainElement : "<ul style='display:none;' id='moovie_submenu_captions_"+randomID+"'><input style='display:none;' type='file' id='localsub_"+randomID+"'><li class='topic_submenu'>Captions:</li><li id='captions_back_"+randomID+"' style='font-weight:bold;'>Back</li></ul>",
+                parentID : "moovie_submenu_captions_",
+                elements: [
+                    {
+                        name: "allowLocalSubtitles",
+                        element: "<li id='locally_"+randomID+"' style='font-weight:bold;'>Load Locally</li>",
+                        opcional: true 
+                    }
+                ] 
             },
             rangeSubmenu : {
-                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_captions_"+randomID+"' style='display:none;'><li class='topic_submenu'>Adjust Caption Offset:<output style='position:absolute; right:22px;' id='valoffset_"+randomID+"'>0</output></li><li class='topic_submenu'><span>-5s</span><span style='float: right;'>+5s</span><input type='range' oninput='valoffset_"+randomID+".value = offset_range_input_"+randomID+".value' id='offset_range_input_"+randomID+"' min='-5' max='5' step='0.2'></li>"
-            },
+                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_captions_"+randomID+"' style='display:none;'><li class='topic_submenu'>Adjust Caption Offset:<output style='position:absolute; right:22px;' id='valoffset_"+randomID+"'>0</output></li><li class='topic_submenu'><span>-5s</span><span style='float: right;'>+5s</span><input type='range' oninput='valoffset_"+randomID+".value = offset_range_input_"+randomID+".value' id='offset_range_input_"+randomID+"' min='-5' max='5' step='0.2'></li>",
+                parentID : "moovie_range_captions_",
+           },
             speedSubmenu : {
-                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_speed_"+randomID+"' style='display:none;'><li class='topic_submenu'>Adjust Speed:<output style='position:absolute; right:22px;' id='valoffset_speed_"+randomID+"'>1</output></li><li class='topic_submenu'><span>0.1x</span><span style='float: right;'>8x</span><input type='range' value='1' oninput='valoffset_speed_"+randomID+".value = offset_range_speed_"+randomID+".value' id='offset_range_speed_"+randomID+"' min='0.1' max='8' step='0.1'></li>"
+                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_speed_"+randomID+"' style='display:none;'><li class='topic_submenu'>Adjust Speed:<output style='position:absolute; right:22px;' id='valoffset_speed_"+randomID+"'>1</output></li><li class='topic_submenu'><span>0.1x</span><span style='float: right;'>8x</span><input type='range' value='1' oninput='valoffset_speed_"+randomID+".value = offset_range_speed_"+randomID+".value' id='offset_range_speed_"+randomID+"' min='0.1' max='8' step='0.1'></li>",
+                parentID : "moovie_range_speed_"
             }
         }  
 
@@ -1037,17 +1082,19 @@ class Moovie {
 
             // Get poster if exists
             var vposter = document.getElementById(this.selector).getAttribute("poster");
+            
             // Hide video tag
             this.element.style.display = "none";
+
             // Main Div
             this.element.insertAdjacentHTML('afterend', "<div style='width:"+dimensions['width']+"' id='moovie__video_"+randomID+"' class='moovie'></div>");
-
             this.moovie_el_video = moovie_el_video = document.getElementById("moovie__video_"+randomID);
+
             // Video tag
             moovie_el_video.insertAdjacentHTML('beforeend', "<video tabindex='1' id='moovie_vid_"+randomID+"' preload='auto' class='player__video viewer' style='width:100%; height:100%;' src='"+vsource+"' playsinline></video>");
+            
             // Player Controls
             moovie_el_video.insertAdjacentHTML('beforeend', "<div style='opacity:0;' id='moovie__controls_"+randomID+"' class='moovie_controls'></div>");
-
             this.moovie_el_controlbar = moovie_el_controls = document.getElementById("moovie__controls_"+randomID);
 
             // Set main Play control when video is stopped
@@ -1059,29 +1106,45 @@ class Moovie {
             document.getElementById("poster_center_"+randomID).insertAdjacentHTML('afterbegin', "<div class='poster_button'><img src='"+icons.path+"play.svg' style='width: 24px; position: relative; left: 3px;'></div>");
             if (vposter != null){  moovie_el_poster.style.backgroundImage = "url("+vposter+")"; moovie_el_poster.style.backgroundSize = "100%"; }
 
-
             // Add caption spot
             moovie_el_video.insertAdjacentHTML('beforeend', "<div class='moovie_captionspot caption_size'><p class='moovie_caption' id='caption_track_"+randomID+"'></p></div>");
            
-            // Loop mainmenu object
-            for (var i = 0; i < mainmenu.length; i++) {
-                moovie_el_controls.insertAdjacentHTML('beforeend', mainmenu[i].element);
-            }
-
-            // Submenu base
-            moovie_el_submenu = document.getElementById("moovie_submenu_"+randomID);
-
-            // Loop submenu object
-            for (let key in submenu) {
-                moovie_el_submenu.insertAdjacentHTML('beforeend', submenu[key]["mainElement"]);
-                if(submenu[key].hasOwnProperty('elements'))
-                {
-                    this.moovie_submain = moovie_el_submain =  document.getElementById("moovie_submenu_main_"+randomID);
-                    for (var i = 0; i < submenu[key]["elements"].length; i++) {
-                        moovie_el_submain.insertAdjacentHTML('beforeend', submenu[key]["elements"][i]['element']);
+            /*
+            ** MENU LOOP
+            */
+                // Main Menu
+                for (var i = 0; i < mainmenu.length; i++) {
+                    if(this.config.controls[mainmenu[i].name] != undefined && this.config.controls[mainmenu[i].name] == true || mainmenu[i].opcional == false)
+                    { 
+                        moovie_el_controls.insertAdjacentHTML('beforeend', mainmenu[i].element);
+                    } else { 
+                        moovie_el_controls.insertAdjacentHTML('beforeend',"<div style='display:none;'>"+mainmenu[i].element+"</div>"); 
                     }
                 }
-            }
+
+                // Submenu base
+                moovie_el_submenu = document.getElementById("moovie_submenu_"+randomID);
+
+                // Submenu Options
+                for (let key in submenu) {
+
+                    moovie_el_submenu.insertAdjacentHTML('beforeend', submenu[key]["mainElement"]);
+
+                    if(submenu[key].hasOwnProperty('elements'))
+                    {
+                        for (var i = 0; i < submenu[key]["elements"].length; i++) {
+                            if(this.config.controls[submenu[key]["elements"][i]['name']] != undefined && this.config.controls[submenu[key]["elements"][i]['name']] == true || submenu[key]["elements"][i]['opcional'] == false)
+                            {   
+                                document.getElementById(submenu[key]["parentID"]+randomID).insertAdjacentHTML('beforeend', submenu[key]["elements"][i]['element']);
+                            } else {
+                                document.getElementById(submenu[key]["parentID"]+randomID).insertAdjacentHTML('beforeend', "<div style='display:none;'>"+submenu[key]["elements"][i]['element']);
+                            }
+                        }
+                    }
+                }
+            /*
+            ** END MENU LOOP
+            */
 
             moovie_el_progress = document.getElementById("range_progress_"+randomID);
             moovie_el_captions = document.getElementById("moovie_submenu_captions_"+randomID);
@@ -1103,6 +1166,7 @@ class Moovie {
             this.submenuBase = moovie_el_submenu;
             this.moovie_el_localsub = moovie_el_localsub = document.getElementById("localsub_"+randomID);
             this.moovie_el_locally = moovie_el_locally = document.getElementById("locally_"+randomID);
+            this.moovie_submain = moovie_el_submain = document.getElementById("moovie_submenu_main_"+randomID);
 
             // Call events
             this.SetupLogic();
