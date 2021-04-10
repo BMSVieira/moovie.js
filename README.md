@@ -82,7 +82,10 @@ Use the standard html as the example below (source must be in a public server wi
 </video
 ```
 ### ▪️ Locally (No server or upload required)
-Since browsers won't let you display subtitles loaded locally, you can use moovie's built-in feature that allows you to add local subtitles without a server or any kind of upload.
+Since browsers won't let you display subtitles loaded locally, you can use moovie's built-in feature that allows you to add local subtitles without a server or any kind of upload.<br>
+
+When loading caption files locally, be sure to save the file with UTF-8 encoding, otherwise you will encounter some decryption errors like "�" <br>
+
 ```html
 Video Player ➔ ⚙️ ➔ Captions ➔ Load Locally
 ```
