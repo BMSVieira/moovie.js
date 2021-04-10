@@ -19,7 +19,7 @@
 - 💪 No dependencies, built with VanillaJS
 - 🌎 Tested in all modern browsers
 - 💻 Responsive
-- 🗃 Integration with [webtorrent.js](https://github.com/BMSVieira/moovie.js#%EF%B8%8F-webtorrent--) and [dash.js](https://github.com/BMSVieira/moovie.js#%EF%B8%8F-dashjs--)
+- 🗃 Integration with `webtorrent.js`, `dash.js`, `Shaka Player` and `hls.js`
 
 ◼️ Demo:
 -
@@ -285,6 +285,7 @@ demo.captionOffset = 2
 |<img width="35" src="https://upload.wikimedia.org/wikipedia/en/thumb/7/79/WebTorrent_logo.png/220px-WebTorrent_logo.png">| `WebTorrent`<br> For more info read <a href="https://webtorrent.io/intro" target="_blank">WebTorrent</a> documentation.<br> | [Codepen](https://codepen.io/BMSVieira/pen/vYgpvJX)|
 |<img width="120" src="https://www.digitalprimates.net/wp-content/uploads/2020/04/logo-dashjs.png">| `dash.js`<br>For more info read <a href="https://reference.dashif.org/dash.js/latest/samples/index.html" target="_blank">dash.js</a> documentation. | [Codepen](https://codepen.io/BMSVieira/pen/BapJqBV)|
 |<img width="80" src="https://raw.githubusercontent.com/google/shaka-player/master/docs/shaka-player-logo.png">| `Shaka Player`<br> For more info read <a href="https://github.com/google/shaka-player" target="_blank">Shaka Player</a> documentation. | [Codepen](https://codepen.io/BMSVieira/pen/PoWEVwe)|
+|<img width="80" src="https://cloud.githubusercontent.com/assets/616833/19739063/e10be95a-9bb9-11e6-8100-2896f8500138.png">| `hls.js`<br> For more info read <a href="https://github.com/video-dev/hls.js/" target="_blank">hls.js</a> documentation. | [Codepen](https://codepen.io/BMSVieira/pen/ExZorLW)|
 
 ◼️ Events:
 -
