@@ -1,4 +1,13 @@
-## v1.1.0
+### v1.1.1
+
+- Launched official website (https://mooviejs.com)
+- Controls can now be hidden individually
+- Reworked menu functions
+- Captions can now be loaded locally (no server or upload required)
+- Caption's Engine Improved
+- Fixed minor bugs
+
+# v1.1.0
 
 - Introduced Plugins to Moovie
 - Added Playlist plugin, you can now build a list of videos to be played.
