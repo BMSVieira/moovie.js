@@ -19,6 +19,7 @@
 - 💪 No dependencies, built with VanillaJS
 - 🌎 Tested in all modern browsers
 - 💻 Responsive
+- 🗃 Integration with [webtorrent.js](https://github.com/BMSVieira/moovie.js#%EF%B8%8F-webtorrent-) and [dash.js](https://github.com/BMSVieira/moovie.js#%EF%B8%8F-dash.js-)
 
 ◼️ Demo:
 -
@@ -277,11 +278,37 @@ demo.speed = 2
 demo.captionOffset = 2
 ```
 
-
-◼️ WebTorrent: <img width="30" src="https://webtorrent.io/apple-touch-icon-76x76.png">
+◼️ dash.js <img width="35" src="https://mooviejs.com/images/dash.png"> :
 -
 
-To use moovie.js with WebTorrent, check the example below:
+To use `moovie.js` with `dash.js`, check the example below:
+<br>For more info read <a href="https://reference.dashif.org/dash.js/latest/samples/index.html" target="_blank">dash.js</a> documentation.
+
+```html
+<!-- Include dash.js cdn -->
+<script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+```
+
+```javascript
+// Initialize moovie
+var demo = new Moovie({ selector: "#example" });
+
+// Get new generated player DOM element
+var videoElement = demo.video;
+
+var url = "http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd";
+var player = dashjs.MediaPlayer().create();
+
+// Init dash.js
+player.initialize(videoElement, url, true);
+
+```
+
+
+◼️ WebTorrent <img width="30" src="https://webtorrent.io/apple-touch-icon-76x76.png"> :
+-
+
+To use `moovie.js` with `webtorrent.js`, check the example below:
 <br>For more info read <a href="https://webtorrent.io/intro" target="_blank">WebTorrent</a> documentation.
 
 ```html
