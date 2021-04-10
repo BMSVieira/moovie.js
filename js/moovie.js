@@ -42,7 +42,6 @@ class Moovie {
         // Get Defaults Controls
         options.config == undefined ? options.config = defaults.config : options.config;
         options.config.controls == undefined ? options.config.controls = defaults.config.controls : options.config.controls
-
         for(var key in defaults.config.controls)
         { options.config.controls[key] == undefined ? options.config.controls[key] = defaults.config.controls[key] :  options.config.controls[key] = options.config.controls[key]; }
 
