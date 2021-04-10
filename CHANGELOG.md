@@ -1,3 +1,8 @@
+### v1.1.2
+
+- Fixed minor bugs
+- Code update
+
 ### v1.1.1
 
 - Launched official website (https://mooviejs.com)
