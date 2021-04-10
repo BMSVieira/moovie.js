@@ -22,7 +22,7 @@
 
 ◼️ Demo:
 -
-https://bmsvieira.github.io/moovie.js/
+https://mooviejs.com/
 
 ◼️ Installation:
 -
