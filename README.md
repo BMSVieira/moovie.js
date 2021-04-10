@@ -3,7 +3,7 @@
 </p>
 
 
-<p align="center" size="20pt"><font size="20pt"><b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-demo">Demo</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-installation">Installation</a></b>   ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-shortcuts">Shortcuts</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-api--methods">API</a></b>  ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-webtorrent-">WebTorrent</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-events">Events</a></b>  <br> <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-styling">Styling</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-plugins">Plugins</a></b></font> ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-settings">Settings</a></b></font></p>
+<p align="center" size="20pt"><font size="20pt"><b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-demo">Demo</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-installation">Installation</a></b>   ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-shortcuts">Shortcuts</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-api--methods">API</a></b>  ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-webtorrent--">WebTorrent</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-events">Events</a></b>  <br> <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-styling">Styling</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-plugins">Plugins</a></b></font> ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-settings">Settings</a></b></font></p>
 
 ◼️ Features:
 -
@@ -19,7 +19,7 @@
 - 💪 No dependencies, built with VanillaJS
 - 🌎 Tested in all modern browsers
 - 💻 Responsive
-- 🗃 Integration with [webtorrent.js](https://github.com/BMSVieira/moovie.js#%EF%B8%8F-webtorrent-) and [dash.js](https://github.com/BMSVieira/moovie.js#%EF%B8%8F-dash.js-)
+- 🗃 Integration with [webtorrent.js](https://github.com/BMSVieira/moovie.js#%EF%B8%8F-webtorrent--) and [dash.js](https://github.com/BMSVieira/moovie.js#%EF%B8%8F-dashjs--)
 
 ◼️ Demo:
 -
