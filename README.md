@@ -280,9 +280,8 @@ demo.captionOffset = 2
 
 ◼️ dash.js <img width="35" src="https://mooviejs.com/images/dash.png"> :
 -
-
+For more info read <a href="https://reference.dashif.org/dash.js/latest/samples/index.html" target="_blank">dash.js</a> documentation.<br>
 To use `moovie.js` with `dash.js`, check the example below:
-<br>For more info read <a href="https://reference.dashif.org/dash.js/latest/samples/index.html" target="_blank">dash.js</a> documentation.
 
 ```html
 <!-- Include dash.js cdn -->
@@ -303,13 +302,12 @@ var player = dashjs.MediaPlayer().create();
 player.initialize(videoElement, url, true);
 
 ```
-
+for a live example, check this [codepen](https://codepen.io/BMSVieira/pen/BapJqBV).
 
 ◼️ WebTorrent <img width="30" src="https://webtorrent.io/apple-touch-icon-76x76.png"> :
 -
-
+For more info read <a href="https://webtorrent.io/intro" target="_blank">WebTorrent</a> documentation.<br>
 To use `moovie.js` with `webtorrent.js`, check the example below:
-<br>For more info read <a href="https://webtorrent.io/intro" target="_blank">WebTorrent</a> documentation.
 
 ```html
 <!-- Include webtorrent cdn -->
@@ -340,7 +338,7 @@ client.add(torrentId, function (torrent) {
   file.renderTo(container);
 });
 ```
-
+for a live example, check this [codepen](https://codepen.io/BMSVieira/pen/vYgpvJX).
 
 ◼️ Events:
 -
