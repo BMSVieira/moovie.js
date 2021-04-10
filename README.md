@@ -3,7 +3,7 @@
 </p>
 
 
-<p align="center" size="20pt"><font size="20pt"><b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-demo">Demo</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-installation">Installation</a></b>   ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-shortcuts">Shortcuts</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-api--methods">API</a></b>  ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-webtorrent--">WebTorrent</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-events">Events</a></b>  <br> <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-styling">Styling</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-plugins">Plugins</a></b></font> ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-settings">Settings</a></b></font></p>
+<p align="center" size="20pt"><font size="20pt"><b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-demo">Demo</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-installation">Installation</a></b>   ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-shortcuts">Shortcuts</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-api--methods">API</a></b>  ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-integrations--">Integrations</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-events">Events</a></b>  <br> <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-styling">Styling</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-plugins">Plugins</a></b></font> ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-settings">Settings</a></b></font></p>
 
 ◼️ Features:
 -
@@ -278,67 +278,13 @@ demo.speed = 2
 demo.captionOffset = 2
 ```
 
-◼️ dash.js <img width="35" src="https://mooviejs.com/images/dash.png"> :
+◼️ Integrations:
 -
-For more info read <a href="https://reference.dashif.org/dash.js/latest/samples/index.html" target="_blank">dash.js</a> documentation.<br>
-To use `moovie.js` with `dash.js`, check the example below:
-
-```html
-<!-- Include dash.js cdn -->
-<script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
-```
-
-```javascript
-// Initialize moovie
-var demo = new Moovie({ selector: "#example" });
-
-// Get new generated player DOM element
-var videoElement = demo.video;
-
-var url = "http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd";
-var player = dashjs.MediaPlayer().create();
-
-// Init dash.js
-player.initialize(videoElement, url, true);
-
-```
-for a live example, check this [codepen](https://codepen.io/BMSVieira/pen/BapJqBV).
-
-◼️ WebTorrent <img width="30" src="https://webtorrent.io/apple-touch-icon-76x76.png"> :
--
-For more info read <a href="https://webtorrent.io/intro" target="_blank">WebTorrent</a> documentation.<br>
-To use `moovie.js` with `webtorrent.js`, check the example below:
-
-```html
-<!-- Include webtorrent cdn -->
-<script src="//cdn.jsdelivr.net/webtorrent/latest/webtorrent.min.js"></script>
-```
-
-```javascript
-// Initialize moovie
-var demo = new Moovie({ selector: "#example"});
-
-// Get new generated player id
-var videoElement = demo.playerElement.id;
-
-// Intialize webtorrent
-var client = new WebTorrent();
- 
-// Torrent hash
-var torrentId = 'magnet:?xt=urn:btih:6a9759bffd5c0af65319979fb7832189f4f3c35d&dn=sintel.mp4&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss%3A%2F%2Ftracker.webtorrent.io&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel-1024-surround.mp4';
-
-// Find .mp4 content from torrent hash and render to moovie element
-client.add(torrentId, function (torrent) {
-  var file = torrent.files.find(function(file) {
-     return file.name.endsWith('.mp4');
-  });
-   
-  // Render to
-  var container = document.getElementById(videoElement);
-  file.renderTo(container);
-});
-```
-for a live example, check this [codepen](https://codepen.io/BMSVieira/pen/vYgpvJX).
+|  | Name & Info | Example |
+| :-:  | :-: | --- |
+|<img width="35" src="https://upload.wikimedia.org/wikipedia/en/thumb/7/79/WebTorrent_logo.png/220px-WebTorrent_logo.png">| `WebTorrent`<br> For more info read <a href="https://webtorrent.io/intro" target="_blank">WebTorrent</a> documentation.<br> | [Codepen](https://codepen.io/BMSVieira/pen/vYgpvJX)|
+|<img width="120" src="https://www.digitalprimates.net/wp-content/uploads/2020/04/logo-dashjs.png">| `dash.js`<br>For more info read <a href="https://reference.dashif.org/dash.js/latest/samples/index.html" target="_blank">dash.js</a> documentation. | [Codepen](https://codepen.io/BMSVieira/pen/BapJqBV)|
+|<img width="80" src="https://raw.githubusercontent.com/google/shaka-player/master/docs/shaka-player-logo.png">| `Shaka Player`<br> For more info read <a href="https://github.com/google/shaka-player" target="_blank">Shaka Player</a> documentation. | [Codepen](https://codepen.io/BMSVieira/pen/PoWEVwe)|
 
 ◼️ Events:
 -
