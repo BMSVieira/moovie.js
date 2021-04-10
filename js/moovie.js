@@ -38,9 +38,11 @@ class Moovie {
 
         // Player Random ID
         var randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
-
+        
         // Get Defaults Controls
+        options.config == undefined ? options.config = defaults.config : options.config;
         options.config.controls == undefined ? options.config.controls = defaults.config.controls : options.config.controls
+
         for(var key in defaults.config.controls)
         { options.config.controls[key] == undefined ? options.config.controls[key] = defaults.config.controls[key] :  options.config.controls[key] = options.config.controls[key]; }
 
@@ -1068,6 +1070,66 @@ class Moovie {
         }
 
         /*
+        ** Player Menu
+        */
+        var SetupMenu = this.SetupMenu = function SetupMenu() {
+
+                // Main Menu
+                for (var i = 0; i < mainmenu.length; i++) {
+                    if(this.config.controls[mainmenu[i].name] != undefined && this.config.controls[mainmenu[i].name] == true || mainmenu[i].opcional == false)
+                    { 
+                        moovie_el_controls.insertAdjacentHTML('beforeend', mainmenu[i].element);
+                    } else { 
+                        moovie_el_controls.insertAdjacentHTML('beforeend',"<div style='display:none;'>"+mainmenu[i].element+"</div>"); 
+                    }
+                }
+
+                // Submenu base
+                moovie_el_submenu = document.getElementById("moovie_submenu_"+randomID);
+
+                // Submenu Options
+                for (let key in submenu) {
+
+                    moovie_el_submenu.insertAdjacentHTML('beforeend', submenu[key]["mainElement"]);
+
+                    if(submenu[key].hasOwnProperty('elements'))
+                    {
+                        for (var i = 0; i < submenu[key]["elements"].length; i++) {
+                            if(this.config.controls[submenu[key]["elements"][i]['name']] != undefined && this.config.controls[submenu[key]["elements"][i]['name']] == true || submenu[key]["elements"][i]['opcional'] == false)
+                            {   
+                                document.getElementById(submenu[key]["parentID"]+randomID).insertAdjacentHTML('beforeend', submenu[key]["elements"][i]['element']);
+                            } else {
+                                document.getElementById(submenu[key]["parentID"]+randomID).insertAdjacentHTML('beforeend', "<div style='display:none;'>"+submenu[key]["elements"][i]['element']);
+                            }
+                        }
+                    }
+                }
+
+            moovie_el_progress = document.getElementById("range_progress_"+randomID);
+            moovie_el_captions = document.getElementById("moovie_submenu_captions_"+randomID);
+            moovie_el_range = document.getElementById("moovie_range_captions_"+randomID);
+            moovie_el_speed = document.getElementById("moovie_range_speed_"+randomID);
+
+            // Update variables
+            this.moovie_cog = document.getElementById("moovie_cog_"+randomID);
+            this.topic_submenu_caption = document.getElementById("topic_submenu_caption_"+randomID);
+            this.topic_submenu_speed = document.getElementById("topic_submenu_speed_"+randomID);
+            this.captions_back = document.getElementById("captions_back_"+randomID);
+            this.moovie_subtitle = document.getElementById("moovie_subtitle_"+randomID);
+            this.captions_offset = document.getElementById("captions_offset_"+randomID);
+            this.speedinput = moovie_el_sinput = document.getElementById("offset_range_speed_"+randomID);
+            this.rangeinput = moovie_el_rinput = document.getElementById("offset_range_input_"+randomID);
+            this.progressbar = moovie_el_progress;
+            this.moovie_el_volume = moovie_el_volume = document.getElementById("mooviegrid_volume_"+randomID);
+            this.moovie_el_cuetimer = moovie_el_cuetimer = document.getElementById("moovie_cue_timer_"+randomID);
+            this.submenuBase = moovie_el_submenu;
+            this.moovie_el_localsub = moovie_el_localsub = document.getElementById("localsub_"+randomID);
+            this.moovie_el_locally = moovie_el_locally = document.getElementById("locally_"+randomID);
+            this.moovie_submain = moovie_el_submain = document.getElementById("moovie_submenu_main_"+randomID);
+
+        }
+
+        /*
         ** Player Structure
         */
         var SetupPlayer = this.SetupPlayer = function SetupPlayer() {
@@ -1109,66 +1171,8 @@ class Moovie {
             // Add caption spot
             moovie_el_video.insertAdjacentHTML('beforeend', "<div class='moovie_captionspot caption_size'><p class='moovie_caption' id='caption_track_"+randomID+"'></p></div>");
            
-            /*
-            ** MENU LOOP
-            */
-                // Main Menu
-                for (var i = 0; i < mainmenu.length; i++) {
-                    if(this.config.controls[mainmenu[i].name] != undefined && this.config.controls[mainmenu[i].name] == true || mainmenu[i].opcional == false)
-                    { 
-                        moovie_el_controls.insertAdjacentHTML('beforeend', mainmenu[i].element);
-                    } else { 
-                        moovie_el_controls.insertAdjacentHTML('beforeend',"<div style='display:none;'>"+mainmenu[i].element+"</div>"); 
-                    }
-                }
-
-                // Submenu base
-                moovie_el_submenu = document.getElementById("moovie_submenu_"+randomID);
-
-                // Submenu Options
-                for (let key in submenu) {
-
-                    moovie_el_submenu.insertAdjacentHTML('beforeend', submenu[key]["mainElement"]);
-
-                    if(submenu[key].hasOwnProperty('elements'))
-                    {
-                        for (var i = 0; i < submenu[key]["elements"].length; i++) {
-                            if(this.config.controls[submenu[key]["elements"][i]['name']] != undefined && this.config.controls[submenu[key]["elements"][i]['name']] == true || submenu[key]["elements"][i]['opcional'] == false)
-                            {   
-                                document.getElementById(submenu[key]["parentID"]+randomID).insertAdjacentHTML('beforeend', submenu[key]["elements"][i]['element']);
-                            } else {
-                                document.getElementById(submenu[key]["parentID"]+randomID).insertAdjacentHTML('beforeend', "<div style='display:none;'>"+submenu[key]["elements"][i]['element']);
-                            }
-                        }
-                    }
-                }
-            /*
-            ** END MENU LOOP
-            */
-
-            moovie_el_progress = document.getElementById("range_progress_"+randomID);
-            moovie_el_captions = document.getElementById("moovie_submenu_captions_"+randomID);
-            moovie_el_range = document.getElementById("moovie_range_captions_"+randomID);
-            moovie_el_speed = document.getElementById("moovie_range_speed_"+randomID);
-
-            // Update variables
-            this.moovie_cog = document.getElementById("moovie_cog_"+randomID);
-            this.topic_submenu_caption = document.getElementById("topic_submenu_caption_"+randomID);
-            this.topic_submenu_speed = document.getElementById("topic_submenu_speed_"+randomID);
-            this.captions_back = document.getElementById("captions_back_"+randomID);
-            this.moovie_subtitle = document.getElementById("moovie_subtitle_"+randomID);
-            this.captions_offset = document.getElementById("captions_offset_"+randomID);
-            this.speedinput = moovie_el_sinput = document.getElementById("offset_range_speed_"+randomID);
-            this.rangeinput = moovie_el_rinput = document.getElementById("offset_range_input_"+randomID);
-            this.progressbar = moovie_el_progress;
-            this.moovie_el_volume = moovie_el_volume = document.getElementById("mooviegrid_volume_"+randomID);
-            this.moovie_el_cuetimer = moovie_el_cuetimer = document.getElementById("moovie_cue_timer_"+randomID);
-            this.submenuBase = moovie_el_submenu;
-            this.moovie_el_localsub = moovie_el_localsub = document.getElementById("localsub_"+randomID);
-            this.moovie_el_locally = moovie_el_locally = document.getElementById("locally_"+randomID);
-            this.moovie_submain = moovie_el_submain = document.getElementById("moovie_submenu_main_"+randomID);
-
             // Call events
+            this.SetupMenu(); 
             this.SetupLogic();
             this.GetCaptions();
             this.Keybinds();

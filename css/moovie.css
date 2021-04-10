@@ -114,7 +114,6 @@ video {
 .labelformat {
   position: absolute;
   right: 22px;
-  padding: 2px 5px 2px 6px;
   background-color: #686868;
   color: white;
   border-radius: 4px;
@@ -122,6 +121,10 @@ video {
   font-size: 7pt;
   letter-spacing: 1px;
   font-weight: bold;
+  width: 37px;
+  height: 20px;
+  padding-left: 9px;
+  line-height: 20px;
 }
 
 .moovie_submenu {
