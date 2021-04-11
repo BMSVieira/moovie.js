@@ -60,7 +60,7 @@ class Moovie {
 
         // Global
         var _this = this;
-        var parts, video, subtitles = 0, cuevalue = 0, speed = 1, moovie_el_locally, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_localsub, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, progressBarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
+        var parts, video, subtitles = 0, cuevalue = 0, speed = 1, moovie_el_play, moovie_el_mute, moovie_el_subtitles, moovie_el_fullscreen, moovie_el_locally, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_localsub, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, moovie_el_progressbarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
         var selectedCaption = [];
         var icons = this.icons;
         var config = this.config;
@@ -76,7 +76,7 @@ class Moovie {
             },
             {
                 name: "progress_bar",
-                element: "<div class='moovie_cuetime' id='moovie_cue_timer_"+randomID+"'>loading...</div><div id='moovie_progressbar_"+randomID+"' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress_"+randomID+"' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /><progress class='moovie_bufferprogress' min='' max='100' value='0' id='moovie_buffered_"+randomID+"' role='progressbar' aria-hidden='true'>% buffered</progress></div>", 
+                element: "<div class='moovie_cuetime' id='moovie_cue_timer_"+randomID+"'>loading...</div><div id='moovie_moovie_el_progressbar_"+randomID+"' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress_"+randomID+"' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /><progress class='moovie_bufferprogress' min='' max='100' value='0' id='moovie_buffered_"+randomID+"' role='moovie_el_progressbar' aria-hidden='true'>% buffered</progress></div>", 
                 opcional: false           
             },
             {
@@ -101,12 +101,12 @@ class Moovie {
             },
             {
                 name: "config",
-                element: "<button id='moovie_cog_"+randomID+"' class='player__button'><img src='"+icons.path+"cog.svg'></button>",
+                element: "<button id='moovie_el_cog_"+randomID+"' class='player__button'><img src='"+icons.path+"cog.svg'></button>",
                 opcional: true 
             },
             {
                 name: "fullscreen",
-                element: "<button class='player__button fullscreen_button'><img src='"+icons.path+"fullscreen.svg'></button>",
+                element: "<button id='fullscreen_"+randomID+"' class='player__button fullscreen_button'><img src='"+icons.path+"fullscreen.svg'></button>",
                 opcional: true 
             },
             {
@@ -129,12 +129,12 @@ class Moovie {
                     },
                     {
                         name: "submenuCaptions",
-                        element: "<li id='topic_submenu_caption_"+randomID+"'><span>Captions</span><span class='option_submenu' id='option_submenu_caption_"+randomID+"'>Disabled</span></li>",
+                        element: "<li id='this.moovie_el_topicCaption_"+randomID+"'><span>Captions</span><span class='option_submenu' id='option_submenu_caption_"+randomID+"'>Disabled</span></li>",
                         opcional: true
                     },      
                     {
                         name: "submenuOffset",
-                        element: "<li id='captions_offset_"+randomID+"'><span >Caption Offset</span><span class='option_submenu' id='option_submenu_range_"+randomID+"'>0s</span></li>",
+                        element: "<li id='moovie_el_capoffset_"+randomID+"'><span >Caption Offset</span><span class='option_submenu' id='option_submenu_range_"+randomID+"'>0s</span></li>",
                         opcional: true
                     },  
                     {
@@ -145,7 +145,7 @@ class Moovie {
                 ]
             },
             captionSubmenu : {
-                mainElement : "<ul style='display:none;' id='moovie_submenu_captions_"+randomID+"'><input style='display:none;' type='file' id='localsub_"+randomID+"'><li class='topic_submenu'>Captions:</li><li id='captions_back_"+randomID+"' style='font-weight:bold;'>Back</li></ul>",
+                mainElement : "<ul style='display:none;' id='moovie_submenu_captions_"+randomID+"'><input style='display:none;' type='file' id='localsub_"+randomID+"'><li class='topic_submenu'>Captions:</li><li id='moovie_el_capback_"+randomID+"' style='font-weight:bold;'>Back</li></ul>",
                 parentID : "moovie_submenu_captions_",
                 elements: [
                     {
@@ -420,7 +420,7 @@ class Moovie {
             // Get percentage buffered
             bufferedVideo();
 
-            // Set current time progressbar
+            // Set current time moovie_el_progressbar
             if (!video.paused) {
                 var ncurrentTime = moovie_el_progress.value;
                 moovie_el_progress.value = Number(ncurrentTime)+1;
@@ -661,7 +661,7 @@ class Moovie {
                 moovie_ishiden = 1;
                 // Set player transformations
                 document.getElementById("moovie_el_current_"+randomID).style.display = "none";
-                document.getElementById("moovie_progressbar_"+randomID).classList.add("responsive_bar");
+                document.getElementById("moovie_moovie_el_progressbar_"+randomID).classList.add("responsive_bar");
                 moovie_el_cuetimer.classList.add("moovie_cuetime_small");
 
             } else {
@@ -670,7 +670,7 @@ class Moovie {
                 moovie_ishiden = 0;
                 // Set player transformations
                 document.getElementById("moovie_el_current_"+randomID).style.display = "block";
-                document.getElementById("moovie_progressbar_"+randomID).classList.remove("responsive_bar");
+                document.getElementById("moovie_moovie_el_progressbar_"+randomID).classList.remove("responsive_bar");
                 document.getElementById("moovie_fulltime_"+randomID).innerHTML = player_time(video.duration);
                 moovie_el_cuetimer.classList.remove("moovie_cuetime_small");
             }
@@ -976,8 +976,8 @@ class Moovie {
             // Ranges & Sliders
             ranges = moovie_el_player.querySelectorAll('.player__slider');
             ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
-            this.rangeinput.addEventListener('change', OffsetChange);
-            this.speedinput.addEventListener('change', SpeedChange);
+            this.moovie_el_rangeinput.addEventListener('change', OffsetChange);
+            this.moovie_el_speedinput.addEventListener('change', SpeedChange);
 
             moovie_ul_soundv = document.getElementById("mooviegrid_volume_"+randomID);
 
@@ -988,13 +988,13 @@ class Moovie {
             moovie_elprogress = moovie_el_player.querySelector('.moovie_progress');
 
             // Submenu events
-            this.moovie_cog.addEventListener("click", function() { Submenu("toggleSubmenu") }, true);
-            this.topic_submenu_caption.addEventListener("click", function() { Submenu("OCaption") }, true);
-            this.topic_submenu_speed.addEventListener("click", function() { Submenu("OSpeed") }, true);
-            this.captions_back.addEventListener("click", function() { Submenu("CCaption") }, true);
-            this.moovie_subtitle.addEventListener("click", ActivateSubtitles);
+            this.control_buttons.config.addEventListener("click", function() { Submenu("toggleSubmenu") }, true);
+            this.moovie_el_topicCaption.addEventListener("click", function() { Submenu("OCaption") }, true);
+            this.moovie_el_topicSpeed.addEventListener("click", function() { Submenu("OSpeed") }, true);
+            this.moovie_el_capback.addEventListener("click", function() { Submenu("CCaption") }, true);
+            this.control_buttons.subtitles.addEventListener("click", ActivateSubtitles);
             moovie_el_video.addEventListener("mouseleave", function() { Submenu("CAll") }, false);
-            this.captions_offset.addEventListener("click", function() { Submenu("ORange") }, true);
+            this.moovie_el_capoffset.addEventListener("click", function() { Submenu("ORange") }, true);
 
             if (!detectTouchScreen()) {
 
@@ -1110,22 +1110,28 @@ class Moovie {
             moovie_el_speed = document.getElementById("moovie_range_speed_"+randomID);
 
             // Update variables
-            this.moovie_cog = document.getElementById("moovie_cog_"+randomID);
-            this.topic_submenu_caption = document.getElementById("topic_submenu_caption_"+randomID);
-            this.topic_submenu_speed = document.getElementById("topic_submenu_speed_"+randomID);
-            this.captions_back = document.getElementById("captions_back_"+randomID);
-            this.moovie_subtitle = document.getElementById("moovie_subtitle_"+randomID);
-            this.captions_offset = document.getElementById("captions_offset_"+randomID);
-            this.speedinput = moovie_el_sinput = document.getElementById("offset_range_speed_"+randomID);
-            this.rangeinput = moovie_el_rinput = document.getElementById("offset_range_input_"+randomID);
-            this.progressbar = moovie_el_progress;
+            this.moovie_el_topicCaption = document.getElementById("this.moovie_el_topicCaption_"+randomID);
+            this.moovie_el_topicSpeed = document.getElementById("topic_submenu_speed_"+randomID);
+            this.moovie_el_capback = document.getElementById("moovie_el_capback_"+randomID);
+            this.moovie_el_capoffset = document.getElementById("moovie_el_capoffset_"+randomID);
+            this.moovie_el_speedinput = moovie_el_sinput = document.getElementById("offset_range_speed_"+randomID);
+            this.moovie_el_rangeinput = moovie_el_rinput = document.getElementById("offset_range_input_"+randomID);
+            this.moovie_el_progressbar = moovie_el_progress;
             this.moovie_el_volume = moovie_el_volume = document.getElementById("mooviegrid_volume_"+randomID);
             this.moovie_el_cuetimer = moovie_el_cuetimer = document.getElementById("moovie_cue_timer_"+randomID);
-            this.submenuBase = moovie_el_submenu;
+            this.moovie_el_submenuBase = moovie_el_submenu;
             this.moovie_el_localsub = moovie_el_localsub = document.getElementById("localsub_"+randomID);
             this.moovie_el_locally = moovie_el_locally = document.getElementById("locally_"+randomID);
-            this.moovie_submain = moovie_el_submain = document.getElementById("moovie_submenu_main_"+randomID);
+            this.moovie_el_submain = moovie_el_submain = document.getElementById("moovie_submenu_main_"+randomID);
 
+            // Control buttons
+            this.control_buttons = {
+                "play" : this.moovie_el_play = moovie_el_play = document.getElementById("tooglebutton_"+randomID),
+                "mute" : this.moovie_el_mute = moovie_el_mute = document.getElementById("mooviegrid_mute_"+randomID),
+                "subtitles" : this.moovie_el_subtitles = moovie_el_subtitles = document.getElementById("moovie_subtitle_"+randomID),
+                "config" : this.moovie_el_cog = document.getElementById("moovie_el_cog_"+randomID),
+                "fullscreen": this.moovie_el_fullscreen = moovie_el_fullscreen = document.getElementById("fullscreen_"+randomID)
+            };
         }
 
         /*
@@ -1325,20 +1331,20 @@ class Moovie {
     // Get Source
     get source() { return this.video.currentSrc; }
     // Get Source
-    get captionOffset() { return this.rangeinput.value; }
+    get captionOffset() { return this.moovie_el_rangeinput.value; }
 
     /*
     ** API > Sets
     */
 
     // Set current time
-    set currentTime (input) { this.video.currentTime = input; this.progressbar.value = input; }
+    set currentTime (input) { this.video.currentTime = input; this.moovie_el_progressbar.value = input; }
     // Set volume
     set volume (input) { this.video.volume = input; this.moovie_el_volume.value = input; this.checkSoundLevel("checkMute"); }
     // Set speed
-    set speed (input) { if (input < -0.1 || input > 8) { return "Value must be between -0.1 and 8"; } else { this.video.playbackRate = input; this.speedinput.value = input; this.SpeedChange();}}
+    set speed (input) { if (input < -0.1 || input > 8) { return "Value must be between -0.1 and 8"; } else { this.video.playbackRate = input; this.moovie_el_speedinput.value = input; this.SpeedChange();}}
     // Set caption offset
-    set captionOffset (input) { if (input < -5 || input > 5) { return "Value must be between -5 and 5"; } else { this.rangeinput.value = input; this.OffsetChange();}}
+    set captionOffset (input) { if (input < -5 || input > 5) { return "Value must be between -5 and 5"; } else { this.moovie_el_rangeinput.value = input; this.OffsetChange();}}
     // Change source
     set source (input) { this.video.pause(); this.video.src = input; this.video.play(); }
 }
