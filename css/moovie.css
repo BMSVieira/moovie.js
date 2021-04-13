@@ -78,14 +78,13 @@ video {
 }
 
 .loading {
-  height: 70px;
+  height: 20px;
   text-align: center;
   position: absolute;
   overflow: hidden;
   font-style: italic;
   bottom: -5px;
   width: 100%;
-  border-top: 2px solid #262626;
 }
 
 .moovie_bg{
