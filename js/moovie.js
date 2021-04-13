@@ -534,7 +534,7 @@ class Moovie {
                     toolText = _this.mainmenu[i].tooltip;
             }
 
-            // Verificar se o texto tempo parentises ou nao
+            // Check for brackets
             if (toolText.indexOf('(') > -1)
             {
                 // Get everything between brackets
