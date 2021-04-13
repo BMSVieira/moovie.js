@@ -60,7 +60,7 @@ class Moovie {
 
         // Global
         var _this = this;
-        var parts, video, subtitles = 0, cuevalue = 0, speed = 1, moovie_el_play, moovie_el_mute, moovie_el_subtitles, moovie_el_fullscreen, moovie_el_locally, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_localsub, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, moovie_el_progressbarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
+        var parts, video, subtitles = 0, fullyloaded = 0, cuevalue = 0, speed = 1, moovie_el_play, moovie_el_mute, moovie_el_subtitles, moovie_el_fullscreen, moovie_el_locally, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_localsub, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, moovie_el_progressbarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
         var selectedCaption = [];
         var icons = this.icons;
         var config = this.config;
@@ -109,7 +109,7 @@ class Moovie {
                 name: "config",
                 element: "<button id='moovie_el_cog_"+randomID+"' class='player__button'><img src='"+icons.path+"cog.svg'></button>",
                 opcional: true,
-                tooltip: "(Settings)"
+                tooltip: "Settings"
             },
             {
                 name: "fullscreen",
@@ -232,31 +232,40 @@ class Moovie {
         /*
         ** Fullscreen handler
         */
-        var SetFullScreen = this.SetFullScreen = function SetFullScreen() {
+        var SetFullScreen = this.SetFullScreen = function SetFullScreen(order) {
+            switch(order) {
+            case "toggleFullscreen":
 
-            if (moovie_el_player.requestFullscreen) {
-                moovie_el_player.requestFullscreen();
-            } else if (moovie_el_player.webkitRequestFullscreen) { // Safari
-                moovie_el_player.webkitRequestFullscreen();
-            } else if (moovie_el_player.msRequestFullscreen) { // IE11
-                moovie_el_player.msRequestFullscreen();
+                    if (moovie_el_player.requestFullscreen) {
+                        moovie_el_player.requestFullscreen();
+                    } else if (moovie_el_player.webkitRequestFullscreen) { // Safari
+                        moovie_el_player.webkitRequestFullscreen();
+                    } else if (moovie_el_player.msRequestFullscreen) { // IE11
+                        moovie_el_player.msRequestFullscreen();
+                    }
+
+                    ChangeTooltip("fullscreen", 1);
+
+                    if (1 >= outerHeight - innerHeight) {
+                        if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                        } else if (document.webkitExitFullscreen) { // Safari
+                            document.webkitExitFullscreen();
+                        } else if (document.msExitFullscreen) { // IE11
+                            document.msExitFullscreen();
+                        }
+
+                        ChangeTooltip("fullscreen", 0);
+                    }
+
+                    Submenu("CAll");
+
+            break;
+            case "checkFullscreen":
+                if (1 >= outerHeight - innerHeight) { ChangeTooltip("fullscreen", 1);} else { ChangeTooltip("fullscreen", 0); }
+            break;
+                default:
             }
-
-            ChangeTooltip("fullscreen", 1);
-
-            if (1 >= outerHeight - innerHeight) {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) { // Safari
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) { // IE11
-                    document.msExitFullscreen();
-                }
-
-                ChangeTooltip("fullscreen", 0);
-            }
-
-            Submenu("CAll");
         }
 
         /*
@@ -516,8 +525,13 @@ class Moovie {
                     document.getElementById("caption_track_"+randomID).style.marginBottom = "0px";
                 }
             } else if (order == "open"){
-                document.getElementById("caption_track_"+randomID).style.marginBottom = "40px";
-                document.getElementById("moovie__controls_"+randomID).style.opacity = 1;
+                
+                // Check if video is fully loaded, to it can display the control bar
+                if(fullyloaded == 1)
+                {
+                    document.getElementById("caption_track_"+randomID).style.marginBottom = "40px";
+                    document.getElementById("moovie__controls_"+randomID).style.opacity = 1;
+                }
             }
         }
 
@@ -982,15 +996,15 @@ class Moovie {
             // Accepted shortcuts
             const acceptedShortcuts = 
             {
-                keycode_32(){ togglePlay(); },                    // [Space Bar]
-                keycode_75(){ togglePlay(); },                    // [K]
-                keycode_70(){ SetFullScreen(); },                 // [F]
-                keycode_39(){ movieVideo(5,"right"); },           // [Right Arrow]
-                keycode_37(){ movieVideo(5,"left"); },            // [Left Arrow]
-                keycode_77(){ checkSoundLevel("toogleMute"); },   // [M]
-                keycode_67(){ ActivateSubtitles(); },             // [C]
-                keycode_shift87(){ SetCaptionSize("sizeUp"); },   // [Shift + W]
-                keycode_shift83(){ SetCaptionSize("sizeDown"); }  // [Shift + S]
+                keycode_32(){ togglePlay(); },                      // [Space Bar]
+                keycode_75(){ togglePlay(); },                      // [K]
+                keycode_70(){ SetFullScreen("toggleFullscreen"); }, // [F]
+                keycode_39(){ movieVideo(5,"right"); },             // [Right Arrow]
+                keycode_37(){ movieVideo(5,"left"); },              // [Left Arrow]
+                keycode_77(){ checkSoundLevel("toogleMute"); },     // [M]
+                keycode_67(){ ActivateSubtitles(); },               // [C]
+                keycode_shift87(){ SetCaptionSize("sizeUp"); },     // [Shift + W]
+                keycode_shift83(){ SetCaptionSize("sizeDown"); }    // [Shift + S]
             }
 
             // Listen to keyboard
@@ -1014,9 +1028,11 @@ class Moovie {
 
             // Wait media to load, to make sure it doesnt add eventlisteners to a empty container
             video.addEventListener('loadedmetadata', e => {
+
                 // Hide loading screen
                 this.medialoading.style.display = "none";
                 moovie_el_controls.style.opacity = 1;
+                fullyloaded = 1;
 
                 // Update movie direction
                 moovie_el_progress.setAttribute("max", video.duration);
@@ -1041,7 +1057,8 @@ class Moovie {
 
             // FullScreen
             fullscreen = moovie_el_player.querySelector(".fullscreen_button");
-            fullscreen.addEventListener('click', SetFullScreen);
+            fullscreen.addEventListener("click", function() { SetFullScreen("toggleFullscreen"); }, true);
+            document.addEventListener("fullscreenchange", function() { SetFullScreen("checkFullscreen"); }, true);
 
             // Toogle Functions
             moovie_el_toggle = moovie_el_player.querySelector('.toggle');
@@ -1053,6 +1070,7 @@ class Moovie {
             this.moovie_el_rangeinput.addEventListener('change', OffsetChange);
             this.moovie_el_speedinput.addEventListener('change', SpeedChange);
 
+            // volume element 
             moovie_ul_soundv = document.getElementById("mooviegrid_volume_"+randomID);
 
             // Mute
@@ -1303,7 +1321,7 @@ class Moovie {
     // Trigger toggle subtitles
     toggleSubtitles(){ this.ActivateSubtitles(); }
     // Trigger toggle Fullscreen
-    toggleFullscreen(){ this.SetFullScreen(); }
+    toggleFullscreen(){ this.SetFullScreen("toggleFullscreen"); }
     // Destroy all moovie elements and unbinds all its events
     destroy(){ this.moovie_el_video.remove(); }
     // Rebuild moovie player
@@ -1385,6 +1403,7 @@ class Moovie {
             console.error("Options must be and Object. Read documentation.");
         }
     }
+    
     /*
     ** API > Gets
     */
