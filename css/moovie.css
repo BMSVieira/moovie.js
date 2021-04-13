@@ -21,7 +21,7 @@ Made by: Bruno Vieira
   --moovie_submenu_options_fsize: 10pt;
   --moovie_topic_submenu_fsize: 9pt;
   --moovie_currenttime_fsize: 11pt;
-  --moovie_cuetimer_fsize: 9pt;
+  --moovie_cuetimer_fsize: 10pt;
   /* Icons size */
   --moovie_svgicons_width: 15px;
   /* General Styles */
@@ -35,6 +35,30 @@ video {
   border-bottom: 1px solid transparent;
   display: block;
   outline: none!important;
+}
+
+.moovie_tooltip
+{
+  position: absolute;
+  margin-top: -66px;
+  background-color: var(--moovie_bg_cuetimer);
+  padding: 5px 10px 5px 10px;
+  border-radius: 3px;
+  font-size: 10pt;
+  opacity:0;
+  pointer-events: none;
+  white-space: nowrap;
+  -o-transition: opacity .2s ease-in-out;
+  -ms-transition: opacity .2s ease-in-out;
+  -moz-transition: opacity .2s ease-in-out;
+  -webkit-transition: opacity .2s ease-in-out;
+  transition: opacity .2s ease-in-out;
+  z-index: 4;
+}
+
+.player__button:hover .moovie_tooltip
+{
+  opacity:1;
 }
 
 .moovie {
@@ -54,7 +78,7 @@ video {
 }
 
 .loading {
-  height: 40px;
+  height: 70px;
   text-align: center;
   position: absolute;
   overflow: hidden;
@@ -84,7 +108,7 @@ video {
 }
 
 .moovie_cuetime {
-  display: none;
+  opacity: 0;
   background-color: var(--moovie_bg_cuetimer);
   position: absolute;
   margin-top: -17px;
@@ -96,6 +120,12 @@ video {
   left: 0px;
   transform: translate(14px, -3px);
   color: var(--moovie_cuetimer_fcolor);
+
+  -o-transition: opacity .2s ease-in-out;
+  -ms-transition: opacity .2s ease-in-out;
+  -moz-transition: opacity .2s ease-in-out;
+  -webkit-transition: opacity .2s ease-in-out;
+  transition: opacity .2s ease-in-out;
 }
 
 .moovie_cuetime_small {
@@ -305,6 +335,12 @@ video {
   width: 100%;
   padding: var(--moovie_padding_controls);
   z-index: 3;
+  -o-transition: opacity .2s ease-in-out;
+  -ms-transition: opacity .2s ease-in-out;
+  -moz-transition: opacity .2s ease-in-out;
+  -webkit-transition: opacity .2s ease-in-out;
+  transition: opacity .2s ease-in-out;
+
 }
 
 .moovie_progress {

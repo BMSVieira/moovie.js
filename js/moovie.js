@@ -68,56 +68,65 @@ class Moovie {
         var selector = this.selector;
         
         // Main menu object
-        var mainmenu = [
+        var mainmenu = this.mainmenu = [
             {
                 name: "play_button",
                 element: "<button class='player__button toggle' id='tooglebutton_"+randomID+"' title='Toggle Play'><img id='moovie_bplay_"+randomID+"' src='"+icons.path+"play.svg'></button>",
-                opcional: false
+                opcional: false,
+                tooltip: "(Play:Pause)"
             },
             {
                 name: "progress_bar",
                 element: "<div class='moovie_cuetime' id='moovie_cue_timer_"+randomID+"'>loading...</div><div id='moovie_moovie_el_progressbar_"+randomID+"' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress_"+randomID+"' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /><progress class='moovie_bufferprogress' min='' max='100' value='0' id='moovie_buffered_"+randomID+"' role='moovie_el_progressbar' aria-hidden='true'>% buffered</progress></div>", 
-                opcional: false           
+                opcional: false,
+                tooltip: false          
             },
             {
                 name: "playtime",
                 element: "<div id='moovie_el_current_"+randomID+"' class='player__button player_button_disabled moovie_currentime'><span id='moovie_currentime_"+randomID+"'>00:00</span> / <span id='moovie_fulltime_"+randomID+"'></span></div>",
-                opcional: true    
+                opcional: true,
+                tooltip: false 
             },
             {
                 name: "mute",
                 element: "<button id='mooviegrid_mute_"+randomID+"' class='player__button'><img id='icon_volume_"+randomID+"' src='"+icons.path+"volume.svg'></button>",
-                opcional: true 
+                opcional: true,
+                tooltip: "(Mute:Unmute)"
             },
             {
                 name: "volume",
                 element: "<input type='range' id='mooviegrid_volume_"+randomID+"' style='max-width:100px; min-width:50px;' name='volume' class='moovie_progress_sound' min=0 max='1' step='0.01' value='1'>",
-                opcional: true 
+                opcional: true,
+                tooltip: false
             },
             {
                 name: "subtitles",
                 element: "<button id='moovie_subtitle_"+randomID+"' style='margin-left:5px' class='player__button'><img class='opacity_svg' id='moovie_subtitle_svg_"+randomID+"' src='"+icons.path+"cc.svg'></button>",
-                opcional: true
+                opcional: true,
+                tooltip:  "(Enable:Disable) Subtitles"
             },
             {
                 name: "config",
                 element: "<button id='moovie_el_cog_"+randomID+"' class='player__button'><img src='"+icons.path+"cog.svg'></button>",
-                opcional: true 
+                opcional: true,
+                tooltip: "(Settings)"
             },
             {
                 name: "fullscreen",
                 element: "<button id='fullscreen_"+randomID+"' class='player__button fullscreen_button'><img src='"+icons.path+"fullscreen.svg'></button>",
-                opcional: true 
+                opcional: true,
+                tooltip: "(Enter:Exit) Fullscreen"
             },
             {
                 name: "Main Submenu",
                 element: "<div style='display:none;' class='moovie_submenu menuclosed' id='moovie_submenu_"+randomID+"'></div>",
-                opcional: false 
+                opcional: false,
+                tooltip: false
             }
         ];
 
         // Main submenu object
-        var submenu  = {
+        var submenu = this.submenu = {
             mainSubmenu : {
                 mainElement : "<ul id='moovie_submenu_main_"+randomID+"'></ul>",
                 parentID : "moovie_submenu_main_",
@@ -156,11 +165,11 @@ class Moovie {
                 ] 
             },
             rangeSubmenu : {
-                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_captions_"+randomID+"' style='display:none;'><li class='topic_submenu'>Adjust Caption Offset:<output style='position:absolute; right:22px;' id='valoffset_"+randomID+"'>0</output></li><li class='topic_submenu'><span>-5s</span><span style='float: right;'>+5s</span><input type='range' oninput='valoffset_"+randomID+".value = offset_range_input_"+randomID+".value' id='offset_range_input_"+randomID+"' min='-5' max='5' step='0.2'></li>",
+                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_captions_"+randomID+"'><li class='topic_submenu'>Adjust Caption Offset:<output style='position:absolute; right:22px;' id='valoffset_"+randomID+"'>0</output></li><li class='topic_submenu'><span>-5s</span><span style='float: right;'>+5s</span><input type='range' oninput='valoffset_"+randomID+".value = offset_range_input_"+randomID+".value' id='offset_range_input_"+randomID+"' min='-5' max='5' step='0.2'></li>",
                 parentID : "moovie_range_captions_",
            },
             speedSubmenu : {
-                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_speed_"+randomID+"' style='display:none;'><li class='topic_submenu'>Adjust Speed:<output style='position:absolute; right:22px;' id='valoffset_speed_"+randomID+"'>1</output></li><li class='topic_submenu'><span>0.1x</span><span style='float: right;'>8x</span><input type='range' value='1' oninput='valoffset_speed_"+randomID+".value = offset_range_speed_"+randomID+".value' id='offset_range_speed_"+randomID+"' min='0.1' max='8' step='0.1'></li>",
+                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_speed_"+randomID+"'><li class='topic_submenu'>Adjust Speed:<output style='position:absolute; right:22px;' id='valoffset_speed_"+randomID+"'>1</output></li><li class='topic_submenu'><span>0.1x</span><span style='float: right;'>8x</span><input type='range' value='1' oninput='valoffset_speed_"+randomID+".value = offset_range_speed_"+randomID+".value' id='offset_range_speed_"+randomID+"' min='0.1' max='8' step='0.1'></li>",
                 parentID : "moovie_range_speed_"
             }
         }  
@@ -211,10 +220,12 @@ class Moovie {
                 video.play();
                 document.getElementById("moovie_bplay_"+randomID).src = icons.path+"pause.svg"
                 togglePoster("hide");
+                ChangeTooltip("play_button", 1);
             } else {
                 video.pause();
                 document.getElementById("moovie_bplay_"+randomID).src = icons.path+"play.svg"
                 togglePoster("show");
+                ChangeTooltip("play_button", 0);
             }
         }
 
@@ -231,6 +242,8 @@ class Moovie {
                 moovie_el_player.msRequestFullscreen();
             }
 
+            ChangeTooltip("fullscreen", 1);
+
             if (1 >= outerHeight - innerHeight) {
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
@@ -239,6 +252,8 @@ class Moovie {
                 } else if (document.msExitFullscreen) { // IE11
                     document.msExitFullscreen();
                 }
+
+                ChangeTooltip("fullscreen", 0);
             }
 
             Submenu("CAll");
@@ -324,7 +339,7 @@ class Moovie {
         */
         function cueTime(e) {
             cuevalue = calcSliderPos(e).toFixed(2);
-            moovie_el_cuetimer.style.display = "block";
+            moovie_el_cuetimer.style.opacity = "1";
             moovie_el_cuetimer.style.left = e.offsetX+"px";
             moovie_el_cuetimer.innerHTML = player_time(cuevalue);
         }
@@ -497,13 +512,64 @@ class Moovie {
             if (order == "close") {
                 if (isopen == 0 && video.paused == false) {
                     Submenu("CAll");
-                    document.getElementById("moovie__controls_"+randomID).style.display = "none";
+                    document.getElementById("moovie__controls_"+randomID).style.opacity = 0;
                     document.getElementById("caption_track_"+randomID).style.marginBottom = "0px";
                 }
             } else if (order == "open"){
                 document.getElementById("caption_track_"+randomID).style.marginBottom = "40px";
-                document.getElementById("moovie__controls_"+randomID).style.display = "flex";
+                document.getElementById("moovie__controls_"+randomID).style.opacity = 1;
             }
+        }
+
+        /*
+        ** Change Tooltip
+        */
+        var ChangeTooltip = _this.ChangeTooltip = function ChangeTooltip(elemName, defaultState) {
+         
+            // Get tooltip element
+            let ele = _this.tooltips_menu[elemName].element;
+            var toolText = 0;
+            for (var i = 0; i < _this.mainmenu.length; i++) {
+                if(_this.mainmenu[i].name == elemName)
+                    toolText = _this.mainmenu[i].tooltip;
+            }
+
+            // Verificar se o texto tempo parentises ou nao
+            if (toolText.indexOf('(') > -1)
+            {
+                // Get everything between brackets
+                var betweenBrackets = toolText.substring(toolText.lastIndexOf("(") + 1, toolText.lastIndexOf(")"));
+                parts = betweenBrackets.split(":");
+                
+                // Remove everything between brackets
+                var getNumBracketsString = toolText.replace(/\(.*\)/, '');
+                getNumBracketsString = getNumBracketsString.replace(" ", "");
+
+                // Final tootip
+                var finalTooltip = parts[defaultState]+" "+getNumBracketsString;
+            }
+
+            if(finalTooltip)
+                ele.innerText = finalTooltip;
+
+            // Calculates the offset position of the tooltip
+            let calculatePos = (ele.offsetWidth/2)-7; 
+            ele.style.marginLeft = "-"+calculatePos+"px"; 
+
+            // Check overflow (max) 
+            if((ele.offsetLeft+ele.offsetWidth) >= _this.moovie_el_controlbar.offsetWidth) {
+               
+                // calculates how much it has overflowed 
+                let getOverflows = (ele.offsetLeft+ele.offsetWidth) - _this.moovie_el_controlbar.offsetWidth;
+                getOverflows = (calculatePos+getOverflows)+5; // plus 10 for margin
+                ele.style.marginLeft = "-"+getOverflows+"px"; 
+
+            }
+            // Check overflow (min) 
+            if(ele.offsetLeft <= 0) {   
+                ele.style.marginLeft = "-19px"; 
+            }
+
         }
 
         /*
@@ -513,8 +579,10 @@ class Moovie {
             if (hassubtitles == 1) {
                 if (subtitles == 0) {
                     subtitles = 1; document.getElementById("moovie_subtitle_svg_"+randomID).classList.remove("opacity_svg");
+                    ChangeTooltip("subtitles", 1);
                 } else if (subtitles == 1) {
                     subtitles = 0; document.getElementById("moovie_subtitle_svg_"+randomID).classList.add("opacity_svg");
+                    ChangeTooltip("subtitles", 0);
                 }
             } else {
                 console.log("You must choose an Subtitle first.");
@@ -535,34 +603,16 @@ class Moovie {
                         moovie_ul_soundv.value = localStorage.getItem("scrubsound");
                         video.volume = localStorage.getItem("scrubsound");
                         document.getElementById("icon_volume_"+randomID).src = icons.path+"mute.svg";
+                        ChangeTooltip("mute", 1);
                    
                     } else {
                         document.getElementById("icon_volume_"+randomID).src = icons.path+"volume.svg";
+                        ChangeTooltip("mute", 0);
                     }
 
                 break;
-                case "mutePlayer":
-
-                    if (video.muted == true) {
-                        
-                        video.muted = false;
-                        checkSoundLevel("checkMute");
-                        if (localStorage.getItem("scrubsound")) {
-                            moovie_ul_soundv.value = localStorage.getItem("scrubsound");
-                        } else { 
-                            moovie_ul_soundv.value = "1";
-                        }
-
-                        // quick fix | needs more attention.
-                        document.getElementById("icon_volume_"+randomID).src = icons.path+"volume.svg";
-                        
-                    } else {
-                        video.muted = true;
-                        video.volume = 0;
-                        document.getElementById("icon_volume_"+randomID).src = icons.path+"mute.svg";
-                        document.getElementById("mooviegrid_volume_"+randomID).value = "0";
-                    }
-
+                case "toogleMute":
+                    if (video.muted == true) { checkSoundLevel("unmutePlayer"); } else {  checkSoundLevel("mutePlayer"); }
                 break;  
                 case "checkStorage":
 
@@ -572,10 +622,35 @@ class Moovie {
                     } else {
                         moovie_ul_soundv.value = "1";
                         video.muted = false;
+                        handleStorage("set", "scrubsound", 1);
                     }
                     checkSoundLevel("checkMute");
 
-                break;               
+                break; 
+                case "mutePlayer":
+
+                        video.muted = true;
+                        video.volume = 0;
+                        document.getElementById("icon_volume_"+randomID).src = icons.path+"mute.svg";
+                        document.getElementById("mooviegrid_volume_"+randomID).value = "0";
+                        ChangeTooltip("mute", 1);
+                break;
+                case "unmutePlayer":
+
+                        video.muted = false;
+
+                        checkSoundLevel("checkMute");
+                        if (localStorage.getItem("scrubsound")) {
+                            moovie_ul_soundv.value = localStorage.getItem("scrubsound");
+                        } else { 
+                            moovie_ul_soundv.value = "1";
+                        }
+                        ChangeTooltip("mute", 0);
+
+                        if(video.volume != 0)
+                        document.getElementById("icon_volume_"+randomID).src = icons.path+"volume.svg";
+
+                break;                                 
               default:
             }
         }
@@ -912,7 +987,7 @@ class Moovie {
                 keycode_70(){ SetFullScreen(); },                 // [F]
                 keycode_39(){ movieVideo(5,"right"); },           // [Right Arrow]
                 keycode_37(){ movieVideo(5,"left"); },            // [Left Arrow]
-                keycode_77(){ checkSoundLevel("mutePlayer"); },   // [M]
+                keycode_77(){ checkSoundLevel("toogleMute"); },   // [M]
                 keycode_67(){ ActivateSubtitles(); },             // [C]
                 keycode_shift87(){ SetCaptionSize("sizeUp"); },   // [Shift + W]
                 keycode_shift83(){ SetCaptionSize("sizeDown"); }  // [Shift + S]
@@ -972,7 +1047,6 @@ class Moovie {
             moovie_el_toggle = moovie_el_player.querySelector('.toggle');
             moovie_el_toggle.addEventListener('click', togglePlay);
 
-
             // Ranges & Sliders
             ranges = moovie_el_player.querySelectorAll('.player__slider');
             ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
@@ -982,7 +1056,7 @@ class Moovie {
             moovie_ul_soundv = document.getElementById("mooviegrid_volume_"+randomID);
 
             // Mute
-            document.getElementById("mooviegrid_mute_"+randomID).addEventListener("click", function() { checkSoundLevel("mutePlayer"); }, false);
+            document.getElementById("mooviegrid_mute_"+randomID).addEventListener("click", function() { checkSoundLevel("toogleMute"); }, false);
 
             // Progress bar
             moovie_elprogress = moovie_el_player.querySelector('.moovie_progress');
@@ -1021,7 +1095,7 @@ class Moovie {
 
                 // Cue Time
                 document.getElementById('range_progress_'+randomID).addEventListener('mousemove', function(e) { cueTime(e); });
-                document.getElementById('range_progress_'+randomID).addEventListener('mouseleave', function(e) { moovie_el_cuetimer.style.display = "none"; });
+                document.getElementById('range_progress_'+randomID).addEventListener('mouseleave', function(e) { moovie_el_cuetimer.style.opacity = 0; });
 
                 moovie_elprogress.addEventListener('mousedown', () => mousedown = true);
                 moovie_elprogress.addEventListener('mouseup', () => mousedown = false);
@@ -1039,8 +1113,6 @@ class Moovie {
                 moovie_el_video.addEventListener('mouseleave', e => { clearTimeout(i); HideControls("close"); });
 
             } else {
-
-
 
                 // Check if it is Android or iOs
                 if (androidOrIOS() == "ios") {
@@ -1075,11 +1147,35 @@ class Moovie {
 
                 // Main Menu
                 for (var i = 0; i < mainmenu.length; i++) {
+
                     if(this.config.controls[mainmenu[i].name] != undefined && this.config.controls[mainmenu[i].name] == true || mainmenu[i].opcional == false)
                     { 
                         moovie_el_controls.insertAdjacentHTML('beforeend', mainmenu[i].element);
                     } else { 
                         moovie_el_controls.insertAdjacentHTML('beforeend',"<div style='display:none;'>"+mainmenu[i].element+"</div>"); 
+                    }
+                }
+
+                var tooltips_menu = this.tooltips_menu = [];
+
+                // Tooltips
+                for (var i = 0; i < mainmenu.length; i++) {
+
+                    if(mainmenu[i].tooltip)
+                    {
+                        // Parse from string to get id of menu
+                        let doc = new DOMParser().parseFromString(mainmenu[i].element, "text/html");
+                      
+                        // Insert tooltip inside button
+                        document.getElementById(doc["body"]["firstChild"]["id"]).insertAdjacentHTML('beforeend', "<div id='moovie_"+mainmenu[i].name+"_tooltip_"+randomID+"' class='moovie_tooltip'>"+mainmenu[i].tooltip+"</div>");
+                
+                        // Properties of the menu
+                        let targetNode = document.getElementById(doc["body"]["firstChild"]["id"]);
+                        // Properties of the tooltip
+                        let targetNodeTool = document.getElementById("moovie_"+mainmenu[i].name+"_tooltip_"+randomID);
+                        
+                        tooltips_menu[mainmenu[i].name] = ({'element': targetNodeTool});
+                        this.ChangeTooltip(mainmenu[i].name, 0);
                     }
                 }
 
@@ -1347,6 +1443,8 @@ class Moovie {
     set captionOffset (input) { if (input < -5 || input > 5) { return "Value must be between -5 and 5"; } else { this.moovie_el_rangeinput.value = input; this.OffsetChange();}}
     // Change source
     set source (input) { this.video.pause(); this.video.src = input; this.video.play(); }
+    // Set Muted
+    set muted (input) {if(input){ this.checkSoundLevel("mutePlayer");} else { this.checkSoundLevel("unmutePlayer");}}
 }
 
 
