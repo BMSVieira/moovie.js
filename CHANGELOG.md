@@ -1,3 +1,12 @@
+### v1.1.3
+
+- Added tooltips
+- Added smooth transitions
+- Added new API > Set (muted)
+- Reworked Fullscreen and Sound functions
+- Loading bar is smaller (height)
+- Fixed minor bugs
+
 ### v1.1.2
 
 - Fixed minor bugs
