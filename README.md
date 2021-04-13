@@ -276,6 +276,9 @@ demo.speed = 2
 
 // Set player's caption offset to given number (-5 to 5)
 demo.captionOffset = 2
+
+// Mute or Unmute player (boolean)
+demo.muted = true
 ```
 
 ◼️ Integrations:
