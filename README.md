@@ -20,6 +20,7 @@
 - 🌎 Tested in all modern browsers
 - 💻 Responsive
 - 🗃 Integration with `webtorrent.js`, `dash.js`, `Shaka Player` and `hls.js`
+- 🌎 Internationalization (<b>i18n</b>) of controls 🔥 Coming next! 🔥
 
 ◼️ Demo:
 -
