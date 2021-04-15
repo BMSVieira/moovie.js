@@ -29,6 +29,24 @@ class Moovie {
                     submenuOffset : true,
                     submenuSpeed : true,
                     allowLocalSubtitles : true  
+                },
+                i18n : {
+                    play : "(Play:Pause)",
+                    mute : "(Mute:Unmute)",
+                    subtitles : "(Enable:Disable) Subtitles",
+                    config : "Settings",
+                    fullscreen : "(Enter:Exit) Fullscreen",
+                    main_topic: "settings:",
+                    main_caption: "Captions",
+                    main_offset: "Caption Offset",
+                    main_speed: "Speed",
+                    main_disabled: "Disabled",
+                    main_default: "Default",
+                    caption_topic: "Captions:",
+                    caption_back: "Back",
+                    caption_load: "Load Locally",
+                    offset_topic: "Adjust Caption Offset",
+                    speed_topic: "Speed Adjust"
                 }
             },
             icons : {
@@ -50,10 +68,16 @@ class Moovie {
         for(var key in defaults.config.storage)
         { options.config.storage[key] == undefined ? options.config.storage[key] = defaults.config.storage[key] :  options.config.storage[key] = options.config.storage[key];}
 
+        // Get default i18n
+        options.config.i18n == undefined ? options.config.i18n = defaults.config.i18n : options.config.i18n
+        for(var key in defaults.config.i18n)
+        { options.config.i18n[key] == undefined ? options.config.i18n[key] = defaults.config.i18n[key] :  options.config.i18n[key] = options.config.i18n[key];}
+
         this.selector = options.selector.substring(1) || defaults.selector.substring(1);
-        this.dimensions = options.dimensions || defaults.dimensions
-        this.config = options.config || defaults.config
-        this.icons = options.icons || defaults.icons
+        this.dimensions = options.dimensions || defaults.dimensions;
+        this.config = options.config || defaults.config;
+        this.i18n = options.config.i18n || defaults.config.i18n;
+        this.icons = options.icons || defaults.icons;
         this.element = document.getElementById(this.selector);
         this.randomID = randomID;
         this.options = options || defaults;
@@ -71,9 +95,9 @@ class Moovie {
         var mainmenu = this.mainmenu = [
             {
                 name: "play_button",
-                element: "<button class='player__button toggle' id='tooglebutton_"+randomID+"' title='Toggle Play'><img id='moovie_bplay_"+randomID+"' src='"+icons.path+"play.svg'></button>",
+                element: "<button class='player__button toggle' id='tooglebutton_"+randomID+"'><img id='moovie_bplay_"+randomID+"' src='"+icons.path+"play.svg'></button>",
                 opcional: false,
-                tooltip: "(Play:Pause)"
+                tooltip: this.i18n.play
             },
             {
                 name: "progress_bar",
@@ -91,7 +115,7 @@ class Moovie {
                 name: "mute",
                 element: "<button id='mooviegrid_mute_"+randomID+"' class='player__button'><img id='icon_volume_"+randomID+"' src='"+icons.path+"volume.svg'></button>",
                 opcional: true,
-                tooltip: "(Mute:Unmute)"
+                tooltip: this.i18n.mute
             },
             {
                 name: "volume",
@@ -103,19 +127,19 @@ class Moovie {
                 name: "subtitles",
                 element: "<button id='moovie_subtitle_"+randomID+"' style='margin-left:5px' class='player__button'><img class='opacity_svg' id='moovie_subtitle_svg_"+randomID+"' src='"+icons.path+"cc.svg'></button>",
                 opcional: true,
-                tooltip:  "(Enable:Disable) Subtitles"
+                tooltip:  this.i18n.subtitles
             },
             {
                 name: "config",
                 element: "<button id='moovie_el_cog_"+randomID+"' class='player__button'><img src='"+icons.path+"cog.svg'></button>",
                 opcional: true,
-                tooltip: "Settings"
+                tooltip: this.i18n.config
             },
             {
                 name: "fullscreen",
                 element: "<button id='fullscreen_"+randomID+"' class='player__button fullscreen_button'><img src='"+icons.path+"fullscreen.svg'></button>",
                 opcional: true,
-                tooltip: "(Enter:Exit) Fullscreen"
+                tooltip: this.i18n.fullscreen
             },
             {
                 name: "Main Submenu",
@@ -133,43 +157,43 @@ class Moovie {
                 elements : [
                     {
                         name: "topic",
-                        element: "<li class='topic_submenu'>Settings:</li>",
+                        element: "<li class='topic_submenu'>"+this.i18n.main_topic+"</li>",
                         opcional: false 
                     },
                     {
                         name: "submenuCaptions",
-                        element: "<li id='this.moovie_el_topicCaption_"+randomID+"'><span>Captions</span><span class='option_submenu' id='option_submenu_caption_"+randomID+"'>Disabled</span></li>",
+                        element: "<li id='this.moovie_el_topicCaption_"+randomID+"'><span>"+this.i18n.main_caption+"</span><span class='option_submenu' id='option_submenu_caption_"+randomID+"'>"+this.i18n.main_disabled+"</span></li>",
                         opcional: true
                     },      
                     {
                         name: "submenuOffset",
-                        element: "<li id='moovie_el_capoffset_"+randomID+"'><span >Caption Offset</span><span class='option_submenu' id='option_submenu_range_"+randomID+"'>0s</span></li>",
+                        element: "<li id='moovie_el_capoffset_"+randomID+"'><span >"+this.i18n.main_offset+"</span><span class='option_submenu' id='option_submenu_range_"+randomID+"'>0s</span></li>",
                         opcional: true
                     },  
                     {
                         name: "submenuSpeed",
-                        element: "<li id='topic_submenu_speed_"+randomID+"'><span >Speed</span><span class='option_submenu' id='option_submenu_speed_"+randomID+"'>Default</span></li>",
+                        element: "<li id='topic_submenu_speed_"+randomID+"'><span>"+this.i18n.main_speed+"</span><span class='option_submenu' id='option_submenu_speed_"+randomID+"'>"+this.i18n.main_default+"</span></li>",
                         opcional: true
                     }  
                 ]
             },
             captionSubmenu : {
-                mainElement : "<ul style='display:none;' id='moovie_submenu_captions_"+randomID+"'><input style='display:none;' type='file' id='localsub_"+randomID+"'><li class='topic_submenu'>Captions:</li><li id='moovie_el_capback_"+randomID+"' style='font-weight:bold;'>Back</li></ul>",
+                mainElement : "<ul style='display:none;' id='moovie_submenu_captions_"+randomID+"'><input style='display:none;' type='file' id='localsub_"+randomID+"'><li class='topic_submenu'>"+this.i18n.caption_topic+"</li><li id='moovie_el_capback_"+randomID+"' style='font-weight:bold;'>"+this.i18n.caption_back+"</li></ul>",
                 parentID : "moovie_submenu_captions_",
                 elements: [
                     {
                         name: "allowLocalSubtitles",
-                        element: "<li id='locally_"+randomID+"' style='font-weight:bold;'>Load Locally</li>",
+                        element: "<li id='locally_"+randomID+"' style='font-weight:bold;'>"+this.i18n.caption_load+"</li>",
                         opcional: true 
                     }
                 ] 
             },
             rangeSubmenu : {
-                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_captions_"+randomID+"'><li class='topic_submenu'>Adjust Caption Offset:<output style='position:absolute; right:22px;' id='valoffset_"+randomID+"'>0</output></li><li class='topic_submenu'><span>-5s</span><span style='float: right;'>+5s</span><input type='range' oninput='valoffset_"+randomID+".value = offset_range_input_"+randomID+".value' id='offset_range_input_"+randomID+"' min='-5' max='5' step='0.2'></li>",
+                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_captions_"+randomID+"'><li class='topic_submenu'>"+this.i18n.offset_topic+"<output style='position:absolute; right:22px;' id='valoffset_"+randomID+"'>0</output></li><li class='topic_submenu'><span>-5s</span><span style='float: right;'>+5s</span><input type='range' oninput='valoffset_"+randomID+".value = offset_range_input_"+randomID+".value' id='offset_range_input_"+randomID+"' min='-5' max='5' step='0.2'></li>",
                 parentID : "moovie_range_captions_",
            },
             speedSubmenu : {
-                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_speed_"+randomID+"'><li class='topic_submenu'>Adjust Speed:<output style='position:absolute; right:22px;' id='valoffset_speed_"+randomID+"'>1</output></li><li class='topic_submenu'><span>0.1x</span><span style='float: right;'>8x</span><input type='range' value='1' oninput='valoffset_speed_"+randomID+".value = offset_range_speed_"+randomID+".value' id='offset_range_speed_"+randomID+"' min='0.1' max='8' step='0.1'></li>",
+                mainElement : "<ul style='display:none; width:250px;' id='moovie_range_speed_"+randomID+"'><li class='topic_submenu'>"+this.i18n.speed_topic+"<output style='position:absolute; right:22px;' id='valoffset_speed_"+randomID+"'>1</output></li><li class='topic_submenu'><span>0.1x</span><span style='float: right;'>8x</span><input type='range' value='1' oninput='valoffset_speed_"+randomID+".value = offset_range_speed_"+randomID+".value' id='offset_range_speed_"+randomID+"' min='0.1' max='8' step='0.1'></li>",
                 parentID : "moovie_range_speed_"
             }
         }  
@@ -471,7 +495,7 @@ class Moovie {
             speed = document.getElementById("offset_range_speed_"+randomID).value;
             document.getElementById("valoffset_speed_"+randomID).value = speed;
 
-            if (speed == 1){ document.getElementById("option_submenu_speed_"+randomID).innerHTML = "Default"; } else {
+            if (speed == 1){ document.getElementById("option_submenu_speed_"+randomID).innerHTML = _this.i18n.main_default; } else {
             document.getElementById("option_submenu_speed_"+randomID).innerHTML = speed+"x"; }
 
             video.playbackRate = speed;
