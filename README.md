@@ -20,7 +20,7 @@
 - 🌎 Tested in all modern browsers
 - 💻 Responsive
 - 🗃 Integration with `webtorrent.js`, `dash.js`, `Shaka Player` and `hls.js`
-- 🌎 Internationalization (<b>i18n</b>) of controls 🔥 Coming next! 🔥
+- 🌎 Internationalization (<b>i18n</b>) of controls
 
 ◼️ Demo:
 -
@@ -410,6 +410,56 @@ List of available plugins:
 | --- | --- | --- |
 | `_Moovie_Playlist` | Create a playlist of videos| [More info](https://github.com/BMSVieira/moovie.js/tree/main/js/plugins/playlist)|
 
+◼️ i18n Support:
+-
+You can translate the player to any language you want in the configurations.
+
+```javascript
+config: {
+    i18n : {
+          play : "(Play:Pause)",
+          mute : "(Mute:Unmute)",
+          subtitles : "(Enable:Disable) Subtitles",
+          ...
+      }
+}
+```
+
+How translation works is very simple, all text between brackets are the "changing" parts of the string, and in the left side of the ":" is the default state string.
+
+```javascript
+([DEFAULT STATE]:[AFTER ACTION STATE]) [CONTINUES STRING]
+```
+Working examples:
+
+```javascript
+// English
+subtitles : "(Enable:Disable) Subtitles",
+// Portuguese
+subtitles : "(Ativar:Desativar) Legendas",
+// French
+subtitles: "(Activer:Désactiver) Les sous-titres"
+```
+
+| Option | Default | Description |
+| --- | :-: | --- |
+| `play` | `(Play:Pause)` | Play button |
+| `mute` | `(Mutar:Desmutar)` | Mute button |
+| `subtitles` | `(Enable:Disable) Subtitles` | Subtitles button |
+| `config` | `Settings` | Settings button |
+| `fullscreen` | `(Enter:Exit) Fullscreen` | Fullscreen button |
+| `main_topic` | `settings:` | Submenu's topic |
+| `main_caption` | `Captions` | Submenu's caption string |
+| `main_offset` | `Caption Offset` | Submenu's offset string |
+| `main_speed` | `Speed` |Submenu's speed string |
+| `main_disabled` | `Disabled` | Submenu's caption state |
+| `main_default` | `Default` | Submenu's speed default state |
+| `caption_topic` | `Captions:` | Caption's submenu topic string |
+| `caption_back` | `Back` | Caption's submenu back button |
+| `caption_load` | `Load Locally` | Caption's submenu load subtitles string |
+| `offset_topic` | `Adjust Caption Offset` | Offset's submenu topic string |
+| `speed_topic` | `Speed Adjust` | Speed's submenu topic string |
+
 ◼️ Settings:
 -
 | Option | Type | Description |
@@ -462,7 +512,25 @@ document.addEventListener("DOMContentLoaded", function() {
             submenuOffset : true,
             submenuSpeed : true,
             allowLocalSubtitles : true  
-        }
+        },
+        i18n : {
+            play : "(Play:Pause)",
+            mute : "(Mute:Unmute)",
+            subtitles : "(Enable:Disable) Subtitles",
+            config : "Settings",
+            fullscreen : "(Enter:Exit) Fullscreen",
+            main_topic: "settings:",
+            main_caption: "Captions",
+            main_offset: "Caption Offset",
+            main_speed: "Speed",
+            main_disabled: "Disabled",
+            main_default: "Default",
+            caption_topic: "Captions:",
+            caption_back: "Back",
+            caption_load: "Load Locally",
+            offset_topic: "Adjust Caption Offset",
+            speed_topic: "Speed Adjust"
+         }
     },
     icons: {
         path: "./path/to/folder/"
