@@ -83,7 +83,6 @@ class Moovie {
         this.options = options || defaults;
         this.events = {
             captions: {
-                format: false,
                 name: false,
                 subtitles: false
             }, 
@@ -664,7 +663,7 @@ class Moovie {
 
                     // Update object to event listener
                     _this.events.captions.subtitles = true;
-                    
+
                 } else if (subtitles == 1) {
                     subtitles = 0; 
                     document.getElementById("moovie_subtitle_svg_"+randomID).classList.add("opacity_svg");
@@ -942,6 +941,9 @@ class Moovie {
                 var capFormat = caption["attributes"]["src"]["nodeValue"];
             }
 
+            // Update object to event listener
+            _this.events.captions.name = caption["attributes"]["label"]["nodeValue"];
+
             request.onload = function() {
                 if (this.status >= 200 && this.status < 400) {
 
@@ -951,10 +953,6 @@ class Moovie {
                     // if it is .SRT format, add a cue to the beginning of the file to match VTT style
                     var CheckFormat = capFormat.substr(capFormat.length - 4);
                     if (CheckFormat == '.srt') { resp = "STR\n\n"+resp; }
-
-                        // Update object to event listener
-                        _this.events.captions.format = CheckFormat;
-                        _this.events.captions.name = caption["attributes"]["label"]["nodeValue"];
 
                         resp.split("\n\n").map(function (item) {
 
