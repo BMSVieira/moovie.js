@@ -300,9 +300,9 @@ demo.muted = true
 Using <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events" target="_blank">Standard Media Events</a> you can listen for events on the target element you setup. check the example below:
 
 ```javascript
-demo.video.addEventListener("canplay", function() {
-    // Your Code Here
-}, true);
+demo.video.addEventListener("canplay", (event) => {
+   console.log(event);
+});
 ```
 
 | Event | Description 
@@ -330,6 +330,9 @@ demo.video.addEventListener("canplay", function() {
 | `timeupdate`| The time indicated by the element's currentTime attribute has changed. |
 | `volumechange`| Sent when the audio volume changes (both when the volume is set and when the muted attribute is changed). |
 | `waiting`| Sent when the requested operation (such as playback) is delayed pending the completion of another operation (such as a seek). |
+| `captionchange` | Sent when subtitles are changed |
+| `offsetchange`| Sent when subtitles's offset has changed  |
+| `togglecaption`| Sent when subtitles's state is changed |
 
 ◼️ Styling > Colors:
 -
