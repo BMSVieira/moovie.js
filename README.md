@@ -2,8 +2,11 @@
 <img width="250" src="https://bmsvieira.github.io/moovie.js/demo-template/images/moovie_black.png">
 </p>
 
+---
 
 <p align="center" size="20pt"><font size="20pt"><b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-demo">Demo</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-installation">Installation</a></b>   ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-shortcuts">Shortcuts</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-api--methods">API</a></b>  ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-integrations">Integrations</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-events">Events</a></b>  <br> <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-styling">Styling</a></b>  ▪️  <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-plugins">Plugins</a></b></font> ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-i18n-support">i18n</a></b></font> ▪️ <b><a href="https://github.com/BMSVieira/moovie.js#%EF%B8%8F-settings">Settings</a></b></font></p>
+
+---
 
 ◼️ Features:
 -
@@ -538,3 +541,9 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 ```
+
+◼️ Sponsors:
+-
+<img width="65" src="https://mooviejs.com/images/jetbrains.png">
+
+Thanks to <b>JetBrains</b> for supporting this project with its incredible tools!
