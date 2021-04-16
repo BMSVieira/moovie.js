@@ -307,6 +307,7 @@ video {
 
 .player__button:focus {
   border-color: #ffc600;
+  outline: none;
 }
 
 .player__slider {
