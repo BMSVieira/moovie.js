@@ -81,6 +81,16 @@ class Moovie {
         this.element = document.getElementById(this.selector);
         this.randomID = randomID;
         this.options = options || defaults;
+        this.events = {
+            captions: {
+                format: false,
+                name: false,
+                subtitles: false
+            }, 
+            offset: {
+                value: false
+            }
+        }
 
         // Global
         var _this = this;
@@ -198,6 +208,32 @@ class Moovie {
             }
         }  
 
+        /*
+        ** Custom Events
+        */
+        
+        // Caption Change
+        let captionchange = new CustomEvent("captionchange", {
+            detail: this.events.captions,
+            bubbles: false,
+            cancelable: false,
+            composed: false
+        });
+
+        // Caption Offset Change
+        let offsetchange = new CustomEvent("offsetchange", {
+            detail: this.events.offset,
+            bubbles: false,
+            cancelable: false
+        });
+
+        // Caption toggle
+        let togglecaption = new CustomEvent("togglecaption", {
+            detail: this.events.captions,
+            bubbles: false,
+            cancelable: false
+        });
+             
         /*
         ** Main throttle function
         */
@@ -486,6 +522,12 @@ class Moovie {
 
             // Save info in internal storage if true
             if (config["storage"]["captionOffset"]){ handleStorage("set", "captionOffset", offsettime); }
+
+            // Update object to event listener
+            _this.events.offset.value = offsettime;
+
+            // Dispatch event listener
+            _this.video.dispatchEvent(offsetchange);
         }
 
         /*
@@ -616,15 +658,27 @@ class Moovie {
         var ActivateSubtitles = this.ActivateSubtitles = function ActivateSubtitles() {
             if (hassubtitles == 1) {
                 if (subtitles == 0) {
-                    subtitles = 1; document.getElementById("moovie_subtitle_svg_"+randomID).classList.remove("opacity_svg");
+                    subtitles = 1; 
+                    document.getElementById("moovie_subtitle_svg_"+randomID).classList.remove("opacity_svg");
                     ChangeTooltip("subtitles", 1);
+
+                    // Update object to event listener
+                    _this.events.captions.subtitles = true;
+                    
                 } else if (subtitles == 1) {
-                    subtitles = 0; document.getElementById("moovie_subtitle_svg_"+randomID).classList.add("opacity_svg");
+                    subtitles = 0; 
+                    document.getElementById("moovie_subtitle_svg_"+randomID).classList.add("opacity_svg");
                     ChangeTooltip("subtitles", 0);
+
+                    // Update object to event listener
+                    _this.events.captions.subtitles = false;
                 }
             } else {
                 console.log("You must choose an Subtitle first.");
             }
+
+            // Dispatch event listener
+            _this.video.dispatchEvent(togglecaption);
         }
 
         /*
@@ -898,6 +952,10 @@ class Moovie {
                     var CheckFormat = capFormat.substr(capFormat.length - 4);
                     if (CheckFormat == '.srt') { resp = "STR\n\n"+resp; }
 
+                        // Update object to event listener
+                        _this.events.captions.format = CheckFormat;
+                        _this.events.captions.name = caption["attributes"]["label"]["nodeValue"];
+
                         resp.split("\n\n").map(function (item) {
 
                             parts = item.split("\n");
@@ -975,7 +1033,11 @@ class Moovie {
                 // Set flag on hassubtitles
                 hassubtitles = 1;
                 ActivateSubtitles();
+
             }
+
+            // Dispatch event listener
+             _this.video.dispatchEvent(captionchange);
         }
 
         /*
