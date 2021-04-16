@@ -1,3 +1,11 @@
+### v1.1.4
+
+- Added i18n support
+- Added new custom event listeners captionchange, offsetchange, togglecaption
+- CSS Improvements (#16 )
+- Fixed minor bugs
+- Code Update
+
 ### v1.1.3
 
 - Added tooltips
