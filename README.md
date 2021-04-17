@@ -29,18 +29,18 @@
 -
 https://mooviejs.com/
 
-◼️ Installation:
+◼️ Installation (Browser):
 -
 
-1 - Include JavaScript Source.
+<b>1 - Include JavaScript Source.</b>
 ```javascript
 <script src="path/to/moovie.js"></script>
 ```
-2 - Include Styles.
+<b>2 - Include Styles.</b>
 ```javascript
 <link rel="stylesheet" href="path/to/moovie.css">
 ```
-3 - Set HTML.
+<b>3 - Set HTML.</b>
 ```html
 <video id="example" poster="<<path-to-poster>>">
   <source src="<<path-to-file.mp4>>" type="video/mp4">
@@ -49,7 +49,7 @@ https://mooviejs.com/
   Your browser does not support the video tag.
 </video>
 ```
-4 - Initilize.
+<b>4 - Initilize.</b>
 ```javascript
 document.addEventListener("DOMContentLoaded", function() {
    var demo = new Moovie({
@@ -61,6 +61,39 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 ```
 ###### Note: Do not forget to include "icons" folder.
+
+◼️ Installation (NPM):
+-
+<b>1 - Install npm package</b>
+```javascript
+npm i mooviejs
+```
+<b>2 - Include Styles.</b>
+```javascript
+<link rel="stylesheet" href="path/to/moovie.css">
+```
+<b>3 - Set HTML.</b>
+```html
+<video id="example" poster="<<path-to-poster>>">
+  <source src="<<path-to-file.mp4>>" type="video/mp4">
+  <track kind="captions" label="Portuguese" srclang="pt" src="<<path-to-caption.vtt>>">
+  <track kind="captions" label="English" srclang="en" src="<<path-to-caption.vtt>>">
+  Your browser does not support the video tag.
+</video>
+```
+<b>4 - Initilize.</b>
+```javascript
+const Moovie = require('mooviejs');
+var demo = new Moovie({
+     selector: "#example",
+     dimensions: {
+          width: "100%"
+     },
+     icons: {
+        path: "<path/to/icons/folder>"
+     }
+});
+```
 
 ◼️ CDN:
 -
