@@ -1550,4 +1550,8 @@ class Moovie {
     set muted (input) {if(input){ this.checkSoundLevel("mutePlayer");} else { this.checkSoundLevel("unmutePlayer");}}
 }
 
+// Export module to use it in browser and NodeJS
+try {
+   module.exports = exports = Moovie;
+} catch (e) {}
 
