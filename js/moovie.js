@@ -84,7 +84,7 @@ class Moovie {
 
         // Global
         var _this = this;
-        var parts, video, subtitles = 0, fullyloaded = 0, cuevalue = 0, speed = 1, moovie_el_play, moovie_el_mute, moovie_el_subtitles, moovie_el_fullscreen, moovie_el_locally, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_localsub, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, moovie_el_progressbarBuffered, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
+        var parts, video, subtitles = 0, fullyloaded = 0, cuevalue = 0, speed = 1, moovie_el_play, moovie_el_buffered, moovie_el_mute, moovie_el_subtitles, moovie_el_fullscreen, moovie_el_locally, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_localsub, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
         var selectedCaption = [];
         var icons = this.icons;
         var config = this.config;
@@ -101,7 +101,7 @@ class Moovie {
             },
             {
                 name: "progress_bar",
-                element: "<div class='moovie_cuetime' id='moovie_cue_timer_"+randomID+"'>loading...</div><div id='moovie_moovie_el_progressbar_"+randomID+"' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress_"+randomID+"' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /><progress class='moovie_bufferprogress' min='' max='100' value='0' id='moovie_buffered_"+randomID+"' role='moovie_el_progressbar' aria-hidden='true'>% buffered</progress></div>", 
+                element: "<div class='moovie_cuetime' id='moovie_cue_timer_"+randomID+"'>loading...</div><div id='moovie_moovie_el_progressbar_"+randomID+"' class='moovie_progress player__slider' top:15px;><input type='range' id='range_progress_"+randomID+"' class='styled-slider slider-progress' min='0' value='0' step='0.01' autocomplete='off' style='width: 100%; cursor:pointer;' /><canvas id='moovie_buffered_"+randomID+"' style='position: absolute; bottom: 14px; left: 0; opacity: 0.4;  width: 100%; height:5px;'></canvas></div>", 
                 opcional: false,
                 tooltip: false          
             },
@@ -296,14 +296,28 @@ class Moovie {
         ** Buffered Video
         */
         function bufferedVideo() {
-            if(video.paused == false)
-            {
-                var r = video.buffered;
-                var total = video.duration;
-                var start = r.start(0);
-                var end = r.end(0);
-                document.getElementById("moovie_buffered_"+randomID).value = (end/total)*100; 
+            
+            // Canvas element
+            var canvasHandler = moovie_el_buffered.getContext('2d');
+            var b = _this.video.buffered,       // Buffer object
+                i = b.length,                   // counter for loop
+                w = moovie_el_buffered.width,   // cache canvas width and height
+                h = moovie_el_buffered.height,
+                vl = _this.video.duration,      // total video duration in seconds
+                x1, x2;                         // buffer segment mark positions
+
+            // Clear canvas
+            canvasHandler.clearRect(0, 0, w, h);
+            // Color for loaded buffer(s)
+            canvasHandler.fillStyle = '#e1e1dd';
+
+            // Iterate through buffers
+            while (i--) {
+                x1 = b.start(i) / vl * w;
+                x2 = b.end(i) / vl * w;
+                canvasHandler.fillRect(x1, 0, x2 - x1, h);
             }
+            setTimeout(bufferedVideo, 500);
         }
 
         /*
@@ -1261,6 +1275,7 @@ class Moovie {
             this.moovie_el_localsub = moovie_el_localsub = document.getElementById("localsub_"+randomID);
             this.moovie_el_locally = moovie_el_locally = document.getElementById("locally_"+randomID);
             this.moovie_el_submain = moovie_el_submain = document.getElementById("moovie_submenu_main_"+randomID);
+            this.moovie_el_buffered = moovie_el_buffered = document.getElementById("moovie_buffered_"+randomID);
 
             // Control buttons
             this.control_buttons = {
