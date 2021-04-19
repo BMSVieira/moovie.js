@@ -1,3 +1,9 @@
+### v1.1.5
+
+- Reworked Buffer Handler (#19 )
+- Fixed minor bugs 
+- Code Update
+
 ### v1.1.4
 
 - Added i18n support
