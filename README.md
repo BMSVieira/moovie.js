@@ -14,6 +14,7 @@
 - 💎 Built-in `caption offset adjust` on the fly
 - 🎬 Built-in support for `.vtt` and `.srt` caption files 
 - 🕹 Built-in `Plugins`, use the code that you really need!
+- 🎯 Built-in `CustomEvents`, add multiple events that will run a specific currentTime
 - 🖊 Add tracks/captions `dynamically` using our API
 - 🗃 Add tracks/captions `locally` on the fly (no server or upload required) 
 - 🌠 Adjust speed on the fly
@@ -448,6 +449,41 @@ List of available plugins:
 | Name | Description |  |
 | --- | --- | --- |
 | `_Moovie_Playlist` | Create a playlist of videos| [More info](https://github.com/BMSVieira/moovie.js/tree/main/js/plugins/playlist)|
+
+◼️ Custom Events:
+-
+You can add multiple events that will run at a specific currentTime, for example:
+
+```javascript
+var demo = new Moovie({
+  selector: "#example",
+  customEvents: [
+    {
+      type: "skip",
+      to: "56",
+      starttime: "10",
+      endtime: "20",
+      content: "Skip Intro",
+      position: "bottom-left",
+      class: "my_class"
+    },
+    {
+    ...
+    }
+  ]
+});
+```
+
+| Option | Parameters | Description |
+| --- | --- | --- |
+| `type` | `skip`, `redirect`, `function` | Type of event. `skip`: skip video to given seconds, `redirect`: same behavior of a link, `function`: call a function that runs itself|
+| `to` | `int`, `string`, `function(){ }` | Parameters that will be executed|
+| `starttime` | `int`| Time the button appears  (seconds)|
+| `endtime` | `int`| Time when the button will be removed (seconds)|
+| `content` | `string`| Button's content, can be used `plain text` or `HTML`|
+| `position` | `top-left`, `bottom-left`, `top-center`, `bottom-center`, `top-right`, `bottom-right` | Button's position|
+| `class` | `string` | Custom class|
+
 
 ◼️ i18n Support:
 -
