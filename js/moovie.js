@@ -54,13 +54,13 @@ class Moovie {
             },
             customEvents: [
                   {
-                    type: "skip", // skip | redirect
-                    to: "1000", // 1000ms | https://..
-                    starttime: "200",
-                    endtime: "500",
-                    content: "Button content",
-                    position: "top-left-corner",
-                    class: "epicness_button"
+                    type: "",
+                    to: "",
+                    starttime: "",
+                    endtime: "",
+                    content: "",
+                    position: "",
+                    class: ""
                   }
             ]
         };      
