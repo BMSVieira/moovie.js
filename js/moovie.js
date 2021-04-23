@@ -51,7 +51,18 @@ class Moovie {
             },
             icons : {
                 path: "./icons/"
-            }
+            },
+            customEvents: [
+                  {
+                    type: "skip", // skip | redirect
+                    to: "1000", // 1000ms | https://..
+                    starttime: "200",
+                    endtime: "500",
+                    content: "Button content",
+                    position: "top-left-corner",
+                    class: "epicness_button"
+                  }
+            ]
         };      
 
         // Player Random ID
@@ -78,6 +89,7 @@ class Moovie {
         this.config = options.config || defaults.config;
         this.i18n = options.config.i18n || defaults.config.i18n;
         this.icons = options.icons || defaults.icons;
+        this.customEvents = options.customEvents || defaults.customEvents;
         this.element = document.getElementById(this.selector);
         this.randomID = randomID;
         this.options = options || defaults;
@@ -90,7 +102,8 @@ class Moovie {
         var config = this.config;
         var dimensions = this.dimensions;
         var selector = this.selector;
-        
+        var customEvents = this.customEvents;
+
         // Main menu object
         var mainmenu = this.mainmenu = [
             {
@@ -212,6 +225,80 @@ class Moovie {
                     func.apply(context, args)
                     timeout = true;
                     setTimeout(later, interval)
+                }
+            }
+        }
+
+        /*
+        ** function to set new current time
+        */
+        function SetCurrentTime(currentT)
+        {
+            _this.video.currentTime = currentT; 
+            _this.moovie_el_progressbar.value = currentT;
+        }
+
+        /*
+        ** function that handles custom events
+        */
+        var handleCustomEvents = this.handleCustomEvents = function handleCustomEvents() {
+
+            // Loop all events
+            for (var i = 0; i < customEvents.length; i++) {
+
+                let toGo = customEvents[i].to;
+                let eventID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
+
+                if(customEvents[i].hasOwnProperty("fired") && customEvents[i].fired){
+
+                    // Remove event after its time
+                    if(video.currentTime > customEvents[i].endtime)
+                    {
+                      customEvents[i].fired = false;
+                      document.getElementById("moovie_ce_"+customEvents[i].eventID).remove();
+                    }
+
+                } else {
+
+                    if(video.currentTime > customEvents[i].starttime && video.currentTime < customEvents[i].endtime)
+                    {
+                        // Assign new keys and infos
+                        Object.assign(customEvents[i], {fired: true});
+                        Object.assign(customEvents[i], {eventID: eventID});
+
+                        moovie_el_video.insertAdjacentHTML("beforeend", "<div id='moovie_ce_"+eventID+"' class='moovie_cevent "+customEvents[i].position+" "+customEvents[i].class+"'>"+customEvents[i].content+"</div>");
+                        let eventElement = document.getElementById("moovie_ce_"+eventID);
+
+                        // Check what type of button it is and give it's instructions
+                        switch(customEvents[i].type) {
+                            case "skip":
+                                if(customEvents[i].to <= video.duration && !isNaN(customEvents[i].to) && customEvents[i].to){
+                                    // Add Skip event listener
+                                    eventElement.addEventListener("click", function() {
+                                      SetCurrentTime(toGo)
+                                    }); 
+                                }
+                            break;
+                            case "redirect":
+                                if(customEvents[i].to){
+                                    // Add Redirect event listener
+                                    eventElement.addEventListener("click", function() {
+                                      window.location.href = toGo;
+                                    }); 
+                                }
+                            break;
+                            case "function":
+                                if(customEvents[i].to){
+                                    // Add Redirect event listener
+                                    eventElement.addEventListener("click", function() {
+                                      toGo();
+                                    }); 
+                                }
+                            break;
+                            default:
+                            console.log("No action was added to this event");
+                        }
+                    }
                 }
             }
         }
@@ -1089,6 +1176,9 @@ class Moovie {
 
             video.addEventListener('timeupdate', handleProgress);
             video.addEventListener('timeupdate', updateTime);
+
+            // CustomEvents listener
+            video.addEventListener('timeupdate', handleCustomEvents);
 
             // Focus player so we can add bindings
             moovie_el_player.addEventListener('click', focusPlayer);

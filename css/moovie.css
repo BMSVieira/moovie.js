@@ -61,6 +61,53 @@ video {
   opacity:1;
 }
 
+.moovie_cevent {
+    position: absolute;
+    z-index: 999;
+    background-color: black;
+    padding: 10px 20px 10px 20px;
+    color: white;
+    cursor: pointer;
+    border: 1px solid #1c1c1c;
+    border-radius: 4px;
+}
+
+.moovie_cevent:hover {
+    color:grey;
+}
+
+.top-left{
+  top: 49px;
+  left: 25px;
+}
+
+.top-center{
+  top: 49px; 
+  right: 50%;
+  transform: translate(50%,-50%);
+}
+
+.top-right{
+  top: 49px;
+  right: 25px;
+}
+
+.bottom-left{
+  bottom: 73px;
+  left: 25px;
+}
+
+.bottom-center{
+  bottom: 73px; 
+  right: 50%;
+  transform: translate(50%,-50%);
+}
+
+.bottom-right{
+  bottom: 73px;
+  right: 25px;
+}
+
 .moovie {
   position: relative;
   overflow: hidden;
