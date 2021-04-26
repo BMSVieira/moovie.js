@@ -653,7 +653,7 @@ class Moovie {
 
             if (!detectTouchScreen()) {
                 var offsetEvent = e.offsetX;
-                const scrubTime = (offsetEvent / moovie_elprogress.offsetWidth) * video.duration;
+                let scrubTime = (offsetEvent / moovie_elprogress.offsetWidth) * video.duration;
                 if (scrubTime >= video.duration){ scrubTime = video.duration; }
                 video.currentTime = scrubTime;
             } else {
@@ -661,7 +661,7 @@ class Moovie {
 
                 if (offsetEvent == undefined) {
                     offsetEvent = e.touches[0].clientX;
-                    const scrubTime = (offsetEvent / moovie_elprogress.offsetWidth) * video.duration;
+                    let scrubTime = (offsetEvent / moovie_elprogress.offsetWidth) * video.duration;
                     if (scrubTime >= video.duration){ scrubTime = video.duration; }
                     video.currentTime = scrubTime;
                 } else {
