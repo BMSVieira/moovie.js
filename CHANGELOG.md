@@ -1,3 +1,9 @@
+### v1.1.6
+
+- Added Custom Events that will run a specific currentTime
+- Fixed minor bugs 
+- Code Update
+- 
 ### v1.1.5
 
 - Reworked Buffer Handler (#19 )
