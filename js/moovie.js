@@ -1474,7 +1474,7 @@ class Moovie {
             this.moovie_el_poster = moovie_el_poster = document.getElementById("poster_layer_"+randomID);
             moovie_el_poster.insertAdjacentHTML('afterbegin', "<div class='poster_center' id='poster_center_"+randomID+"' style=''></div>");
             document.getElementById("poster_center_"+randomID).insertAdjacentHTML('afterbegin', "<div class='poster_button'><img src='"+icons.path+"play.svg' style='width: 24px; position: relative; left: 3px;'></div>");
-            if (vposter != null){  moovie_el_poster.style.backgroundImage = "url("+vposter+")"; moovie_el_poster.style.backgroundSize = "100%"; }
+            if (vposter != null){  moovie_el_poster.style.backgroundImage = "url("+vposter+")"; moovie_el_poster.style.backgroundSize = "100%"; moovie_el_poster.style.backgroundPositionY = "center"; }
 
             // Add caption spot
             moovie_el_video.insertAdjacentHTML('beforeend', "<div class='moovie_captionspot caption_size'><p class='moovie_caption' id='caption_track_"+randomID+"'></p></div>");
