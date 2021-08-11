@@ -17,6 +17,10 @@ var demo = new Moovie({selector: "#example"});
 // Call External Plugin
 var PlaylistPlugin = new _Moovie_Playlist({
   reference: demo, // variable that initializated moovie
+  dimensions: {
+                width: "240px", // width for list view width
+                height: "100%" //height for list view height
+            },
   sources: [
       {
         src: "<<source-to-video>>",
