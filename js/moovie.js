@@ -359,11 +359,11 @@ class Moovie {
         ** Change play/pause function and change all icons
         */
         var togglePlay = this.togglePlay = function togglePlay() {
-
+            let optionalPromise = null;
             // Remove poster background.
             document.getElementById("poster_layer_"+randomID).style.backgroundImage = "none";
             if (video.paused == true) {
-                video.play();
+                optionalPromise = video.play();
                 document.getElementById("moovie_bplay_"+randomID).src = icons.path+"pause.svg"
                 togglePoster("hide");
                 ChangeTooltip("play_button", 1);
@@ -373,7 +373,9 @@ class Moovie {
                 togglePoster("show");
                 ChangeTooltip("play_button", 0);
             }
+            return optionalPromise;
         }
+
 
         /*
         ** Fullscreen handler
