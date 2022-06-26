@@ -65,8 +65,13 @@ class Moovie {
             ]
         };      
 
-        // Player Random ID
-        var randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
+        // When global variable moovie_randomID is defined then use that ID, else generate a new one
+        var randomID = null
+        if (typeof (moovie_randomID) != "undefined") {
+          randomID = moovie_randomID;
+        } else {
+          randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
+        }
         
         // Get Defaults Controls
         options.config == undefined ? options.config = defaults.config : options.config;
