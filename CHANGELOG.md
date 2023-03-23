@@ -1,3 +1,10 @@
+### v1.1.7
+
+- Added option to enable or disable video loop
+- Added option to define a Internal moovie ID to overwrite the randomly generated one
+- Fixed minor bugs 
+- Code Update
+
 ### v1.1.6
 
 - Added Custom Events that will run a specific currentTime
