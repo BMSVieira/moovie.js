@@ -376,12 +376,12 @@ Using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom
 
 | Name | Description | Default |
 | --- | --- | --- |
-| `--moovie_main_color` | Moovie main color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/maincolor.png"> `#3191f7`|
+| `--moovie_main_color` | Moovie main color  | `#3191f7`|
 | `--moovie_bg_controls` | Background color when hover the buttons | `rgba(16, 34, 62, 0.6)`|
-| `--moovie_bg_submenu` | Submenu background color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/submenu.png"> `#f7f7f7`|
-| `--moovie_bg_cuetimer` | Cuetimer background color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/submenotext.png"> `#2b2b2b`|
-| `--moovie_submenu_options_fcolor`| Submenu text color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/submenotext.png"> `#515151`|
-| `--moovie_topic_submenu_fcolor` | Submenu topic text color  | <img width="20px" src="https://mooviehosted.000webhostapp.com/color/topiccolor.png"> `#797979`|
+| `--moovie_bg_submenu` | Submenu background color  | `#f7f7f7`|
+| `--moovie_bg_cuetimer` | Cuetimer background color  |  `#2b2b2b`|
+| `--moovie_submenu_options_fcolor`| Submenu text color  | `#515151`|
+| `--moovie_topic_submenu_fcolor` | Submenu topic text color  | `#797979`|
 | `--moovie_currenttime_color` | CurrentTime text color | `white`|
 | `--moovie_submenu_options_fsize` | Submenu options font size  | `10pt`|
 | `--moovie_topic_submenu_fsize` | Submenu topic font size  | `9pt`|
