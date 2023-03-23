@@ -567,10 +567,14 @@ subtitles: "(Activer:Désactiver) Les sous-titres"
 document.addEventListener("DOMContentLoaded", function() {
   var demo = new Moovie({
     selector: "#example",
+    moovie_internalID: null, // Overwrites generated randomID
     dimensions: {
          width: "100%"
     },
     config: {
+        main : {
+            loop: true
+        },
         storage: {
            captionOffset: false,
            playrateSpeed: false,
