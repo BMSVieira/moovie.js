@@ -9,10 +9,14 @@ class Moovie {
 
         const defaults = {
             selector : 'defaultId',
+            moovie_internalID: null,
             dimensions : {
               width: "100%"
             },
             config : {
+                main : {
+                    loop: true
+                },
                 storage : {
                     captionOffset: false,
                     playrateSpeed: false,
@@ -65,14 +69,17 @@ class Moovie {
             ]
         };      
 
-        // Player Random ID
-        var randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
-        
+
         // Get Defaults Controls
         options.config == undefined ? options.config = defaults.config : options.config;
         options.config.controls == undefined ? options.config.controls = defaults.config.controls : options.config.controls
         for(var key in defaults.config.controls)
         { options.config.controls[key] == undefined ? options.config.controls[key] = defaults.config.controls[key] :  options.config.controls[key] = options.config.controls[key]; }
+
+        // Get default main configs
+        options.config.main == undefined ? options.config.main = defaults.config.main : options.config.main
+        for(var key in defaults.config.main)
+        { options.config.main[key] == undefined ? options.config.main[key] = defaults.config.main[key] :  options.config.main[key] = options.config.main[key];}
 
         // Get default storage
         options.config.storage == undefined ? options.config.storage = defaults.config.storage : options.config.storage
@@ -85,6 +92,16 @@ class Moovie {
         { options.config.i18n[key] == undefined ? options.config.i18n[key] = defaults.config.i18n[key] :  options.config.i18n[key] = options.config.i18n[key];}
 
         this.selector = options.selector.substring(1) || defaults.selector.substring(1);
+        this.moovie_internalID = options.moovie_internalID || defaults.moovie_internalID;
+
+        // Player Random ID
+        var randomID = null
+        if (typeof (this.moovie_internalID) != "undefined" && this.moovie_internalID != null) {
+            randomID = this.moovie_internalID;
+        } else {
+            randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
+        }
+
         this.dimensions = options.dimensions || defaults.dimensions;
         this.config = options.config || defaults.config;
         this.i18n = options.config.i18n || defaults.config.i18n;
@@ -105,7 +122,7 @@ class Moovie {
 
         // Global
         var _this = this;
-        var parts, video, subtitles = 0, fullyloaded = 0, cuevalue = 0, speed = 1, moovie_el_play, moovie_el_buffered, moovie_el_mute, moovie_el_subtitles, moovie_el_fullscreen, moovie_el_locally, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_localsub, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
+        var vposter, parts, video, subtitles = 0, fullyloaded = 0, cuevalue = 0, speed = 1, moovie_el_play, moovie_el_buffered, moovie_el_mute, moovie_el_subtitles, moovie_el_fullscreen, moovie_el_locally, moovie_ul_soundv, moovie_el_sinput, moovie_el_rinput, hassubtitles = 0, moovie_el_range, moovie_el_localsub, moovie_el_speed, moovie_ishiden = 0, moovie_el_cuetimer, moovie_el_player, moovie_elprogress, moovie_el_toggle, ranges, fullscreen, offsettime=0, isopen = 0, moovie_el_volume, moovie_el_video, moovie_el_poster, moovie_el_submenu, moovie_el_controls,  moovie_el_progress, moovie_el_captions, moovie_el_submain;
         var selectedCaption = [];
         var icons = this.icons;
         var config = this.config;
@@ -356,12 +373,26 @@ class Moovie {
         }
 
         /*
+        ** Change state of video, Pause or Play
+        ** Add "Play" code in the future..
+        */
+        var setState = this.setState = function setState(option) {
+            if(option == "pause")
+            { 
+                document.getElementById("poster_layer_"+randomID).style.backgroundImage = "url('"+vposter+"')"; ;
+                video.pause();
+                document.getElementById("moovie_bplay_"+randomID).src = icons.path+"play.svg"
+                togglePoster("show");
+                ChangeTooltip("play_button", 0);
+            }
+        }
+
+        /*
         ** Change play/pause function and change all icons
         */
         var togglePlay = this.togglePlay = function togglePlay() {
 
             // Remove poster background.
-            document.getElementById("poster_layer_"+randomID).style.backgroundImage = "none";
             if (video.paused == true) {
                 video.play();
                 document.getElementById("moovie_bplay_"+randomID).src = icons.path+"pause.svg"
@@ -369,8 +400,8 @@ class Moovie {
                 ChangeTooltip("play_button", 1);
             } else {
                 video.pause();
-                document.getElementById("moovie_bplay_"+randomID).src = icons.path+"play.svg"
                 togglePoster("show");
+                document.getElementById("moovie_bplay_"+randomID).src = icons.path+"play.svg"
                 ChangeTooltip("play_button", 0);
             }
         }
@@ -453,12 +484,9 @@ class Moovie {
         function togglePoster(order) {
             if (order == "show") {
                 moovie_el_poster.style.display = "block";
-                moovie_el_poster.classList.remove("posteroff");
-                moovie_el_poster.classList.add("posteron");
             } else if (order == "hide") {
-                moovie_el_poster.style.display = "none";
-                moovie_el_poster.classList.remove("posteron");
-                moovie_el_poster.classList.add("posteroff");
+                document.getElementById("poster_layer_"+randomID).style.backgroundImage = "none";
+                moovie_el_poster.style.display = "none"; 
             }
         }
 
@@ -557,7 +585,12 @@ class Moovie {
         function updateTime() {
             // Update current times
             if (moovie_ishiden == 0){ document.getElementById("moovie_currentime_"+randomID).innerHTML = player_time(video.currentTime); }
-            if (video.currentTime >= video.duration) { video.currentTime = 0; moovie_el_progress.value = 0; togglePlay(); }
+
+            if (video.currentTime >= video.duration) { 
+                video.currentTime = 0; moovie_el_progress.value = 0; 
+                if(config.main.loop == true){ togglePlay(); } else { setState("pause"); }
+            }
+            
         }
 
         /*
@@ -1451,7 +1484,7 @@ class Moovie {
             }
 
             // Get poster if exists
-            var vposter = document.getElementById(this.selector).getAttribute("poster");
+            vposter = document.getElementById(this.selector).getAttribute("poster");
             
             // Hide video tag
             this.element.style.display = "none";
@@ -1461,7 +1494,7 @@ class Moovie {
             this.moovie_el_video = moovie_el_video = document.getElementById("moovie__video_"+randomID);
 
             // Video tag
-            moovie_el_video.insertAdjacentHTML('beforeend', "<video tabindex='1' id='moovie_vid_"+randomID+"' preload='auto' class='player__video viewer' style='width:100%; height:100%;' src='"+vsource+"' playsinline></video>");
+            moovie_el_video.insertAdjacentHTML('beforeend', "<video tabindex='1' id='moovie_vid_"+randomID+"' preload='auto' class='player__video viewer'style='width:100%; height:100%;' src='"+vsource+"' playsinline></video>");
             
             // Player Controls
             moovie_el_video.insertAdjacentHTML('beforeend', "<div style='opacity:0;' id='moovie__controls_"+randomID+"' class='moovie_controls'></div>");
