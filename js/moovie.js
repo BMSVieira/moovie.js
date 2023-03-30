@@ -1222,15 +1222,38 @@ class Moovie {
                 keycode_77(){ checkSoundLevel("toogleMute"); },     // [M]
                 keycode_67(){ ActivateSubtitles(); },               // [C]
                 keycode_shift87(){ SetCaptionSize("sizeUp"); },     // [Shift + W]
-                keycode_shift83(){ SetCaptionSize("sizeDown"); }    // [Shift + S]
+                keycode_shift83(){ SetCaptionSize("sizeDown"); },   // [Shift + S]
+                keycode_38(){ changeVolume.call(this, "up"); },     // [Up Arrow]
+                keycode_40(){ changeVolume.call(this, "down"); }   // [Down Arrow]
             }
 
+            // Change volume with arrow
+            function changeVolume(direction) {
+                const volumeStep = 0.1;
+                const video = this.video;
+                let currentVolume = video.volume;
+                let newVolume = currentVolume;
+                
+                if (direction === "up") {
+                newVolume = Math.min(currentVolume + volumeStep, 1);
+                } else if (direction === "down") {
+                newVolume = Math.max(currentVolume - volumeStep, 0);
+                }
+                
+                if (newVolume !== currentVolume) {
+                video.volume = newVolume;
+                video.muted = (newVolume === 0);
+                this.moovie_el_volume.value = newVolume;
+                checkSoundLevel.call(this, "checkMute");
+                }
+                }
+
             // Listen to keyboard
-            video.addEventListener('keydown', function (event) {
+            video.addEventListener('keydown', (event) => {
                 let ShortCut;
                 if (event.keyCode == 32 || event.shiftKey && event.keyCode == 87 || event.shiftKey && event.keyCode == 83) { event.preventDefault(); }
                 if(event.shiftKey) { ShortCut = acceptedShortcuts['keycode_shift'+event.keyCode]; } else { ShortCut = acceptedShortcuts['keycode_'+event.keyCode]; }
-                if(ShortCut) ShortCut();
+                if(ShortCut) ShortCut.call(this);
             });
         }
 
