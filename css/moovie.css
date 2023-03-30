@@ -324,7 +324,7 @@ video {
   outline: 0;
   padding: 8px 11px 9px 11px;
   background-color: transparent;
-  margin-right: 4px;
+  margin-right: auto;
   border: 0px;
   border-radius: 4px;
 }
