@@ -301,13 +301,14 @@ video {
 
 .poster_button {
   width: 61px;
-  padding: 16px;
+  padding: 18px;
   border-radius: 100%;
   position: relative;
   margin: 0 auto;
   background-color: var(--moovie_main_color);
   box-sizing: border-box;
   pointer-events: none;
+  height: 61px;
 }
 
 .poster_button:hover {
