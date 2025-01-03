@@ -28,7 +28,7 @@
 
 ◼️ Demo:
 -
-[https://mooviejs.com/](https://codepen.io/BMSVieira/pen/ExZorLW)
+[Demo here](https://codepen.io/BMSVieira/pen/ExZorLW)
 
 ◼️ Installation (Browser):
 -
